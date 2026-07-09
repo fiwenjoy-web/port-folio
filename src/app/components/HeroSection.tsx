@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { motion } from "motion/react";
 import { ArrowUpRight, Mail } from "lucide-react";
 import { useContent } from "../context/ContentContext";
+import { BrandLogo } from "./BrandLogo";
 
 const SANS = "'Noto Sans Thai', sans-serif";
 
@@ -120,11 +121,10 @@ export function HeroSection({ onLogoClick }: HeroProps) {
           initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6 }}
           className="flex items-center gap-2 cursor-pointer select-none bg-transparent border-none p-0 group"
           onClick={onLogoClick}
+          type="button"
+          aria-label="Portfolio logo"
         >
-          <div className="w-8 h-8 rounded-lg flex items-center justify-center relative overflow-hidden"
-            style={{ background: "linear-gradient(135deg, #00d4ff22, #0066ff22)", border: "1px solid rgba(0,212,255,0.25)" }}>
-            <span style={{ fontFamily: SANS, fontWeight: 800, fontSize: 11, color: "#00d4ff", letterSpacing: "0.05em" }}>WH</span>
-          </div>
+          <BrandLogo size={34} />
           <span className="text-white/50 tracking-widest text-xs uppercase group-hover:text-white/80 transition-colors" style={{ fontFamily: SANS }}>
             Portfolio
           </span>

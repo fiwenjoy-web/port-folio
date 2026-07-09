@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion } from "motion/react";
+import { BrandLogo } from "./BrandLogo";
 
 const KANIT = "'Kanit', 'Noto Sans Thai', sans-serif";
 
@@ -17,32 +18,6 @@ function UpRightArrow({ size = 16, color = "#ffffff" }: { size?: number; color?:
       <path d="M1 18.5L18.5 1" stroke={color} strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" />
       <path d="M1 1H18.5V18.5" stroke={color} strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" />
     </svg>
-  );
-}
-
-function WHLogo({ onClick }: { onClick?: () => void }) {
-  return (
-    <button
-      onClick={onClick}
-      className="relative flex items-center justify-center shrink-0 focus:outline-none group"
-      style={{ width: 46, height: 46 }}
-      aria-label="WH Logo"
-    >
-      <svg viewBox="0 0 46 46" fill="none" className="absolute inset-0 w-full h-full">
-        <ellipse cx="23" cy="23" rx="20" ry="8"
-          stroke="#48c6ec" strokeWidth="1" strokeDasharray="3.5 2.5"
-          transform="rotate(-28 23 23)" opacity="0.7" />
-        <ellipse cx="23" cy="23" rx="16" ry="6"
-          stroke="#48c6ec" strokeWidth="0.75"
-          transform="rotate(55 23 23)" opacity="0.3" />
-        <circle cx="40" cy="18" r="2.2" fill="#48c6ec" opacity="0.9" />
-        <circle cx="23" cy="23" r="3" fill="rgba(72,198,236,0.15)" />
-      </svg>
-      <span className="relative z-10 group-hover:text-[#48c6ec] transition-colors duration-200"
-        style={{ fontFamily: KANIT, fontWeight: 500, fontSize: 13, color: "#ffffff", letterSpacing: "0.04em" }}>
-        WH
-      </span>
-    </button>
   );
 }
 
@@ -119,7 +94,7 @@ export function SiteHeader({ onLogoClick }: SiteHeaderProps) {
         >
           {/* WH logo */}
           <div className="px-1">
-            <WHLogo onClick={onLogoClick} />
+            <BrandLogo size={46} onClick={onLogoClick} />
           </div>
 
           <div className="w-px h-5 mx-1 shrink-0" style={{ background: "rgba(255,255,255,0.18)" }} />

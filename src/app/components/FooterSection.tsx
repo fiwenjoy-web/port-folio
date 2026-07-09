@@ -1,6 +1,7 @@
 import { motion } from "motion/react";
 import { Mail, Phone, MapPin, ArrowUpRight } from "lucide-react";
 import { useContent } from "../context/ContentContext";
+import { BrandLogo } from "./BrandLogo";
 
 const MONO = "'Noto Sans Thai', sans-serif";
 const SANS = "'Noto Sans Thai', sans-serif";
@@ -68,9 +69,8 @@ export function FooterSection() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16">
           {/* Brand */}
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
-            <div className="flex items-center gap-3 mb-5">
-              <div className="w-9 h-9 rounded-lg" style={{ background: "linear-gradient(135deg, #00d4ff, #0066ff)" }} />
-              <span className="text-white" style={{ fontWeight: 700, fontSize: "1.1rem", letterSpacing: "0.05em" }}>WH</span>
+            <div className="mb-5">
+              <BrandLogo size={40} showWordmark />
             </div>
             <p className="text-sm leading-relaxed mb-5 max-w-xs" style={{ color: "rgba(255,255,255,0.4)", fontWeight: 400 }}>
               {t(footer.tagline)}
