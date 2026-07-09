@@ -1,3 +1,5 @@
+import brandLogoUrl from "../../assets/brand-logo.png";
+
 const BRAND_FONT = "'Kanit', 'Noto Sans Thai', sans-serif";
 
 interface BrandLogoProps {
@@ -19,37 +21,22 @@ function BrandMark({ size }: { size: number }) {
           background: "radial-gradient(circle at 50% 50%, rgba(72,198,236,0.14), rgba(72,198,236,0) 68%)",
         }}
       />
-      <svg
-        viewBox="0 0 46 46"
-        fill="none"
+      <img
+        src={brandLogoUrl}
+        alt=""
         aria-hidden="true"
-        focusable="false"
-        className="absolute inset-0 h-full w-full"
-      >
-        <ellipse
-          cx="23"
-          cy="23"
-          rx="20"
-          ry="8"
-          stroke="#48c6ec"
-          strokeWidth="1"
-          strokeDasharray="3.5 2.5"
-          transform="rotate(-28 23 23)"
-          opacity="0.78"
-        />
-        <ellipse
-          cx="23"
-          cy="23"
-          rx="16"
-          ry="6"
-          stroke="#48c6ec"
-          strokeWidth="0.75"
-          transform="rotate(55 23 23)"
-          opacity="0.34"
-        />
-        <circle cx="40" cy="18" r="2.2" fill="#48c6ec" opacity="0.92" />
-        <circle cx="23" cy="23" r="3" fill="rgba(72,198,236,0.16)" />
-      </svg>
+        draggable={false}
+        className="absolute max-w-none select-none"
+        style={{ width: size * 1.42, height: size * 1.24, objectFit: "contain", transform: "rotate(-8deg)" }}
+      />
+      <span
+        className="absolute rounded-full"
+        style={{ width: size * 0.09, height: size * 0.09, right: size * 0.1, top: size * 0.32, background: "#48c6ec" }}
+      />
+      <span
+        className="absolute rounded-full"
+        style={{ width: size * 0.13, height: size * 0.13, background: "rgba(72,198,236,0.16)" }}
+      />
       <span
         className="relative z-10 transition-colors duration-200 group-hover:text-[#48c6ec]"
         style={{ fontFamily: BRAND_FONT, fontWeight: 700, fontSize: textSize, color: "#ffffff", letterSpacing: "0.04em" }}
@@ -107,7 +94,7 @@ export function BrandLogo({
   }
 
   return (
-    <span className={logoClassName} aria-label={label}>
+    <span className={logoClassName} role="img" aria-label={label}>
       {content}
     </span>
   );
