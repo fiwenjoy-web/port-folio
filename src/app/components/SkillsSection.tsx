@@ -1,18 +1,26 @@
 import { useEffect, useRef, useState } from "react";
 import { motion } from "motion/react";
 import { useContent } from "../context/ContentContext";
+import photoshopIconUrl from "../../assets/tools/photoshop.png";
+import illustratorIconUrl from "../../assets/tools/illustrator.png";
+import premiereIconUrl from "../../assets/tools/premiere.png";
+import afterEffectsIconUrl from "../../assets/tools/after-effects.png";
+import adobeXdIconUrl from "../../assets/tools/adobe-xd.png";
+import blenderIconUrl from "../../assets/tools/blender.png";
+import vsCodeIconUrl from "../../assets/tools/vs-code.png";
+import figmaIconUrl from "../../assets/tools/figma.png";
 
 const SANS = "'Noto Sans Thai', sans-serif";
 
 const tools = [
-  { abbr: "Ps", name: "Photoshop", color: "#31A8FF" },
-  { abbr: "Ai", name: "Illustrator", color: "#FF9A00" },
-  { abbr: "Pr", name: "Premiere", color: "#9999FF" },
-  { abbr: "Ae", name: "After FX", color: "#9999FF" },
-  { abbr: "XD", name: "Adobe XD", color: "#FF61F6" },
-  { abbr: "Bl", name: "Blender", color: "#E87D0D" },
-  { abbr: "VS", name: "VS Code", color: "#007ACC" },
-  { abbr: "Fig", name: "Figma", color: "#F24E1E" },
+  { abbr: "Ps", name: "Photoshop", color: "#31A8FF", icon: photoshopIconUrl },
+  { abbr: "Ai", name: "Illustrator", color: "#FF9A00", icon: illustratorIconUrl },
+  { abbr: "Pr", name: "Premiere", color: "#9999FF", icon: premiereIconUrl },
+  { abbr: "Ae", name: "After FX", color: "#9999FF", icon: afterEffectsIconUrl },
+  { abbr: "XD", name: "Adobe XD", color: "#FF61F6", icon: adobeXdIconUrl },
+  { abbr: "Bl", name: "Blender", color: "#E87D0D", icon: blenderIconUrl },
+  { abbr: "VS", name: "VS Code", color: "#007ACC", icon: vsCodeIconUrl },
+  { abbr: "Fig", name: "Figma", color: "#F24E1E", icon: figmaIconUrl },
 ];
 
 const proficiency = [
@@ -124,14 +132,21 @@ export function SkillsSection() {
             </p>
             <div className="grid grid-cols-4 gap-3 mb-12">
               {tools.map((tool, i) => (
-                <motion.div key={tool.abbr}
+                <motion.div key={tool.name}
                   initial={{ opacity: 0, scale: 0.85 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ duration: 0.4, delay: i * 0.06 }}
                   whileHover={{ y: -4, scale: 1.06 }}
                   className="flex flex-col items-center gap-2 py-4 px-2 rounded-2xl cursor-default transition-all duration-200"
                   style={{ background: `${tool.color}0d`, border: `1px solid ${tool.color}22` }}
                   onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.boxShadow = `0 8px 24px ${tool.color}20`; }}
                   onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.boxShadow = "none"; }}>
-                  <span style={{ fontWeight: 800, color: tool.color, fontFamily: SANS, fontSize: 18, lineHeight: 1 }}>{tool.abbr}</span>
+                  <img
+                    src={tool.icon}
+                    alt=""
+                    aria-hidden="true"
+                    draggable={false}
+                    className="h-8 w-8 select-none object-contain"
+                    style={{ filter: `drop-shadow(0 0 10px ${tool.color}30)` }}
+                  />
                   <span className="text-xs text-center leading-tight" style={{ color: "rgba(255,255,255,0.38)", fontFamily: SANS }}>{tool.name}</span>
                 </motion.div>
               ))}
