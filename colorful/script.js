@@ -68,12 +68,20 @@ for (let id = 1; id <= 5; id += 1) {
 
 if (storedContent) {
   const text = (value, fallback) => value?.en || fallback;
-  document.querySelector("#hero-intro").textContent = text(storedContent.hero?.introPrefix, "I'm");
-  document.querySelector("#hero-name").textContent = storedContent.hero?.displayName || "Fuse";
-  document.querySelector("#hero-role").textContent = text(storedContent.hero?.title, "Product Designer");
-  document.querySelector("#hero-testimonial").textContent = text(storedContent.hero?.testimonial, document.querySelector("#hero-testimonial").textContent);
-  document.querySelector("#hero-experience").textContent = text(storedContent.hero?.experienceValue, "3 Years");
-  document.querySelector("#hero-experience-label").textContent = text(storedContent.hero?.experienceLabel, "Experience");
+  const setText = (selector, value) => {
+    const element = document.querySelector(selector);
+    if (element && value) element.textContent = value;
+  };
+
+  setText("#hero-role", text(storedContent.hero?.title, "AI Visual"));
+  setText("#hero-testimonial", text(storedContent.hero?.testimonial, document.querySelector("#hero-testimonial")?.textContent));
+  setText("#hero-experience", text(storedContent.hero?.experienceValue, "3+"));
+  setText("#hero-experience-label", text(storedContent.hero?.experienceLabel, "Years experience"));
+
+  storedContent.skills?.proficiencyItems?.slice(0, 4).forEach((item, index) => {
+    const percentage = Math.max(0, Math.min(100, Number(item.percentage) || 0));
+    setText(`[data-proficiency="${index}"]`, `${percentage}%`);
+  });
 }
 
 const navLinks = document.querySelectorAll(".nav-link");
