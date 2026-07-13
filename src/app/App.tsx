@@ -15,6 +15,7 @@ import { MarqueeStrip } from "./components/MarqueeStrip";
 import { PhilosophySection } from "./components/PhilosophySection";
 import { TestimonialsSection } from "./components/TestimonialsSection";
 import { loadStoredImages, getProjectImages } from "./data/projectImages";
+import { loadPublishedImages, type PublishedImages } from "./data/githubPublisher";
 import type { Project } from "./types";
 
 const PortfolioModal = lazy(() =>
@@ -32,6 +33,7 @@ function PortfolioApp() {
   const { content, lang } = useContent();
 
   const [storedImages, setStoredImages] = useState<Record<number, string[]>>(() => loadStoredImages());
+  const [publishedImages, setPublishedImages] = useState<PublishedImages>({});
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [portfolioModalLoaded, setPortfolioModalLoaded] = useState(false);
   const [dashboardOpen, setDashboardOpen] = useState(false);
@@ -76,11 +78,15 @@ function PortfolioApp() {
     if (clickTimerRef.current) clearTimeout(clickTimerRef.current);
   }, []);
 
+  useEffect(() => {
+    loadPublishedImages().then(setPublishedImages);
+  }, []);
+
   const handleImagesChange = useCallback((updated: Record<number, string[]>) => setStoredImages(updated), []);
 
   const projects = useMemo<Project[]>(() => content.portfolio.projects.map((project, index) => {
     const id = index + 1;
-    const images = getProjectImages(id, storedImages);
+    const images = getProjectImages(id, storedImages, publishedImages);
     return {
       id,
       title: project.title.en,
@@ -92,7 +98,7 @@ function PortfolioApp() {
       images,
       tags: project.tags,
     };
-  }), [content.portfolio.projects, lang, storedImages]);
+  }), [content.portfolio.projects, lang, publishedImages, storedImages]);
 
   return (
     <div className="min-h-screen" style={{ background: "#06060a", color: "#ffffff" }}>
@@ -141,8 +147,10 @@ function PortfolioApp() {
           <OwnerDashboard
             open={dashboardOpen}
             storedImages={storedImages}
+            publishedImages={publishedImages}
             onClose={() => setDashboardOpen(false)}
             onImagesChange={handleImagesChange}
+            onPublishedImagesChange={setPublishedImages}
           />
         </Suspense>
       ) : null}

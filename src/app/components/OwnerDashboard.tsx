@@ -1,10 +1,15 @@
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import {
   X, Upload, Trash2, Lock, Eye, EyeOff, CheckCircle,
-  Plus, FolderOpen, Image as ImageIcon, FileText, RotateCcw, Search,
+  Plus, FolderOpen, Image as ImageIcon, FileText, RotateCcw, Search, Github, LoaderCircle,
 } from "lucide-react";
-import { DEFAULT_IMAGES, saveStoredImages } from "../data/projectImages";
+import { DEFAULT_IMAGES, getProjectImages, saveStoredImages } from "../data/projectImages";
+import {
+  GITHUB_TOKEN_SESSION_KEY,
+  publishProjectImages,
+  type PublishedImages,
+} from "../data/githubPublisher";
 import { useContent } from "../context/ContentContext";
 import type { SiteContent, BT } from "../data/siteContent";
 
@@ -96,13 +101,15 @@ function collectTextFields(value: unknown, path: ContentPath = []): EditableFiel
 interface Props {
   open: boolean;
   storedImages: Record<number, string[]>;
+  publishedImages: PublishedImages;
   onClose: () => void;
   onImagesChange: (updated: Record<number, string[]>) => void;
+  onPublishedImagesChange: (updated: PublishedImages) => void;
 }
 
 type Tab = "images" | "content";
 
-export function OwnerDashboard({ open, storedImages, onClose, onImagesChange }: Props) {
+export function OwnerDashboard({ open, storedImages, publishedImages, onClose, onImagesChange, onPublishedImagesChange }: Props) {
   const { content, updateContent, resetContent } = useContent();
   const [authed, setAuthed] = useState(false);
   const [password, setPassword] = useState("");
@@ -114,6 +121,8 @@ export function OwnerDashboard({ open, storedImages, onClose, onImagesChange }: 
   const [contentSearch, setContentSearch] = useState("");
   const [dragOver, setDragOver] = useState<number | null>(null);
   const [toast, setToast] = useState("");
+  const [githubToken, setGithubToken] = useState(() => sessionStorage.getItem(GITHUB_TOKEN_SESSION_KEY) || "");
+  const [publishingProject, setPublishingProject] = useState<number | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const activeUploadRef = useRef<number | null>(null);
 
@@ -143,21 +152,66 @@ export function OwnerDashboard({ open, storedImages, onClose, onImagesChange }: 
   }
 
   // ── Image management ──────────────────────────────────────────
-  function readFiles(files: FileList, projectId: number) {
-    const readers: Promise<string>[] = Array.from(files).map(
+  function handleGithubToken(value: string) {
+    const token = value.trim();
+    setGithubToken(token);
+    if (token) sessionStorage.setItem(GITHUB_TOKEN_SESSION_KEY, token);
+    else sessionStorage.removeItem(GITHUB_TOKEN_SESSION_KEY);
+  }
+
+  async function readFiles(files: FileList, projectId: number) {
+    if (!githubToken) {
+      showToast("Add a GitHub token before uploading.");
+      return;
+    }
+    const selectedFiles = Array.from(files).filter((file) => file.type.startsWith("image/"));
+    if (!selectedFiles.length) {
+      showToast("Choose JPG, PNG, or WEBP images.");
+      return;
+    }
+    if (selectedFiles.some((file) => file.size > 15 * 1024 * 1024)) {
+      showToast("Each image must be 15 MB or smaller.");
+      return;
+    }
+
+    setPublishingProject(projectId);
+    const readers: Promise<string>[] = selectedFiles.map(
       (file) => new Promise((resolve) => {
         const reader = new FileReader();
         reader.onload = (e) => resolve(e.target?.result as string);
         reader.readAsDataURL(file);
       })
     );
-    Promise.all(readers).then((dataUrls) => {
+
+    try {
+      const dataUrls = await Promise.all(readers);
       const current = storedImages[projectId] ?? [...(DEFAULT_IMAGES[projectId] ?? [])];
       const updated = { ...storedImages, [projectId]: [...current, ...dataUrls] };
-      saveStoredImages(updated);
+      try {
+        saveStoredImages(updated);
+      } catch {
+        // Keep the preview in memory; GitHub remains the durable source.
+      }
       onImagesChange(updated);
-      showToast(`${dataUrls.length} image${dataUrls.length > 1 ? "s" : ""} uploaded!`);
-    });
+
+      const currentPublished = publishedImages[projectId]?.length
+        ? publishedImages[projectId]
+        : [...(DEFAULT_IMAGES[projectId] ?? [])];
+      const nextPublished = await publishProjectImages({
+        token: githubToken,
+        projectId,
+        files: selectedFiles,
+        currentImages: currentPublished,
+        manifest: publishedImages,
+      });
+      onPublishedImagesChange(nextPublished);
+      showToast(`${selectedFiles.length} image${selectedFiles.length > 1 ? "s" : ""} committed. Deploying now.`);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "GitHub upload failed";
+      showToast(`Upload failed: ${message}`);
+    } finally {
+      setPublishingProject(null);
+    }
   }
 
   function handleFileInput(e: React.ChangeEvent<HTMLInputElement>) {
@@ -167,6 +221,11 @@ export function OwnerDashboard({ open, storedImages, onClose, onImagesChange }: 
   }
 
   function openFilePicker(projectId: number) {
+    if (!githubToken) {
+      showToast("Add a GitHub token before uploading.");
+      return;
+    }
+    if (publishingProject !== null) return;
     activeUploadRef.current = projectId;
     fileInputRef.current?.click();
   }
@@ -187,14 +246,14 @@ export function OwnerDashboard({ open, storedImages, onClose, onImagesChange }: 
     showToast("Reset to default images.");
   }
 
-  const handleDrop = useCallback((e: React.DragEvent, projectId: number) => {
+  function handleDrop(e: React.DragEvent, projectId: number) {
     e.preventDefault();
     setDragOver(null);
     if (e.dataTransfer.files.length) readFiles(e.dataTransfer.files, projectId);
-  }, [storedImages]);
+  }
 
   const getImages = (id: number) =>
-    storedImages[id]?.length ? storedImages[id] : DEFAULT_IMAGES[id] ?? [];
+    getProjectImages(id, storedImages, publishedImages);
 
   // ── Content management ────────────────────────────────────────
   function setTextValue(sectionId: ContentSectionId, path: ContentPath, value: string, lang?: "en" | "th") {
@@ -356,13 +415,52 @@ export function OwnerDashboard({ open, storedImages, onClose, onImagesChange }: 
                   {tab === "images" ? (
                     /* ── Images tab ── */
                     <div className="flex flex-col gap-4">
+                      <div className="p-4 rounded-xl"
+                        style={{ background: "rgba(16,185,129,0.06)", border: "1px solid rgba(16,185,129,0.2)" }}>
+                        <div className="flex items-start gap-3">
+                          <Github size={18} color="#34d399" className="shrink-0 mt-0.5" />
+                          <div className="min-w-0 flex-1">
+                            <div className="flex items-center justify-between gap-3 mb-1">
+                              <p className="text-sm font-semibold text-white">Publish to GitHub</p>
+                              <span className="text-xs" style={{ color: githubToken ? "#34d399" : "rgba(255,255,255,0.35)" }}>
+                                {githubToken ? "TOKEN READY" : "TOKEN REQUIRED"}
+                              </span>
+                            </div>
+                            <p className="text-xs mb-3" style={{ color: "rgba(255,255,255,0.45)" }}>
+                              Uploads create one commit on main and trigger GitHub Pages automatically.
+                            </p>
+                            <input
+                              type="password"
+                              value={githubToken}
+                              onChange={(event) => handleGithubToken(event.target.value)}
+                              placeholder="Fine-grained GitHub token"
+                              autoComplete="off"
+                              spellCheck={false}
+                              className="w-full rounded-lg px-3 py-2.5 text-sm text-white outline-none placeholder:text-white/25"
+                              style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.1)" }}
+                            />
+                            <div className="mt-2 flex items-center justify-between gap-3 text-xs">
+                              <span style={{ color: "rgba(255,255,255,0.28)" }}>Stored only until this browser tab closes.</span>
+                              <a
+                                href="https://github.com/settings/personal-access-tokens/new"
+                                target="_blank"
+                                rel="noreferrer"
+                                style={{ color: "#34d399" }}
+                              >
+                                CREATE TOKEN &#8599;
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
                       <div className="flex items-start gap-3 p-4 rounded-xl mb-2"
                         style={{ background: "rgba(0,212,255,0.05)", border: "1px solid rgba(0,212,255,0.12)" }}>
                         <FolderOpen size={18} color="#00d4ff" className="shrink-0 mt-0.5" />
                         <div>
-                          <p className="text-sm font-semibold text-white mb-0.5">Local Folder Ready</p>
+                          <p className="text-sm font-semibold text-white mb-0.5">Shared Portfolio Images</p>
                           <p className="text-xs" style={{ color: "rgba(255,255,255,0.45)" }}>
-                            Drop images into <code className="text-cyan-400">src/assets/portfolio/[category]/</code> or upload below.
+                            Published files are stored in <code className="text-cyan-400">public/portfolio/</code> for both themes.
                           </p>
                         </div>
                       </div>
@@ -424,11 +522,13 @@ export function OwnerDashboard({ open, storedImages, onClose, onImagesChange }: 
                                           </button>
                                         </div>
                                       ))}
-                                      <button onClick={() => openFilePicker(id)}
+                                      <button onClick={() => openFilePicker(id)} disabled={publishingProject !== null}
                                         className="flex flex-col items-center justify-center gap-1 rounded-xl transition-all hover:scale-105"
                                         style={{ aspectRatio: "4/3", border: `2px dashed ${meta.color}40`, background: `${meta.color}08`, color: meta.color }}>
-                                        <Plus size={20} />
-                                        <span className="text-xs" style={{ fontFamily: "'Noto Sans Thai', sans-serif" }}>ADD</span>
+                                        {publishingProject === id ? <LoaderCircle size={20} className="animate-spin" /> : <Plus size={20} />}
+                                        <span className="text-xs" style={{ fontFamily: "'Noto Sans Thai', sans-serif" }}>
+                                          {publishingProject === id ? "PUBLISHING" : "ADD"}
+                                        </span>
                                       </button>
                                     </div>
                                     <div className="rounded-xl p-5 text-center cursor-pointer transition-all"
@@ -437,9 +537,13 @@ export function OwnerDashboard({ open, storedImages, onClose, onImagesChange }: 
                                       onDragLeave={() => setDragOver(null)}
                                       onDrop={(e) => handleDrop(e, id)}
                                       onClick={() => openFilePicker(id)}>
-                                      <Upload size={22} className="mx-auto mb-2" color={dragOver === id ? meta.color : "rgba(255,255,255,0.25)"} />
+                                      {publishingProject === id
+                                        ? <LoaderCircle size={22} className="mx-auto mb-2 animate-spin" color={meta.color} />
+                                        : <Upload size={22} className="mx-auto mb-2" color={dragOver === id ? meta.color : "rgba(255,255,255,0.25)"} />}
                                       <p className="text-xs" style={{ color: dragOver === id ? meta.color : "rgba(255,255,255,0.3)" }}>
-                                        Drag & drop or <span style={{ color: meta.color }}>click to upload</span>
+                                        {publishingProject === id
+                                          ? "Uploading to GitHub and creating a commit..."
+                                          : <>Drag & drop or <span style={{ color: meta.color }}>click to upload</span></>}
                                       </p>
                                       <p className="text-xs mt-1" style={{ color: "rgba(255,255,255,0.2)", fontFamily: "'Noto Sans Thai', sans-serif" }}>JPG · PNG · WEBP</p>
                                     </div>

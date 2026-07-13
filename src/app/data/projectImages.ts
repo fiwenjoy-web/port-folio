@@ -44,7 +44,14 @@ export function saveStoredImages(data: Record<number, string[]>) {
 
 export function getProjectImages(
   projectId: number,
-  stored: Record<number, string[]>
+  stored: Record<number, string[]>,
+  published: Record<number, string[]> = {},
 ): string[] {
-  return stored[projectId]?.length ? stored[projectId] : DEFAULT_IMAGES[projectId] ?? [];
+  if (stored[projectId]?.length) return stored[projectId];
+  if (published[projectId]?.length) {
+    return published[projectId].map((image) => (
+      /^https?:\/\//i.test(image) ? image : `${import.meta.env.BASE_URL}${image}`
+    ));
+  }
+  return DEFAULT_IMAGES[projectId] ?? [];
 }
