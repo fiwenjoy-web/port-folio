@@ -217,6 +217,22 @@ projectData.forEach((project, index) => {
   });
 });
 
+fetch(`../portfolio/manifest.json?ts=${Date.now()}`, { cache: "no-store" })
+  .then((response) => response.ok ? response.json() : {})
+  .then((manifest) => {
+    projectData.forEach((project, index) => {
+      const id = index + 1;
+      if (storedImages[id]?.length || !Array.isArray(manifest[id]) || !manifest[id].length) return;
+      project.images = manifest[id]
+        .filter((image) => typeof image === "string")
+        .map((image) => /^https?:\/\//i.test(image) ? image : `../${image.replace(/^\.?\//, "")}`);
+      document.querySelectorAll(`[data-project-image="${id}"]`).forEach((image) => {
+        image.src = project.images[0];
+      });
+    });
+  })
+  .catch(() => {});
+
 if (storedContent) {
   setText("#hero-status", english(storedContent.hero?.navStatus, "SEEKING FULL-TIME POSITION"));
   setText("#hero-name", cleanText(storedContent.hero?.name, "WEERAPONG HAMATHULIN"));
