@@ -34,6 +34,27 @@ const DEFAULT_TITLES = {
   5: "AI-Assisted Web System",
 };
 
+const DEFAULT_CATEGORIES = {
+  1: "Graphic Design",
+  2: "3D Render",
+  3: "AI Production",
+  4: "Campaign Design",
+  5: "Web Design",
+};
+
+const DEFAULT_TAGS = {
+  1: ["Photoshop", "Illustrator", "Print Design"],
+  2: ["Blender", "3D Render", "Product Vis"],
+  3: ["AI", "Product Visual", "3D"],
+  4: ["Shopee", "Lazada", "TikTok"],
+  5: ["Figma", "React", "AI Workflow"],
+};
+
+function setText(selector, value) {
+  const element = document.querySelector(selector);
+  if (element && value !== undefined && value !== null) element.textContent = value;
+}
+
 function readStorage(key) {
   try {
     return JSON.parse(localStorage.getItem(key) || "null");
@@ -46,14 +67,24 @@ const storedContent = readStorage("wh_site_content");
 const storedImages = readStorage("wh_portfolio_images") || {};
 const projectImages = {};
 const projectTitles = { ...DEFAULT_TITLES };
+const projectCategories = { ...DEFAULT_CATEGORIES };
+const projectTags = { ...DEFAULT_TAGS };
 
 for (let id = 1; id <= 5; id += 1) {
   projectImages[id] = storedImages[id]?.length ? storedImages[id] : DEFAULT_IMAGES[id];
-  const storedTitle = storedContent?.portfolio?.projects?.[id - 1]?.title?.en;
-  if (storedTitle) projectTitles[id] = storedTitle;
+  const storedProject = storedContent?.portfolio?.projects?.[id - 1];
+  if (storedProject?.title?.en) projectTitles[id] = storedProject.title.en;
+  if (storedProject?.category?.en) projectCategories[id] = storedProject.category.en;
+  if (storedProject?.tags?.length) projectTags[id] = storedProject.tags;
 
   document.querySelectorAll(`[data-project-title="${id}"]`).forEach((element) => {
     element.textContent = projectTitles[id];
+  });
+  document.querySelectorAll(`[data-project-category="${id}"]`).forEach((element) => {
+    element.textContent = projectCategories[id];
+  });
+  document.querySelectorAll(`[data-project-tags="${id}"]`).forEach((element) => {
+    element.textContent = projectTags[id].join(" / ");
   });
 
   document.querySelectorAll(`[data-project-image="${id}"]`).forEach((image) => {
@@ -68,20 +99,91 @@ for (let id = 1; id <= 5; id += 1) {
 
 if (storedContent) {
   const text = (value, fallback) => value?.en || fallback;
-  const setText = (selector, value) => {
-    const element = document.querySelector(selector);
-    if (element && value) element.textContent = value;
-  };
 
-  setText("#hero-role", text(storedContent.hero?.title, "AI Visual"));
-  setText("#hero-testimonial", text(storedContent.hero?.testimonial, document.querySelector("#hero-testimonial")?.textContent));
-  setText("#hero-experience", text(storedContent.hero?.experienceValue, "3+"));
-  setText("#hero-experience-label", text(storedContent.hero?.experienceLabel, "Years experience"));
+  setText("#hero-status", text(storedContent.hero?.navStatus, "SEEKING FULL-TIME POSITION"));
+  setText("#hero-name", storedContent.hero?.name || "WEERAPONG HAMATHULIN");
+  setText("#hero-role", text(storedContent.hero?.role, "CREATIVE DESIGNER / AI VISUAL PRODUCTION"));
+  setText("#hero-bio", text(storedContent.hero?.bio, document.querySelector("#hero-bio")?.textContent));
+  setText("#hero-primary", text(storedContent.hero?.ctaSecondary, "VIEW WORK"));
+  setText("#hero-secondary", text(storedContent.hero?.ctaPrimary, "SEEKING FULL-TIME POSITION"));
+
+  storedContent.hero?.stats?.slice(0, 3).forEach((stat, index) => {
+    setText(`[data-hero-stat-value="${index}"]`, stat.value);
+    setText(`[data-hero-stat-label="${index}"]`, text(stat.label, ""));
+  });
+
+  const marqueeItems = storedContent.marquee?.items?.map((item) => text(item, "")).filter(Boolean) || [];
+  if (marqueeItems.length) {
+    document.querySelectorAll("[data-marquee]").forEach((element) => {
+      element.replaceChildren();
+      marqueeItems.forEach((item, index) => {
+        element.append(document.createTextNode(item));
+        if (index < marqueeItems.length - 1) {
+          const separator = document.createElement("b");
+          separator.textContent = "+";
+          element.append(separator);
+        }
+      });
+    });
+  }
+
+  setText("#portfolio-label", text(storedContent.portfolio?.sectionLabel, "PORTFOLIO"));
+  setText("#portfolio-heading-1", text(storedContent.portfolio?.heading1, "WORK &"));
+  setText("#portfolio-heading-2", text(storedContent.portfolio?.heading2, "DESIGN"));
+  setText("#portfolio-subtitle", text(storedContent.portfolio?.subtitle, ""));
+
+  setText("#services-label", text(storedContent.services?.sectionLabel, "WHAT I OFFER"));
+  setText("#services-heading-1", text(storedContent.services?.heading1, "SERVICES &"));
+  setText("#services-heading-2", text(storedContent.services?.heading2, "PRICING"));
+  storedContent.services?.items?.slice(0, 4).forEach((item, index) => {
+    setText(`[data-service-title="${index}"]`, text(item.title, ""));
+    setText(`[data-service-desc="${index}"]`, text(item.desc, ""));
+    setText(`[data-service-price="${index}"]`, `${item.price} ↗`);
+  });
+
+  setText("#skills-label", text(storedContent.skills?.sectionLabel, "EXPERTISE"));
+  setText("#skills-heading-1", text(storedContent.skills?.heading1, "SKILLS &"));
+  setText("#skills-heading-2", text(storedContent.skills?.heading2, "TOOLS"));
 
   storedContent.skills?.proficiencyItems?.slice(0, 4).forEach((item, index) => {
     const percentage = Math.max(0, Math.min(100, Number(item.percentage) || 0));
+    setText(`[data-proficiency-label="${index}"]`, text(item.label, ""));
     setText(`[data-proficiency="${index}"]`, `${percentage}%`);
   });
+
+  storedContent.skills?.tools?.slice(0, 8).forEach((tool, index) => {
+    const element = document.querySelectorAll(".tools-grid > span")[index];
+    const labelNode = element ? [...element.childNodes].find((node) => node.nodeType === Node.TEXT_NODE) : null;
+    if (labelNode) labelNode.nodeValue = tool;
+  });
+
+  setText("#experience-label", text(storedContent.experience?.sectionLabel, "BACKGROUND"));
+  setText("#experience-heading-1", text(storedContent.experience?.heading1, "EXPERIENCE &"));
+  setText("#experience-heading-2", text(storedContent.experience?.heading2, "EDUCATION"));
+  const experienceEntries = [
+    ...(storedContent.experience?.jobs || []).map((job) => ({
+      period: job.period,
+      title: job.company,
+      description: [text(job.role, ""), text(job.bullets?.[0], "")].filter(Boolean).join(" — "),
+    })),
+    ...(storedContent.experience?.education || []).map((education) => ({
+      period: education.period,
+      title: education.school,
+      description: text(education.degree, ""),
+    })),
+  ];
+  experienceEntries.slice(0, 3).forEach((entry, index) => {
+    setText(`[data-experience-period="${index}"]`, entry.period);
+    setText(`[data-experience-title="${index}"]`, entry.title);
+    setText(`[data-experience-desc="${index}"]`, entry.description);
+  });
+
+  setText("#contact-eyebrow", text(storedContent.footer?.ctaEyebrow, "HAVE A PROJECT IN MIND?"));
+  setText("#contact-heading-1", text(storedContent.footer?.ctaHeading1, "LET'S MAKE SOMETHING"));
+  setText("#contact-heading-2", text(storedContent.footer?.ctaHeading2, "FULL OF ENERGY."));
+  const email = storedContent.footer?.email || "Fusenra@gmail.com";
+  const emailLink = document.querySelector("#contact-email");
+  if (emailLink) emailLink.setAttribute("href", `mailto:${email}`);
 }
 
 const navLinks = document.querySelectorAll(".nav-link");

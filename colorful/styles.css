@@ -210,6 +210,19 @@ p {
   width: 6px;
 }
 
+.availability b {
+  font: inherit;
+}
+
+.hero-person-name {
+  color: var(--purple);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  margin-bottom: 14px;
+  text-transform: uppercase;
+}
+
 .hero h1 {
   font-size: clamp(64px, 7vw, 98px);
   font-weight: 800;
@@ -230,7 +243,7 @@ p {
   text-transform: uppercase;
 }
 
-.hero h2 span {
+.hero h2 {
   color: var(--coral);
 }
 
@@ -567,7 +580,16 @@ p {
 
 .section-heading h2 span {
   color: transparent;
-  -webkit-text-stroke: 1.5px currentColor;
+  -webkit-text-stroke: 1.5px var(--ink);
+}
+
+.section-heading h2 > span:first-child {
+  color: var(--ink);
+  -webkit-text-stroke: 0;
+}
+
+.light-heading h2 > span:first-child {
+  color: var(--white);
 }
 
 .project-grid {
@@ -612,22 +634,23 @@ p {
   height: 100%;
   inset: 0;
   object-fit: cover;
-  opacity: 0.22;
+  opacity: 1;
   position: absolute;
   transition: opacity 180ms ease, transform 300ms ease;
   width: 100%;
 }
 
 .project-card button:hover img {
-  opacity: 0.38;
+  opacity: 1;
   transform: scale(1.04);
 }
 
 .project-card > div {
-  align-items: center;
-  display: flex;
-  justify-content: space-between;
-  padding: 12px 3px 3px;
+  align-items: end;
+  display: grid;
+  gap: 5px 14px;
+  grid-template-columns: minmax(0, 1fr) auto;
+  padding: 13px 4px 4px;
 }
 
 .project-card > div span {
@@ -637,7 +660,16 @@ p {
 }
 
 .project-card h3 {
-  font-size: 14px;
+  font-size: 16px;
+  grid-column: 1 / -1;
+  text-transform: uppercase;
+}
+
+.project-card > div p {
+  font-size: 9px;
+  font-weight: 700;
+  opacity: 0.72;
+  text-align: right;
   text-transform: uppercase;
 }
 
@@ -645,6 +677,15 @@ p {
 .project-mint { background: var(--mint); }
 .project-purple { background: var(--purple); }
 .project-gradient { background: linear-gradient(135deg, #f4d72d, #66e6bd 50%, #26d5ed); }
+.project-cyan { background: var(--cyan); }
+
+.project-wide {
+  grid-column: 1 / -1;
+}
+
+.project-wide button {
+  height: 430px;
+}
 
 .project-object {
   align-items: center;
@@ -965,7 +1006,11 @@ p {
   text-transform: uppercase;
 }
 
-.contact h2 span {
+.contact h2 > span:first-child {
+  color: var(--white);
+}
+
+.contact h2 > span:last-child {
   color: var(--yellow);
 }
 
@@ -1175,6 +1220,10 @@ footer {
 
   .project-card button {
     height: 260px;
+  }
+
+  .project-wide {
+    grid-column: auto;
   }
 
   .work,
