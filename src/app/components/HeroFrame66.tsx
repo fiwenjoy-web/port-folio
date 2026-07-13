@@ -52,7 +52,7 @@ function DesktopHero() {
   };
 
   return (
-    <div className="hidden min-h-svh w-full items-start justify-center px-4 pb-6 pt-24 md:flex lg:px-8">
+    <div className="hidden min-h-svh w-full items-start justify-center px-4 pb-0 pt-24 md:flex lg:px-8">
       <motion.div
         initial={{ opacity: 0, y: 24, scale: 0.985 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -61,7 +61,7 @@ function DesktopHero() {
         onPointerLeave={resetPointer}
         className="relative w-full overflow-hidden rounded-[28px]"
         style={{
-          maxWidth: "min(1440px, calc(170.213svh - 12.766rem))",
+          maxWidth: "min(1440px, calc(170.213svh - 10.213rem))",
           aspectRatio: `${DESIGN_W} / ${DESIGN_H}`,
           background: "#ffffff",
           boxShadow: "0 30px 80px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.6)",
