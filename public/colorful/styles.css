@@ -1145,24 +1145,12 @@ p {
   transform: translateY(-5px) rotate(-1deg);
 }
 
-.tools-grid b {
-  align-items: center;
-  border-radius: 4px;
-  display: flex;
-  font-size: 17px;
-  height: 39px;
-  justify-content: center;
-  width: 39px;
+.tools-grid img {
+  filter: drop-shadow(0 7px 12px rgba(0, 0, 0, 0.2));
+  height: 42px;
+  object-fit: contain;
+  width: 42px;
 }
-
-.tool-blue b { background: #10344e; color: #48bfff; }
-.tool-orange b { background: #3b2810; color: #ff9f1c; }
-.tool-purple b { background: #31245a; color: #ae8cff; }
-.tool-violet b { background: #282355; color: #a98aff; }
-.tool-red b { background: #3c1e1d; color: #ff684a; }
-.tool-pink b { background: #421a3c; color: #ff60d0; }
-.tool-cyan b { background: #0d3441; color: #44d7ff; }
-.tool-magenta b { background: #411b35; color: #ff5e9d; }
 
 .focus-strip {
   border-top: 1px solid rgba(255, 255, 255, 0.16);
