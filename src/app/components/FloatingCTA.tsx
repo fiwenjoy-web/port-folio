@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Mail, ChevronUp } from "lucide-react";
+import { useContent } from "../context/ContentContext";
 
 export function FloatingCTA() {
+  const { content, t } = useContent();
   const [visible, setVisible] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
 
@@ -35,6 +37,7 @@ export function FloatingCTA() {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.8 }}
                 onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                aria-label="Scroll to top"
                 className="w-10 h-10 flex items-center justify-center rounded-full transition-all hover:scale-110"
                 style={{
                   background: "rgba(255,255,255,0.06)",
@@ -48,7 +51,7 @@ export function FloatingCTA() {
           </AnimatePresence>
 
           <a
-            href="mailto:Fusenra@gmail.com"
+            href={`mailto:${content.footer.email}`}
             className="flex items-center gap-2 px-5 py-3 rounded-full font-bold text-sm transition-all hover:scale-105"
             style={{
               background: "linear-gradient(135deg, #00d4ff, #0066ff)",
@@ -58,7 +61,7 @@ export function FloatingCTA() {
             }}
           >
             <Mail size={15} />
-            HIRE ME
+            {t(content.navigation.hireLabel)}
           </a>
         </motion.div>
       )}

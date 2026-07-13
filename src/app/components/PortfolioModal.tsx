@@ -13,7 +13,8 @@ interface Props {
 }
 
 export function PortfolioModal({ project, onClose }: Props) {
-  const { t } = useContent();
+  const { content, t } = useContent();
+  const { portfolio } = content;
   // Close on Escape
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
@@ -65,6 +66,9 @@ export function PortfolioModal({ project, onClose }: Props) {
             className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8 pointer-events-none"
           >
             <div
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="project-modal-title"
               className="relative w-full max-w-5xl max-h-[90vh] overflow-y-auto rounded-3xl pointer-events-auto"
               style={{
                 background: "rgba(10, 10, 16, 0.97)",
@@ -96,13 +100,14 @@ export function PortfolioModal({ project, onClose }: Props) {
                     className="text-xs tracking-[0.25em] uppercase mb-2"
                     style={{ color: "#00d4ff", fontFamily: "'Noto Sans Thai', sans-serif" }}
                   >
-                    {project.category}
+                    {t(project.categoryBT)}
                   </p>
                   <h2
+                    id="project-modal-title"
                     className="text-2xl md:text-3xl"
                     style={{ fontWeight: 700, color: "#fff", lineHeight: 1.1 }}
                   >
-                    {project.title}
+                    {t(project.titleBT)}
                   </h2>
                   <p
                     className="text-sm mt-2 max-w-lg"
@@ -132,6 +137,7 @@ export function PortfolioModal({ project, onClose }: Props) {
                 {/* Close button */}
                 <button
                   onClick={onClose}
+                  aria-label={t(portfolio.closeLabel)}
                   className="shrink-0 w-10 h-10 flex items-center justify-center rounded-xl transition-all duration-200 hover:scale-110"
                   style={{
                     background: "rgba(255,255,255,0.05)",
@@ -207,7 +213,7 @@ export function PortfolioModal({ project, onClose }: Props) {
                     className="text-xs"
                     style={{ color: "rgba(255,255,255,0.25)", fontFamily: "'Noto Sans Thai', sans-serif" }}
                   >
-                    {project.images.length} IMAGES IN THIS PROJECT
+                    {project.images.length} {t(portfolio.imagesLabel)}
                   </p>
                   <button
                     className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm transition-all duration-200 hover:scale-105"
@@ -219,7 +225,7 @@ export function PortfolioModal({ project, onClose }: Props) {
                       letterSpacing: "0.05em",
                     }}
                   >
-                    VIEW FULL PROJECT
+                    {t(portfolio.viewProjectLabel)}
                     <ArrowUpRight size={15} />
                   </button>
                 </div>

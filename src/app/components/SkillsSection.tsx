@@ -12,22 +12,15 @@ import figmaIconUrl from "../../assets/tools/figma.png";
 
 const SANS = "'Noto Sans Thai', sans-serif";
 
-const tools = [
-  { abbr: "Ps", name: "Photoshop", color: "#31A8FF", icon: photoshopIconUrl },
-  { abbr: "Ai", name: "Illustrator", color: "#FF9A00", icon: illustratorIconUrl },
-  { abbr: "Pr", name: "Premiere", color: "#9999FF", icon: premiereIconUrl },
-  { abbr: "Ae", name: "After FX", color: "#9999FF", icon: afterEffectsIconUrl },
-  { abbr: "XD", name: "Adobe XD", color: "#FF61F6", icon: adobeXdIconUrl },
-  { abbr: "Bl", name: "Blender", color: "#E87D0D", icon: blenderIconUrl },
-  { abbr: "VS", name: "VS Code", color: "#007ACC", icon: vsCodeIconUrl },
-  { abbr: "Fig", name: "Figma", color: "#F24E1E", icon: figmaIconUrl },
-];
-
-const proficiency = [
-  { skill: { en: "Visual Design", th: "การออกแบบภาพ" }, pct: 95 },
-  { skill: { en: "AI Production", th: "การผลิตด้วย AI" }, pct: 90 },
-  { skill: { en: "3D Rendering", th: "การเรนเดอร์ 3D" }, pct: 78 },
-  { skill: { en: "Motion Design", th: "การออกแบบโมชั่น" }, pct: 82 },
+const toolVisuals = [
+  { color: "#31A8FF", icon: photoshopIconUrl },
+  { color: "#FF9A00", icon: illustratorIconUrl },
+  { color: "#9999FF", icon: premiereIconUrl },
+  { color: "#9999FF", icon: afterEffectsIconUrl },
+  { color: "#FF61F6", icon: adobeXdIconUrl },
+  { color: "#E87D0D", icon: blenderIconUrl },
+  { color: "#007ACC", icon: vsCodeIconUrl },
+  { color: "#F24E1E", icon: figmaIconUrl },
 ];
 
 function CircleRing({ pct, color = "#00d4ff", size = 80, stroke = 5 }: { pct: number; color?: string; size?: number; stroke?: number }) {
@@ -131,8 +124,10 @@ export function SkillsSection() {
               {t(skills.toolsTitle)}
             </p>
             <div className="grid grid-cols-4 gap-3 mb-12">
-              {tools.map((tool, i) => (
-                <motion.div key={tool.name}
+              {skills.tools.map((name, i) => {
+                const tool = toolVisuals[i];
+                return (
+                <motion.div key={`${name}-${i}`}
                   initial={{ opacity: 0, scale: 0.85 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ duration: 0.4, delay: i * 0.06 }}
                   whileHover={{ y: -4, scale: 1.06 }}
                   className="flex flex-col items-center gap-2 py-4 px-2 rounded-2xl cursor-default transition-all duration-200"
@@ -147,9 +142,10 @@ export function SkillsSection() {
                     className="h-8 w-8 select-none object-contain"
                     style={{ filter: `drop-shadow(0 0 10px ${tool.color}30)` }}
                   />
-                  <span className="text-xs text-center leading-tight" style={{ color: "rgba(255,255,255,0.38)", fontFamily: SANS }}>{tool.name}</span>
+                  <span className="text-xs text-center leading-tight" style={{ color: "rgba(255,255,255,0.38)", fontFamily: SANS }}>{name}</span>
                 </motion.div>
-              ))}
+                );
+              })}
             </div>
 
             {/* Circular progress rings */}
@@ -157,7 +153,7 @@ export function SkillsSection() {
               {t(skills.proficiencyTitle)}
             </p>
             <div className="grid grid-cols-2 gap-6">
-              {proficiency.map((item, i) => {
+              {skills.proficiencyItems.map((item, i) => {
                 const colors = ["#00d4ff", "#48c6ec", "#0066ff", "#00d4ff"];
                 return (
                   <motion.div key={i}
@@ -165,12 +161,12 @@ export function SkillsSection() {
                     className="flex items-center gap-4 p-4 rounded-2xl"
                     style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.05)" }}>
                     <div className="relative shrink-0" style={{ width: 64, height: 64 }}>
-                      <CircleRing pct={item.pct} color={colors[i]} size={64} stroke={4} />
+                      <CircleRing pct={item.percentage} color={colors[i]} size={64} stroke={4} />
                       <div className="absolute inset-0 flex items-center justify-center">
-                        <span style={{ fontFamily: SANS, fontWeight: 700, fontSize: 11, color: colors[i] }}>{item.pct}%</span>
+                        <span style={{ fontFamily: SANS, fontWeight: 700, fontSize: 11, color: colors[i] }}>{item.percentage}%</span>
                       </div>
                     </div>
-                    <span className="text-sm leading-snug" style={{ color: "rgba(255,255,255,0.7)", fontWeight: 500 }}>{t(item.skill)}</span>
+                    <span className="text-sm leading-snug" style={{ color: "rgba(255,255,255,0.7)", fontWeight: 500 }}>{t(item.label)}</span>
                   </motion.div>
                 );
               })}

@@ -213,3 +213,42 @@
     line-height: 1.5;
   }
 }
+
+@keyframes project-scan {
+  0% {
+    background-position: 0 -120%;
+  }
+  100% {
+    background-position: 0 120%;
+  }
+}
+
+.project-scan-overlay {
+  background-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    transparent 43%,
+    rgba(0, 212, 255, 0.08) 48%,
+    rgba(255, 255, 255, 0.38) 50%,
+    rgba(0, 212, 255, 0.08) 52%,
+    transparent 57%,
+    transparent 100%
+  );
+  background-size: 100% 220%;
+  animation: project-scan 2.8s linear infinite;
+  animation-play-state: paused;
+}
+
+.group:hover .project-scan-overlay {
+  animation-play-state: running;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .project-scan-overlay {
+    animation: none;
+  }
+}

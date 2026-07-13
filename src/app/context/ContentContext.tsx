@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useCallback, type ReactNode } from "react";
+import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from "react";
 import {
   type SiteContent,
   type Lang,
@@ -22,6 +22,21 @@ const ContentContext = createContext<ContentContextValue | null>(null);
 export function ContentProvider({ children }: { children: ReactNode }) {
   const [content, setContent] = useState<SiteContent>(() => loadStoredContent());
   const [lang, setLang] = useState<Lang>("en");
+
+  useEffect(() => {
+    document.documentElement.lang = lang;
+    const role = content.hero.role[lang] ?? content.hero.role.en;
+    const bio = content.hero.bio[lang] ?? content.hero.bio.en;
+    document.title = `${content.hero.name} | ${role}`;
+
+    const setMeta = (selector: string, value: string) => {
+      document.querySelector<HTMLMetaElement>(selector)?.setAttribute("content", value);
+    };
+    setMeta('meta[name="description"]', bio);
+    setMeta('meta[name="author"]', content.hero.name);
+    setMeta('meta[property="og:title"]', `${content.hero.name} | ${role}`);
+    setMeta('meta[property="og:description"]', bio);
+  }, [content.hero.bio, content.hero.name, content.hero.role, lang]);
 
   const t = useCallback((field: BT) => field[lang] ?? field.en, [lang]);
 

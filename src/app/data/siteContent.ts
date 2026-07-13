@@ -2,6 +2,17 @@ export type Lang = "en" | "th";
 export type BT = { en: string; th: string };
 
 export interface SiteContent {
+  brand: {
+    mark: string;
+    firstName: string;
+    lastName: string;
+    logoLabel: BT;
+  };
+  navigation: {
+    links: BT[];
+    portfolioLabel: BT;
+    hireLabel: BT;
+  };
   hero: {
     name: string;
     role: BT;
@@ -11,6 +22,18 @@ export interface SiteContent {
     ctaSecondary: BT;
     navStatus: BT;
     stats: Array<{ value: string; label: BT }>;
+    greeting: BT;
+    introPrefix: BT;
+    displayName: string;
+    title: BT;
+    testimonial: BT;
+    experienceValue: BT;
+    experienceLabel: BT;
+    portraitAlt: BT;
+    portfolioButton: BT;
+  };
+  marquee: {
+    items: BT[];
   };
   skills: {
     sectionLabel: BT;
@@ -20,6 +43,15 @@ export interface SiteContent {
     toolsTitle: BT;
     proficiencyTitle: BT;
     focusItems: BT[];
+    tools: string[];
+    proficiencyItems: Array<{ label: BT; percentage: number }>;
+  };
+  philosophy: {
+    sectionLabel: BT;
+    heading1: BT;
+    heading2: BT;
+    intro: BT;
+    principles: Array<{ title: BT; description: BT }>;
   };
   experience: {
     sectionLabel: BT;
@@ -50,6 +82,7 @@ export interface SiteContent {
       desc: BT;
       price: string;
     }>;
+    tags: string[][];
     steps: Array<{ step: string; label: BT; desc: BT }>;
   };
   portfolio: {
@@ -57,11 +90,25 @@ export interface SiteContent {
     heading1: BT;
     heading2: BT;
     subtitle: BT;
+    viewProjectLabel: BT;
+    imagesLabel: BT;
+    closeLabel: BT;
     projects: Array<{
       title: BT;
       category: BT;
       description: BT;
       tags: string[];
+    }>;
+  };
+  testimonials: {
+    sectionLabel: BT;
+    heading1: BT;
+    heading2: BT;
+    items: Array<{
+      quote: BT;
+      name: string;
+      role: BT;
+      initials: string;
     }>;
   };
   footer: {
@@ -74,10 +121,34 @@ export interface SiteContent {
     email: string;
     phone: string;
     location: BT;
+    ctaEyebrow: BT;
+    ctaHeading1: BT;
+    ctaHeading2: BT;
+    getInTouchLabel: BT;
+    emailLabel: BT;
+    phoneLabel: BT;
+    locationLabel: BT;
+    bottomRole: BT;
   };
 }
 
 export const DEFAULT_CONTENT: SiteContent = {
+  brand: {
+    mark: "WH",
+    firstName: "WEERAPONG",
+    lastName: "HAMATHULIN",
+    logoLabel: { en: "WH logo", th: "โลโก้ WH" },
+  },
+  navigation: {
+    links: [
+      { en: "About", th: "เกี่ยวกับ" },
+      { en: "Service", th: "บริการ" },
+      { en: "Resume", th: "ประวัติ" },
+      { en: "Contact", th: "ติดต่อ" },
+    ],
+    portfolioLabel: { en: "Portfolio", th: "ผลงาน" },
+    hireLabel: { en: "Hire me", th: "จ้างงาน" },
+  },
   hero: {
     name: "WEERAPONG HAMATHULIN",
     role: {
@@ -107,6 +178,31 @@ export const DEFAULT_CONTENT: SiteContent = {
       { value: "AI", label: { en: "Visual Production", th: "การผลิตภาพ" } },
       { value: "5", label: { en: "Core Skills", th: "ทักษะหลัก" } },
     ],
+    greeting: { en: "Hello!", th: "สวัสดี!" },
+    introPrefix: { en: "I'm", th: "ผมคือ" },
+    displayName: "Fuse",
+    title: { en: "Product Designer", th: "นักออกแบบผลิตภัณฑ์" },
+    testimonial: {
+      en: "Exceptional product design ensures our website's success. Highly Recommended",
+      th: "งานออกแบบผลิตภัณฑ์ที่ยอดเยี่ยมช่วยให้เว็บไซต์ของเราประสบความสำเร็จ ขอแนะนำอย่างยิ่ง",
+    },
+    experienceValue: { en: "3 Years", th: "3 ปี" },
+    experienceLabel: { en: "Experience", th: "ประสบการณ์" },
+    portraitAlt: { en: "Fuse, product designer", th: "ฟิวส์ นักออกแบบผลิตภัณฑ์" },
+    portfolioButton: { en: "Portfolio", th: "ผลงาน" },
+  },
+  marquee: {
+    items: [
+      { en: "AI VISUAL PRODUCTION", th: "การผลิตภาพด้วย AI" },
+      { en: "3D RENDERING", th: "การเรนเดอร์ 3D" },
+      { en: "MOTION DESIGN", th: "งานโมชั่น" },
+      { en: "BRAND IDENTITY", th: "อัตลักษณ์แบรนด์" },
+      { en: "E-COMMERCE", th: "อีคอมเมิร์ซ" },
+      { en: "CAMPAIGN DESIGN", th: "ออกแบบแคมเปญ" },
+      { en: "UI / UX", th: "UI / UX" },
+      { en: "CREATIVE DIRECTION", th: "ทิศทางสร้างสรรค์" },
+      { en: "PRODUCT VISUALS", th: "ภาพสินค้า" },
+    ],
   },
   skills: {
     sectionLabel: { en: "EXPERTISE", th: "ความเชี่ยวชาญ" },
@@ -121,6 +217,40 @@ export const DEFAULT_CONTENT: SiteContent = {
       { en: "3D Mockup & Render Concepts", th: "แนวคิดโมเดล 3D และการเรนเดอร์" },
       { en: "E-commerce Campaign Design", th: "การออกแบบแคมเปญอีคอมเมิร์ซ" },
       { en: "Creative Workflow Systems", th: "ระบบขั้นตอนงานสร้างสรรค์" },
+    ],
+    tools: ["Photoshop", "Illustrator", "Premiere", "After FX", "Adobe XD", "Blender", "VS Code", "Figma"],
+    proficiencyItems: [
+      { label: { en: "Visual Design", th: "การออกแบบภาพ" }, percentage: 95 },
+      { label: { en: "AI Production", th: "การผลิตด้วย AI" }, percentage: 90 },
+      { label: { en: "3D Rendering", th: "การเรนเดอร์ 3D" }, percentage: 78 },
+      { label: { en: "Motion Design", th: "การออกแบบโมชั่น" }, percentage: 82 },
+    ],
+  },
+  philosophy: {
+    sectionLabel: { en: "PHILOSOPHY", th: "แนวคิด" },
+    heading1: { en: "How I", th: "หลักการ" },
+    heading2: { en: "approach work", th: "การทำงาน" },
+    intro: {
+      en: "A blend of commercial instinct and technical craft. I treat every project as a partnership — obsessing over the details that turn good visuals into results.",
+      th: "การผสมผสานระหว่างสัญชาตญาณเชิงพาณิชย์และงานฝีมือเชิงเทคนิค ฉันมองทุกโปรเจกต์เป็นความร่วมมือ และใส่ใจในรายละเอียดที่เปลี่ยนภาพที่ดีให้กลายเป็นผลลัพธ์",
+    },
+    principles: [
+      {
+        title: { en: "Concept First", th: "แนวคิดมาก่อน" },
+        description: { en: "Every visual starts with a strong idea. Aesthetics follow strategy, never the other way around.", th: "ทุกภาพเริ่มจากไอเดียที่แข็งแรง ความสวยงามตามหลังกลยุทธ์เสมอ" },
+      },
+      {
+        title: { en: "AI-Accelerated", th: "เร่งด้วย AI" },
+        description: { en: "Blending human craft with AI workflows to deliver faster without sacrificing quality.", th: "ผสานฝีมือมนุษย์กับขั้นตอน AI เพื่อส่งงานเร็วขึ้นโดยไม่ลดคุณภาพ" },
+      },
+      {
+        title: { en: "Detail Obsessed", th: "ใส่ใจรายละเอียด" },
+        description: { en: "From lighting to pixel-level finishing — the small things make commercial work shine.", th: "ตั้งแต่การจัดแสงจนถึงการเก็บงานระดับพิกเซล รายละเอียดเล็กๆ ทำให้งานโดดเด่น" },
+      },
+      {
+        title: { en: "Results Driven", th: "มุ่งผลลัพธ์" },
+        description: { en: "Design that performs. Visuals built to convert, engage, and elevate the brand.", th: "ดีไซน์ที่ได้ผลจริง ภาพที่สร้างมาเพื่อเปลี่ยนยอดขาย สร้างการมีส่วนร่วม และยกระดับแบรนด์" },
+      },
     ],
   },
   experience: {
@@ -245,6 +375,12 @@ export const DEFAULT_CONTENT: SiteContent = {
         price: "From ฿6,000",
       },
     ],
+    tags: [
+      ["Midjourney", "Stable Diffusion", "Photoshop AI"],
+      ["Blender", "3D Modeling", "Lighting"],
+      ["Shopee", "Lazada", "TikTok Shop"],
+      ["Figma", "React", "AI Workflow"],
+    ],
     steps: [
       { step: "01", label: { en: "Brief", th: "รับบรีฟ" }, desc: { en: "Share your project goals and references", th: "แชร์เป้าหมายโปรเจกต์และอ้างอิง" } },
       { step: "02", label: { en: "Concept", th: "คอนเซปต์" }, desc: { en: "Initial concepts and direction approval", th: "แนวคิดเริ่มต้นและการอนุมัติทิศทาง" } },
@@ -257,6 +393,9 @@ export const DEFAULT_CONTENT: SiteContent = {
     heading1: { en: "WORK &", th: "งาน &" },
     heading2: { en: "DESIGN", th: "การออกแบบ" },
     subtitle: { en: "A selection of recent commercial and creative projects.", th: "คัดสรรโปรเจกต์เชิงพาณิชย์และสร้างสรรค์ล่าสุด" },
+    viewProjectLabel: { en: "VIEW FULL PROJECT", th: "ดูโปรเจกต์ทั้งหมด" },
+    imagesLabel: { en: "IMAGES IN THIS PROJECT", th: "รูปในโปรเจกต์นี้" },
+    closeLabel: { en: "Close project", th: "ปิดโปรเจกต์" },
     projects: [
       {
         title: { en: "COMMERCIAL POSTER", th: "โปสเตอร์เชิงพาณิชย์" },
@@ -305,6 +444,31 @@ export const DEFAULT_CONTENT: SiteContent = {
       },
     ],
   },
+  testimonials: {
+    sectionLabel: { en: "TESTIMONIALS", th: "คำรับรอง" },
+    heading1: { en: "Trusted by", th: "ได้รับความไว้วางใจจาก" },
+    heading2: { en: "clients", th: "ลูกค้า" },
+    items: [
+      {
+        quote: { en: "The AI-assisted product visuals elevated our entire e-commerce presence. Fast turnaround, polished commercial finish — exactly what our brand needed.", th: "ภาพสินค้าที่ผลิตด้วย AI ยกระดับภาพลักษณ์อีคอมเมิร์ซของเราทั้งหมด งานเร็วและเนี้ยบ ตรงกับที่แบรนด์เราต้องการเป๊ะ" },
+        name: "Napat S.",
+        role: { en: "Brand Manager, Dr. Hygiene", th: "ผู้จัดการแบรนด์, Dr. Hygiene" },
+        initials: "NS",
+      },
+      {
+        quote: { en: "Exceptional 3D renders that looked better than photography. The lighting and detail work made our packaging launch a standout success.", th: "งานเรนเดอร์ 3D ยอดเยี่ยม ดูดีกว่าถ่ายจริง การจัดแสงและรายละเอียดทำให้การเปิดตัวบรรจุภัณฑ์ของเราโดดเด่นมาก" },
+        name: "Ploy T.",
+        role: { en: "Marketing Lead, Pinnacle", th: "หัวหน้าการตลาด, Pinnacle" },
+        initials: "PT",
+      },
+      {
+        quote: { en: "A rare designer who understands both commercial strategy and cutting-edge AI workflows. Every campaign delivered measurable results.", th: "นักออกแบบหายากที่เข้าใจทั้งกลยุทธ์เชิงพาณิชย์และขั้นตอน AI ล้ำสมัย ทุกแคมเปญให้ผลลัพธ์ที่วัดได้จริง" },
+        name: "Kridsada M.",
+        role: { en: "Founder, TH Commerce", th: "ผู้ก่อตั้ง, TH Commerce" },
+        initials: "KM",
+      },
+    ],
+  },
   footer: {
     tagline: {
       en: "Creative designer specializing in AI-assisted visual production and modern digital media.",
@@ -315,8 +479,8 @@ export const DEFAULT_CONTENT: SiteContent = {
       th: "กำลังมองหางานประจำ",
     },
     copyright: {
-      en: "© 2025 Weerapong Hamathulin. All rights reserved.",
-      th: "© 2568 วีรพงษ์ หมาตุลิน. สงวนลิขสิทธิ์",
+      en: "© 2026 Weerapong Hamathulin. All rights reserved.",
+      th: "© 2569 วีรพงษ์ หมาตุลิน. สงวนลิขสิทธิ์",
     },
     navigateLabel: { en: "NAVIGATE", th: "เมนู" },
     contactLabel: { en: "CONTACT", th: "ติดต่อ" },
@@ -330,6 +494,14 @@ export const DEFAULT_CONTENT: SiteContent = {
     email: "Fusenra@gmail.com",
     phone: "083-480-9368",
     location: { en: "Chiangmai, Thailand", th: "เชียงใหม่ ประเทศไทย" },
+    ctaEyebrow: { en: "LET'S WORK TOGETHER", th: "มาร่วมงานกัน" },
+    ctaHeading1: { en: "Have a project", th: "มีโปรเจกต์" },
+    ctaHeading2: { en: "in mind?", th: "ในใจหรือยัง?" },
+    getInTouchLabel: { en: "GET IN TOUCH", th: "ติดต่อฉัน" },
+    emailLabel: { en: "EMAIL", th: "อีเมล" },
+    phoneLabel: { en: "PHONE", th: "โทรศัพท์" },
+    locationLabel: { en: "LOCATION", th: "ที่ตั้ง" },
+    bottomRole: { en: "CREATIVE DESIGNER / AI VISUAL PRODUCTION", th: "นักออกแบบครีเอทีฟ / การผลิตภาพด้วย AI" },
   },
 };
 
@@ -339,10 +511,26 @@ export function loadStoredContent(): SiteContent {
   try {
     const raw = localStorage.getItem(CONTENT_STORAGE_KEY);
     if (!raw) return DEFAULT_CONTENT;
-    return JSON.parse(raw) as SiteContent;
+    return mergeWithDefaults(DEFAULT_CONTENT, JSON.parse(raw)) as SiteContent;
   } catch {
     return DEFAULT_CONTENT;
   }
+}
+
+function mergeWithDefaults(defaultValue: unknown, storedValue: unknown): unknown {
+  if (Array.isArray(defaultValue)) {
+    if (!Array.isArray(storedValue)) return structuredClone(defaultValue);
+    return defaultValue.map((item, index) => mergeWithDefaults(item, storedValue[index]));
+  }
+
+  if (defaultValue && typeof defaultValue === "object") {
+    const storedObject = storedValue && typeof storedValue === "object" ? storedValue as Record<string, unknown> : {};
+    return Object.fromEntries(
+      Object.entries(defaultValue).map(([key, value]) => [key, mergeWithDefaults(value, storedObject[key])]),
+    );
+  }
+
+  return typeof storedValue === typeof defaultValue ? storedValue : defaultValue;
 }
 
 export function saveStoredContent(content: SiteContent) {

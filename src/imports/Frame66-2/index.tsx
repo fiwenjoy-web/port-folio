@@ -1,5 +1,5 @@
 import svgPaths from "./svg-arq5ndj4og";
-import imgYoungPrettyWomanLookingHappyGoofyWithBroadFunLoonySmileEyesWideOpenAgainstWhiteWall2 from "./ec99b35a3076a37cf04c9568fdc968e7c66b34d5.png";
+import imgYoungPrettyWomanLookingHappyGoofyWithBroadFunLoonySmileEyesWideOpenAgainstWhiteWall2 from "../../assets/portrait.webp";
 type FrameProps = {
   className?: string;
   property1?: "Default" | "Variant2";

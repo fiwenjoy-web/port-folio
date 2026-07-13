@@ -5,6 +5,7 @@ import { BrandLogo } from "./BrandLogo";
 
 const MONO = "'Noto Sans Thai', sans-serif";
 const SANS = "'Noto Sans Thai', sans-serif";
+const NAV_TARGETS = ["about", "about", "experience", "portfolio", "contact"];
 
 export function FooterSection() {
   const { content, t } = useContent();
@@ -25,13 +26,13 @@ export function FooterSection() {
         <div className="max-w-7xl mx-auto relative z-10 flex flex-col md:flex-row items-center justify-between gap-10">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
             <p className="text-xs tracking-[0.25em] uppercase mb-4" style={{ color: "#00d4ff", fontFamily: SANS }}>
-              LET'S WORK TOGETHER
+              {t(footer.ctaEyebrow)}
             </p>
             <h2 style={{ fontWeight: 800, fontSize: "clamp(2.2rem, 6vw, 4.5rem)", color: "#fff", lineHeight: 0.95, letterSpacing: "-0.03em" }}>
-              Have a project
+              {t(footer.ctaHeading1)}
               <br />
               <span style={{ background: "linear-gradient(95deg, #00d4ff, #0066ff)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
-                in mind?
+                {t(footer.ctaHeading2)}
               </span>
             </h2>
           </motion.div>
@@ -46,7 +47,7 @@ export function FooterSection() {
                 boxShadow: "0 0 40px rgba(0,212,255,0.25), inset 0 1px 0 rgba(255,255,255,0.3)",
               }}>
               <Mail size={15} />
-              GET IN TOUCH
+              {t(footer.getInTouchLabel)}
               <ArrowUpRight size={14} />
             </a>
             <a href={`tel:${footer.phone}`}
@@ -90,7 +91,7 @@ export function FooterSection() {
             <ul className="flex flex-col gap-3">
               {footer.navItems.map((item, i) => (
                 <li key={i}>
-                  <a href="#" className="group flex items-center gap-2 text-sm transition-colors duration-200"
+                  <a href={`#${NAV_TARGETS[i]}`} className="group flex items-center gap-2 text-sm transition-colors duration-200"
                     style={{ color: "rgba(255,255,255,0.5)" }}
                     onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = "#fff")}
                     onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.5)")}>
@@ -109,8 +110,8 @@ export function FooterSection() {
             </p>
             <div className="flex flex-col gap-4">
               {[
-                { href: `mailto:${footer.email}`, icon: Mail, color: "#00d4ff", label: "EMAIL", value: footer.email },
-                { href: `tel:${footer.phone.replace(/-/g, "")}`, icon: Phone, color: "#0066ff", label: "PHONE", value: footer.phone },
+                { href: `mailto:${footer.email}`, icon: Mail, color: "#00d4ff", label: t(footer.emailLabel), value: footer.email },
+                { href: `tel:${footer.phone.replace(/-/g, "")}`, icon: Phone, color: "#0066ff", label: t(footer.phoneLabel), value: footer.phone },
               ].map(({ href, icon: Icon, color, label, value }) => (
                 <a key={label} href={href} className="flex items-center gap-3">
                   <div className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0"
@@ -134,7 +135,7 @@ export function FooterSection() {
                   <MapPin size={15} color="#9333ea" />
                 </div>
                 <div>
-                  <p className="text-xs mb-0.5" style={{ color: "rgba(255,255,255,0.3)", fontFamily: MONO }}>LOCATION</p>
+                  <p className="text-xs mb-0.5" style={{ color: "rgba(255,255,255,0.3)", fontFamily: MONO }}>{t(footer.locationLabel)}</p>
                   <p className="text-sm" style={{ color: "rgba(255,255,255,0.7)", fontWeight: 500 }}>{t(footer.location)}</p>
                 </div>
               </div>
@@ -147,7 +148,7 @@ export function FooterSection() {
           style={{ borderTop: "1px solid rgba(255,255,255,0.05)" }}>
           <p className="text-xs" style={{ color: "rgba(255,255,255,0.2)", fontFamily: MONO }}>{t(footer.copyright)}</p>
           <p className="text-xs" style={{ color: "rgba(255,255,255,0.2)", fontFamily: MONO }}>
-            CREATIVE DESIGNER / AI VISUAL PRODUCTION
+            {t(footer.bottomRole)}
           </p>
         </div>
       </div>

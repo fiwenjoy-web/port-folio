@@ -2,71 +2,33 @@ import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Quote, Star, ChevronLeft, ChevronRight } from "lucide-react";
 import { useContent } from "../context/ContentContext";
-import type { BT } from "../data/siteContent";
 
 const SANS = "'Noto Sans Thai', sans-serif";
 
-type Testimonial = {
-  quote: BT;
-  name: string;
-  role: BT;
-  initials: string;
-  accent: string;
-};
-
-const TESTIMONIALS: Testimonial[] = [
-  {
-    quote: {
-      en: "The AI-assisted product visuals elevated our entire e-commerce presence. Fast turnaround, polished commercial finish — exactly what our brand needed.",
-      th: "ภาพสินค้าที่ผลิตด้วย AI ยกระดับภาพลักษณ์อีคอมเมิร์ซของเราทั้งหมด งานเร็วและเนี้ยบ ตรงกับที่แบรนด์เราต้องการเป๊ะ",
-    },
-    name: "Napat S.",
-    role: { en: "Brand Manager, Dr. Hygiene", th: "ผู้จัดการแบรนด์, Dr. Hygiene" },
-    initials: "NS",
-    accent: "#00d4ff",
-  },
-  {
-    quote: {
-      en: "Exceptional 3D renders that looked better than photography. The lighting and detail work made our packaging launch a standout success.",
-      th: "งานเรนเดอร์ 3D ยอดเยี่ยม ดูดีกว่าถ่ายจริง การจัดแสงและรายละเอียดทำให้การเปิดตัวบรรจุภัณฑ์ของเราโดดเด่นมาก",
-    },
-    name: "Ploy T.",
-    role: { en: "Marketing Lead, Pinnacle", th: "หัวหน้าการตลาด, Pinnacle" },
-    initials: "PT",
-    accent: "#818cf8",
-  },
-  {
-    quote: {
-      en: "A rare designer who understands both commercial strategy and cutting-edge AI workflows. Every campaign delivered measurable results.",
-      th: "นักออกแบบหายากที่เข้าใจทั้งกลยุทธ์เชิงพาณิชย์และขั้นตอน AI ล้ำสมัย ทุกแคมเปญให้ผลลัพธ์ที่วัดได้จริง",
-    },
-    name: "Kridsada M.",
-    role: { en: "Founder, TH Commerce", th: "ผู้ก่อตั้ง, TH Commerce" },
-    initials: "KM",
-    accent: "#34d399",
-  },
-];
+const TESTIMONIAL_ACCENTS = ["#00d4ff", "#818cf8", "#34d399"];
 
 export function TestimonialsSection() {
-  const { t } = useContent();
+  const { content, t } = useContent();
+  const { testimonials } = content;
   const [index, setIndex] = useState(0);
   const [dir, setDir] = useState(1);
 
   const go = useCallback((next: number) => {
     setDir(next > index ? 1 : -1);
-    setIndex((next + TESTIMONIALS.length) % TESTIMONIALS.length);
-  }, [index]);
+    setIndex((next + testimonials.items.length) % testimonials.items.length);
+  }, [index, testimonials.items.length]);
 
   // Auto-advance
   useEffect(() => {
     const timer = setInterval(() => {
       setDir(1);
-      setIndex((i) => (i + 1) % TESTIMONIALS.length);
+      setIndex((i) => (i + 1) % testimonials.items.length);
     }, 6000);
     return () => clearInterval(timer);
-  }, []);
+  }, [testimonials.items.length]);
 
-  const active = TESTIMONIALS[index];
+  const active = testimonials.items[index];
+  const activeAccent = TESTIMONIAL_ACCENTS[index];
 
   return (
     <section className="relative py-28 px-6 md:px-16 lg:px-24 overflow-hidden" style={{ fontFamily: SANS }}>
@@ -80,14 +42,14 @@ export function TestimonialsSection() {
           <div className="flex items-center gap-3 mb-4">
             <div className="h-px w-8" style={{ background: "linear-gradient(to right, transparent, #00d4ff)" }} />
             <p className="text-xs tracking-[0.3em] uppercase" style={{ color: "#00d4ff", fontFamily: SANS }}>
-              {t({ en: "TESTIMONIALS", th: "คำรับรอง" })}
+              {t(testimonials.sectionLabel)}
             </p>
             <div className="h-px w-8" style={{ background: "linear-gradient(to right, #00d4ff, transparent)" }} />
           </div>
           <h2 style={{ fontWeight: 800, fontSize: "clamp(2rem, 5vw, 3.5rem)", color: "#fff", letterSpacing: "-0.02em" }}>
-            {t({ en: "Trusted by", th: "ได้รับความไว้วางใจจาก" })}{" "}
+            {t(testimonials.heading1)}{" "}
             <span style={{ background: "linear-gradient(90deg, #00d4ff, #0066ff)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
-              {t({ en: "clients", th: "ลูกค้า" })}
+              {t(testimonials.heading2)}
             </span>
           </h2>
         </motion.div>
@@ -105,20 +67,20 @@ export function TestimonialsSection() {
               className="relative p-8 md:p-12 rounded-3xl"
               style={{
                 background: "rgba(255,255,255,0.02)",
-                border: `1px solid ${active.accent}22`,
+                border: `1px solid ${activeAccent}22`,
                 boxShadow: `0 20px 60px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.03)`,
               }}
             >
               {/* Quote glyph */}
               <div className="absolute -top-5 left-8 w-11 h-11 rounded-2xl flex items-center justify-center"
-                style={{ background: active.accent, boxShadow: `0 8px 24px ${active.accent}55` }}>
+                style={{ background: activeAccent, boxShadow: `0 8px 24px ${activeAccent}55` }}>
                 <Quote size={18} color="#000" fill="#000" />
               </div>
 
               {/* Stars */}
               <div className="flex gap-1 mb-5 mt-2">
                 {Array.from({ length: 5 }).map((_, i) => (
-                  <Star key={i} size={15} color={active.accent} fill={active.accent} />
+                  <Star key={i} size={15} color={activeAccent} fill={activeAccent} />
                 ))}
               </div>
 
@@ -131,7 +93,7 @@ export function TestimonialsSection() {
               {/* Author */}
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 rounded-full flex items-center justify-center shrink-0"
-                  style={{ background: `${active.accent}18`, border: `1px solid ${active.accent}40`, color: active.accent, fontWeight: 700, fontSize: 15 }}>
+                  style={{ background: `${activeAccent}18`, border: `1px solid ${activeAccent}40`, color: activeAccent, fontWeight: 700, fontSize: 15 }}>
                   {active.initials}
                 </div>
                 <div>
@@ -154,7 +116,7 @@ export function TestimonialsSection() {
 
           {/* Dots */}
           <div className="flex items-center gap-2">
-            {TESTIMONIALS.map((_, i) => (
+            {testimonials.items.map((_, i) => (
               <button key={i} onClick={() => go(i)}
                 className="rounded-full transition-all duration-300"
                 style={{

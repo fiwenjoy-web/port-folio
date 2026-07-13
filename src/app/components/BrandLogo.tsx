@@ -1,4 +1,5 @@
 import brandLogoUrl from "../../assets/brand-logo.png";
+import { useContent } from "../context/ContentContext";
 
 const BRAND_FONT = "'Kanit', 'Noto Sans Thai', sans-serif";
 
@@ -10,7 +11,7 @@ interface BrandLogoProps {
   label?: string;
 }
 
-function BrandMark({ size }: { size: number }) {
+function BrandMark({ size, mark }: { size: number; mark: string }) {
   const textSize = Math.max(10, Math.round(size * 0.28));
 
   return (
@@ -41,25 +42,25 @@ function BrandMark({ size }: { size: number }) {
         className="relative z-10 transition-colors duration-200 group-hover:text-[#48c6ec]"
         style={{ fontFamily: BRAND_FONT, fontWeight: 700, fontSize: textSize, color: "#ffffff", letterSpacing: "0.04em" }}
       >
-        WH
+        {mark}
       </span>
     </span>
   );
 }
 
-function Wordmark() {
+function Wordmark({ firstName, lastName }: { firstName: string; lastName: string }) {
   return (
     <span className="flex flex-col justify-center leading-none">
       <span
         style={{ fontFamily: BRAND_FONT, fontWeight: 700, fontSize: "0.78rem", letterSpacing: "0.14em", color: "#ffffff" }}
       >
-        WEERAPONG
+        {firstName}
       </span>
       <span
         className="mt-1"
         style={{ fontFamily: BRAND_FONT, fontWeight: 400, fontSize: "0.66rem", letterSpacing: "0.2em", color: "rgba(255,255,255,0.46)" }}
       >
-        HAMATHULIN
+        {lastName}
       </span>
     </span>
   );
@@ -70,13 +71,15 @@ export function BrandLogo({
   showWordmark = false,
   onClick,
   className = "",
-  label = "WH logo",
+  label,
 }: BrandLogoProps) {
+  const { content, t } = useContent();
+  const resolvedLabel = label ?? t(content.brand.logoLabel);
   const logoClassName = ["inline-flex items-center gap-3 shrink-0", className].filter(Boolean).join(" ");
-  const content = (
+  const logoContent = (
     <>
-      <BrandMark size={size} />
-      {showWordmark ? <Wordmark /> : null}
+      <BrandMark size={size} mark={content.brand.mark} />
+      {showWordmark ? <Wordmark firstName={content.brand.firstName} lastName={content.brand.lastName} /> : null}
     </>
   );
 
@@ -86,16 +89,16 @@ export function BrandLogo({
         type="button"
         onClick={onClick}
         className={`${logoClassName} group rounded-full border-0 bg-transparent p-0 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#48c6ec]/60 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent`}
-        aria-label={label}
+        aria-label={resolvedLabel}
       >
-        {content}
+        {logoContent}
       </button>
     );
   }
 
   return (
-    <span className={logoClassName} role="img" aria-label={label}>
-      {content}
+    <span className={logoClassName} role="img" aria-label={resolvedLabel}>
+    {logoContent}
     </span>
   );
 }

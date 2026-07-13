@@ -5,12 +5,6 @@ import { useContent } from "../context/ContentContext";
 const SANS = "'Noto Sans Thai', sans-serif";
 const ICONS = [Sparkles, Box, ShoppingBag, Globe];
 const COLORS = ["#00d4ff", "#818cf8", "#f59e0b", "#34d399"];
-const TAGS = [
-  ["Midjourney", "Stable Diffusion", "Photoshop AI"],
-  ["Blender", "3D Modeling", "Lighting"],
-  ["Shopee", "Lazada", "TikTok Shop"],
-  ["Figma", "React", "AI Workflow"],
-];
 
 export function ServicesSection() {
   const { content, t } = useContent();
@@ -51,7 +45,7 @@ export function ServicesSection() {
           {services.items.map((svc, i) => {
             const Icon = ICONS[i];
             const color = COLORS[i];
-            const tags = TAGS[i];
+            const tags = services.tags[i];
             return (
               <motion.div key={i}
                 initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.1 }}

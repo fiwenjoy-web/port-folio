@@ -2,18 +2,9 @@ import { useContent } from "../context/ContentContext";
 
 const SANS = "'Noto Sans Thai', sans-serif";
 
-const WORDS_EN = [
-  "AI VISUAL PRODUCTION", "3D RENDERING", "MOTION DESIGN", "BRAND IDENTITY",
-  "E-COMMERCE", "CAMPAIGN DESIGN", "UI / UX", "CREATIVE DIRECTION", "PRODUCT VISUALS",
-];
-const WORDS_TH = [
-  "การผลิตภาพด้วย AI", "การเรนเดอร์ 3D", "งานโมชั่น", "อัตลักษณ์แบรนด์",
-  "อีคอมเมิร์ซ", "ออกแบบแคมเปญ", "UI / UX", "ทิศทางสร้างสรรค์", "ภาพสินค้า",
-];
-
 export function MarqueeStrip() {
-  const { lang } = useContent();
-  const words = lang === "th" ? WORDS_TH : WORDS_EN;
+  const { content, t } = useContent();
+  const words = content.marquee.items.map(t);
   // Duplicate for seamless loop
   const loop = [...words, ...words];
 

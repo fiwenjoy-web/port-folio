@@ -2,7 +2,7 @@ import { useState, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import {
   X, Upload, Trash2, Lock, Eye, EyeOff, CheckCircle,
-  Plus, FolderOpen, Image as ImageIcon, FileText, RotateCcw,
+  Plus, FolderOpen, Image as ImageIcon, FileText, RotateCcw, Search,
 } from "lucide-react";
 import { DEFAULT_IMAGES, saveStoredImages } from "../data/projectImages";
 import { useContent } from "../context/ContentContext";
@@ -18,59 +18,75 @@ const PROJECT_LABELS: Record<number, { title: string; folder: string; color: str
   5: { title: "AI-Assisted Web System", folder: "web-system/", color: "#10b981" },
 };
 
-// CMS field definitions — what text fields appear in the content editor
-const CMS_SECTIONS = [
-  {
-    id: "hero",
-    label: "Hero Section",
-    color: "#00d4ff",
-    fields: [
-      { key: "role", label: "Role / Title", path: (c: SiteContent) => c.hero.role },
-      { key: "bio", label: "Short Bio", path: (c: SiteContent) => c.hero.bio },
-      { key: "ctaPrimary", label: "Primary CTA Button", path: (c: SiteContent) => c.hero.ctaPrimary },
-      { key: "ctaSecondary", label: "Secondary CTA Button", path: (c: SiteContent) => c.hero.ctaSecondary },
-      { key: "navStatus", label: "Nav Status Badge", path: (c: SiteContent) => c.hero.navStatus },
-    ],
-  },
-  {
-    id: "experience",
-    label: "Experience",
-    color: "#0066ff",
-    fields: [
-      { key: "job0_role", label: "Job 1 — Role", path: (c: SiteContent) => c.experience.jobs[0].role },
-      { key: "job1_role", label: "Job 2 — Role", path: (c: SiteContent) => c.experience.jobs[1].role },
-      { key: "edu0_degree", label: "Education — Degree", path: (c: SiteContent) => c.experience.education[0].degree },
-      { key: "glance_status", label: "At a Glance — Status", path: (c: SiteContent) => c.experience.glanceItems[2].value },
-      { key: "glance_location", label: "At a Glance — Location", path: (c: SiteContent) => c.experience.glanceItems[0].value },
-    ],
-  },
-  {
-    id: "services",
-    label: "Services",
-    color: "#f59e0b",
-    fields: [
-      { key: "svc0_title", label: "Service 1 — Title", path: (c: SiteContent) => c.services.items[0].title },
-      { key: "svc1_title", label: "Service 2 — Title", path: (c: SiteContent) => c.services.items[1].title },
-      { key: "svc2_title", label: "Service 3 — Title", path: (c: SiteContent) => c.services.items[2].title },
-      { key: "svc3_title", label: "Service 4 — Title", path: (c: SiteContent) => c.services.items[3].title },
-      { key: "svc0_desc", label: "Service 1 — Description", path: (c: SiteContent) => c.services.items[0].desc },
-      { key: "svc1_desc", label: "Service 2 — Description", path: (c: SiteContent) => c.services.items[1].desc },
-      { key: "svc2_desc", label: "Service 3 — Description", path: (c: SiteContent) => c.services.items[2].desc },
-      { key: "svc3_desc", label: "Service 4 — Description", path: (c: SiteContent) => c.services.items[3].desc },
-    ],
-  },
-  {
-    id: "footer",
-    label: "Footer",
-    color: "#10b981",
-    fields: [
-      { key: "tagline", label: "Tagline", path: (c: SiteContent) => c.footer.tagline },
-      { key: "navStatus", label: "Status Badge", path: (c: SiteContent) => c.footer.navStatus },
-      { key: "location", label: "Location", path: (c: SiteContent) => c.footer.location },
-      { key: "copyright", label: "Copyright", path: (c: SiteContent) => c.footer.copyright },
-    ],
-  },
+type ContentPath = Array<string | number>;
+type ContentSectionId = keyof SiteContent;
+
+type EditableField = {
+  key: string;
+  label: string;
+  path: ContentPath;
+  value: string | BT;
+  bilingual: boolean;
+};
+
+const CMS_SECTION_META: Array<{ id: ContentSectionId; label: string; color: string }> = [
+  { id: "brand", label: "Brand & Logo", color: "#67e8f9" },
+  { id: "navigation", label: "Navigation", color: "#48c6ec" },
+  { id: "hero", label: "Hero Section", color: "#00d4ff" },
+  { id: "marquee", label: "Marquee", color: "#22d3ee" },
+  { id: "skills", label: "Skills & Tools", color: "#818cf8" },
+  { id: "philosophy", label: "Philosophy", color: "#a78bfa" },
+  { id: "experience", label: "Experience", color: "#0066ff" },
+  { id: "services", label: "Services", color: "#f59e0b" },
+  { id: "portfolio", label: "Portfolio", color: "#f97316" },
+  { id: "testimonials", label: "Testimonials", color: "#34d399" },
+  { id: "footer", label: "Footer & Contact", color: "#10b981" },
 ];
+
+const FIELD_NAMES: Record<string, string> = {
+  cta: "CTA",
+  desc: "Description",
+  bt: "Text",
+};
+
+function isBilingualText(value: unknown): value is BT {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return false;
+  const candidate = value as Partial<BT>;
+  return typeof candidate.en === "string" && typeof candidate.th === "string";
+}
+
+function humanize(value: string) {
+  if (FIELD_NAMES[value.toLowerCase()]) return FIELD_NAMES[value.toLowerCase()];
+  return value
+    .replace(/([a-z0-9])([A-Z])/g, "$1 $2")
+    .replace(/^./, (letter) => letter.toUpperCase());
+}
+
+function formatFieldLabel(path: ContentPath) {
+  return path.map((part, index) => (
+    typeof part === "number" ? `Item ${part + 1}` : humanize(part)
+  )).join(" / ");
+}
+
+function collectTextFields(value: unknown, path: ContentPath = []): EditableField[] {
+  if (isBilingualText(value)) {
+    return [{ key: path.join("."), label: formatFieldLabel(path), path, value, bilingual: true }];
+  }
+
+  if (typeof value === "string") {
+    return [{ key: path.join("."), label: formatFieldLabel(path), path, value, bilingual: false }];
+  }
+
+  if (Array.isArray(value)) {
+    return value.flatMap((item, index) => collectTextFields(item, [...path, index]));
+  }
+
+  if (value && typeof value === "object") {
+    return Object.entries(value).flatMap(([key, child]) => collectTextFields(child, [...path, key]));
+  }
+
+  return [];
+}
 
 interface Props {
   open: boolean;
@@ -90,6 +106,7 @@ export function OwnerDashboard({ open, storedImages, onClose, onImagesChange }: 
   const [tab, setTab] = useState<Tab>("images");
   const [activeProject, setActiveProject] = useState<number | null>(null);
   const [activeCmsSection, setActiveCmsSection] = useState<string | null>(null);
+  const [contentSearch, setContentSearch] = useState("");
   const [dragOver, setDragOver] = useState<number | null>(null);
   const [toast, setToast] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -111,6 +128,7 @@ export function OwnerDashboard({ open, storedImages, onClose, onImagesChange }: 
     setPwError(false);
     setActiveProject(null);
     setActiveCmsSection(null);
+    setContentSearch("");
     onClose();
   }
 
@@ -174,17 +192,22 @@ export function OwnerDashboard({ open, storedImages, onClose, onImagesChange }: 
     storedImages[id]?.length ? storedImages[id] : DEFAULT_IMAGES[id] ?? [];
 
   // ── Content management ────────────────────────────────────────
-  function getBTValue(bt: BT, l: "en" | "th") { return bt[l]; }
-
-  function setBTValue(sectionId: string, fieldKey: string, lang: "en" | "th", value: string) {
+  function setTextValue(sectionId: ContentSectionId, path: ContentPath, value: string, lang?: "en" | "th") {
     updateContent((draft) => {
-      const sec = CMS_SECTIONS.find((s) => s.id === sectionId);
-      const field = sec?.fields.find((f) => f.key === fieldKey);
-      if (!field) return draft;
+      let target: unknown = draft[sectionId];
+      for (const segment of path.slice(0, -1)) {
+        target = (target as Record<string | number, unknown>)[segment];
+      }
 
-      // Resolve nested path by mapping keys to actual paths
-      const bt = field.path(draft) as BT;
-      (bt as any)[lang] = value;
+      const key = path[path.length - 1];
+      if (key === undefined || !target || typeof target !== "object") return draft;
+      const container = target as Record<string | number, unknown>;
+      if (lang) {
+        const bilingual = container[key];
+        if (isBilingualText(bilingual)) bilingual[lang] = value;
+      } else {
+        container[key] = value;
+      }
       return draft;
     });
   }
@@ -434,8 +457,32 @@ export function OwnerDashboard({ open, storedImages, onClose, onImagesChange }: 
                         </button>
                       </div>
 
-                      {CMS_SECTIONS.map((sec) => {
-                        const isOpen = activeCmsSection === sec.id;
+                      <label className="relative block">
+                        <Search size={14} className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-white/30" />
+                        <input
+                          type="search"
+                          value={contentSearch}
+                          onChange={(event) => setContentSearch(event.target.value)}
+                          placeholder="Search every text field..."
+                          className="w-full rounded-xl py-2.5 pl-9 pr-3 text-sm text-white outline-none placeholder:text-white/25"
+                          style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }}
+                        />
+                      </label>
+
+                      {CMS_SECTION_META.map((sec) => {
+                        const query = contentSearch.trim().toLowerCase();
+                        const allFields = collectTextFields(content[sec.id]);
+                        const fields = query
+                          ? allFields.filter((field) => {
+                              const value = field.bilingual
+                                ? `${(field.value as BT).en} ${(field.value as BT).th}`
+                                : field.value as string;
+                              return `${field.label} ${value}`.toLowerCase().includes(query);
+                            })
+                          : allFields;
+                        if (query && fields.length === 0) return null;
+
+                        const isOpen = activeCmsSection === sec.id || query.length > 0;
                         return (
                           <motion.div key={sec.id} layout className="rounded-2xl overflow-hidden"
                             style={{
@@ -447,7 +494,7 @@ export function OwnerDashboard({ open, storedImages, onClose, onImagesChange }: 
                               <div className="flex items-center gap-3">
                                 <div className="w-2 h-2 rounded-full" style={{ background: sec.color, boxShadow: `0 0 6px ${sec.color}` }} />
                                 <span className="text-sm font-bold text-white">{sec.label}</span>
-                                <span className="text-xs" style={{ color: "rgba(255,255,255,0.3)" }}>{sec.fields.length} fields</span>
+                                <span className="text-xs" style={{ color: "rgba(255,255,255,0.3)" }}>{fields.length} fields</span>
                               </div>
                               <motion.span animate={{ rotate: isOpen ? 180 : 0 }} className="text-white/30 inline-block">▾</motion.span>
                             </button>
@@ -457,23 +504,24 @@ export function OwnerDashboard({ open, storedImages, onClose, onImagesChange }: 
                                 <motion.div key="cms-exp" initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }}
                                   exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.25 }} className="overflow-hidden">
                                   <div className="px-4 pb-5 flex flex-col gap-5" style={{ borderTop: "1px solid rgba(255,255,255,0.05)" }}>
-                                    {sec.fields.map((field) => {
-                                      const bt = field.path(content) as BT;
+                                    {fields.map((field) => {
                                       return (
                                         <div key={field.key} className="mt-4">
                                           <p className="text-xs font-semibold mb-2" style={{ color: sec.color, fontFamily: "'Noto Sans Thai', sans-serif" }}>
                                             {field.label}
                                           </p>
                                           <div className="flex flex-col gap-2">
-                                            {(["en", "th"] as const).map((l) => (
+                                            {field.bilingual ? (["en", "th"] as const).map((l) => {
+                                              const textValue = (field.value as BT)[l];
+                                              return (
                                               <div key={l}>
                                                 <span className="text-xs mb-1 block" style={{ color: "rgba(255,255,255,0.3)", fontFamily: "'Noto Sans Thai', sans-serif" }}>
                                                   {l === "en" ? "🇬🇧 English" : "🇹🇭 Thai"}
                                                 </span>
                                                 <textarea
-                                                  rows={getBTValue(bt, l).length > 80 ? 3 : 1}
-                                                  value={getBTValue(bt, l)}
-                                                  onChange={(e) => setBTValue(sec.id, field.key, l, e.target.value)}
+                                                  rows={textValue.length > 80 ? 3 : 1}
+                                                  value={textValue}
+                                                  onChange={(e) => setTextValue(sec.id, field.path, e.target.value, l)}
                                                   className="w-full px-3 py-2 rounded-lg text-sm resize-none outline-none"
                                                   style={{
                                                     background: "rgba(255,255,255,0.04)",
@@ -486,7 +534,24 @@ export function OwnerDashboard({ open, storedImages, onClose, onImagesChange }: 
                                                   onBlur={(e) => (e.target.style.borderColor = "rgba(255,255,255,0.08)")}
                                                 />
                                               </div>
-                                            ))}
+                                              );
+                                            }) : (
+                                              <textarea
+                                                rows={(field.value as string).length > 80 ? 3 : 1}
+                                                value={field.value as string}
+                                                onChange={(e) => setTextValue(sec.id, field.path, e.target.value)}
+                                                className="w-full px-3 py-2 rounded-lg text-sm resize-none outline-none"
+                                                style={{
+                                                  background: "rgba(255,255,255,0.04)",
+                                                  border: "1px solid rgba(255,255,255,0.08)",
+                                                  color: "#fff",
+                                                  lineHeight: 1.5,
+                                                  transition: "border-color 0.2s",
+                                                }}
+                                                onFocus={(e) => (e.target.style.borderColor = sec.color + "55")}
+                                                onBlur={(e) => (e.target.style.borderColor = "rgba(255,255,255,0.08)")}
+                                              />
+                                            )}
                                           </div>
                                         </div>
                                       );
