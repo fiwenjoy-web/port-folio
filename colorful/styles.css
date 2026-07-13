@@ -360,7 +360,7 @@ p {
 
 .hero-art {
   align-self: stretch;
-  background: #05070d;
+  background: var(--cream);
   border: 1px solid var(--ink);
   border-radius: 7px;
   box-shadow: 7px 7px 0 var(--purple);
@@ -433,7 +433,7 @@ p {
 }
 
 .hero-three-error {
-  color: rgba(255, 255, 255, 0.72);
+  color: var(--ink);
   font-size: 12px;
   left: 50%;
   position: absolute;
