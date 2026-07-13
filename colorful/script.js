@@ -314,22 +314,26 @@ proficiency.slice(0, 4).forEach((item, index) => {
 });
 
 const tools = storedContent?.skills?.tools?.slice(0, 8) || ["Photoshop", "Illustrator", "Premiere", "After FX", "Adobe XD", "Blender", "VS Code", "Figma"];
-const toolMarks = {
-  "photoshop": "Ps",
-  "illustrator": "Ai",
-  "premiere": "Pr",
-  "after fx": "Ae",
-  "adobe xd": "Xd",
-  "blender": "Bl",
-  "vs code": "Vs",
-  "figma": "Fg",
+const toolIcons = {
+  "photoshop": "photoshop.png",
+  "illustrator": "illustrator.png",
+  "premiere": "premiere.png",
+  "after fx": "after-effects.png",
+  "adobe xd": "adobe-xd.png",
+  "blender": "blender.png",
+  "vs code": "vs-code.png",
+  "figma": "figma.png",
 };
 tools.forEach((tool, index) => {
   const element = document.querySelectorAll(".tools-grid > span")[index];
   const labelNode = element ? [...element.childNodes].find((node) => node.nodeType === Node.TEXT_NODE) : null;
   if (labelNode) labelNode.nodeValue = cleanText(tool);
-  const mark = element?.querySelector("b");
-  if (mark) mark.textContent = toolMarks[cleanText(tool).toLowerCase()] || cleanText(tool).slice(0, 2);
+  const icon = element?.querySelector("img");
+  const iconFile = toolIcons[cleanText(tool).toLowerCase()];
+  if (icon && iconFile) {
+    icon.src = `./assets/tools/${iconFile}`;
+    icon.alt = `${cleanText(tool)} icon`;
+  }
 });
 
 const focusItems = storedContent?.skills?.focusItems?.map((item) => english(item)).filter(Boolean) || DEFAULT_FOCUS;
