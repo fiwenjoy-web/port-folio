@@ -14,8 +14,8 @@ def parse_args():
     parser.add_argument("--output", required=True)
     parser.add_argument("--poster", required=True)
     parser.add_argument("--frame", type=int, default=150)
-    parser.add_argument("--max-texture", type=int, default=1024)
-    parser.add_argument("--decimate", type=float, default=0.38)
+    parser.add_argument("--max-texture", type=int, default=4096)
+    parser.add_argument("--decimate", type=float, default=1.0)
     return parser.parse_args(sys.argv[sys.argv.index("--") + 1 :])
 
 
