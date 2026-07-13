@@ -94,7 +94,7 @@ function DesktopHeroContent() {
     <div className="pointer-events-none absolute inset-0 z-30 text-[#171717]" style={{ fontFamily: KANIT }}>
       <div
         aria-hidden="true"
-        className="absolute inset-x-[18%] top-[7%] h-[34%]"
+        className="absolute inset-x-[18%] top-[7%] h-[26%]"
         style={{ background: "radial-gradient(ellipse at center, rgba(255,255,255,0.98) 0%, rgba(255,255,255,0.92) 52%, transparent 78%)" }}
       />
       <p className="absolute left-1/2 top-[6%] -translate-x-1/2 rounded-full border border-[#171717] bg-white px-[1.5cqw] py-[0.45cqw] text-[clamp(0.65rem,0.95cqw,0.9rem)]">
