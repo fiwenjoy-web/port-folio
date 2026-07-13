@@ -249,15 +249,22 @@
 
     <div class="image-viewer" role="dialog" aria-modal="true" aria-label="Project image viewer" hidden>
       <button class="viewer-close" type="button" aria-label="Close image viewer">&times;</button>
-      <button class="viewer-nav viewer-prev" type="button" aria-label="Previous image">&lsaquo;</button>
-      <img src="" alt="Expanded project artwork" />
-      <button class="viewer-nav viewer-next" type="button" aria-label="Next image">&rsaquo;</button>
-      <span class="viewer-count"></span>
-      <div class="viewer-meta">
-        <span data-viewer-category></span>
-        <h3 data-viewer-title></h3>
-        <p data-viewer-description></p>
-        <div data-viewer-tags></div>
+      <div class="viewer-panel">
+        <div class="viewer-meta">
+          <span data-viewer-category></span>
+          <h3 data-viewer-title></h3>
+          <p data-viewer-description></p>
+          <div data-viewer-tags></div>
+        </div>
+        <div class="viewer-collage" aria-label="Project image collage"></div>
+        <div class="viewer-footer"><span class="viewer-total"></span><b>CLICK ANY IMAGE TO EXPAND</b></div>
+      </div>
+      <div class="viewer-expanded" hidden>
+        <button class="viewer-expanded-close" type="button" aria-label="Close expanded image">&times;</button>
+        <button class="viewer-nav viewer-prev" type="button" aria-label="Previous image">&lsaquo;</button>
+        <img src="" alt="Expanded project artwork" />
+        <button class="viewer-nav viewer-next" type="button" aria-label="Next image">&rsaquo;</button>
+        <span class="viewer-count"></span>
       </div>
     </div>
     <script src="./script.js"></script>

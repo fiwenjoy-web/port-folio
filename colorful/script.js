@@ -429,12 +429,16 @@ document.addEventListener("scroll", updateScrollState, { passive: true });
 updateScrollState();
 
 const viewer = document.querySelector(".image-viewer");
-const viewerImage = viewer?.querySelector("img");
+const viewerExpanded = viewer?.querySelector(".viewer-expanded");
+const viewerImage = viewerExpanded?.querySelector("img");
 const viewerCount = viewer?.querySelector(".viewer-count");
+const viewerTotal = viewer?.querySelector(".viewer-total");
+const viewerCollage = viewer?.querySelector(".viewer-collage");
 let activeProject = 0;
 let activeImage = 0;
+let lastCollageTrigger = null;
 
-function renderViewer() {
+function renderExpanded() {
   const project = projectData[activeProject];
   if (!project || !viewerImage || !viewerCount) return;
   viewerImage.src = project.images[activeImage];
@@ -444,10 +448,62 @@ function renderViewer() {
     viewerImage.onerror = null;
   };
   viewerCount.textContent = `${String(activeImage + 1).padStart(2, "0")} / ${String(project.images.length).padStart(2, "0")}`;
+}
+
+function createCollageImage(source, index, project) {
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = index === 0 ? "viewer-collage-main" : "viewer-collage-thumb";
+  button.setAttribute("aria-label", `Expand ${project.title} image ${index + 1}`);
+
+  const image = document.createElement("img");
+  image.src = source;
+  image.alt = `${project.title} ${index + 1}`;
+  image.addEventListener("error", () => {
+    image.src = DEFAULT_PROJECTS[activeProject].images[0];
+  }, { once: true });
+  const expand = document.createElement("span");
+  expand.setAttribute("aria-hidden", "true");
+  expand.textContent = "\u2197";
+  button.append(image, expand);
+  button.addEventListener("click", () => openExpanded(index, button));
+  return button;
+}
+
+function renderViewer() {
+  const project = projectData[activeProject];
+  if (!project || !viewerCollage) return;
   setText("[data-viewer-category]", project.category);
   setText("[data-viewer-title]", project.title);
   setText("[data-viewer-description]", project.description);
   setTagList(document.querySelector("[data-viewer-tags]"), project.tags);
+  if (viewerTotal) viewerTotal.textContent = `${String(project.images.length).padStart(2, "0")} IMAGES`;
+
+  viewerCollage.replaceChildren();
+  viewerCollage.append(createCollageImage(project.images[0], 0, project));
+  if (project.images.length > 1) {
+    const thumbs = document.createElement("div");
+    thumbs.className = "viewer-collage-thumbs";
+    project.images.slice(1).forEach((source, index) => {
+      thumbs.append(createCollageImage(source, index + 1, project));
+    });
+    viewerCollage.append(thumbs);
+  }
+}
+
+function openExpanded(index, trigger) {
+  activeImage = index;
+  lastCollageTrigger = trigger;
+  renderExpanded();
+  viewerExpanded.hidden = false;
+  viewerExpanded.querySelector(".viewer-expanded-close")?.focus();
+}
+
+function closeExpanded() {
+  if (!viewerExpanded || viewerExpanded.hidden) return;
+  viewerExpanded.hidden = true;
+  lastCollageTrigger?.focus();
+  lastCollageTrigger = null;
 }
 
 function openViewer(projectId) {
@@ -460,6 +516,8 @@ function openViewer(projectId) {
 }
 
 function closeViewer() {
+  if (!viewer) return;
+  if (viewerExpanded) viewerExpanded.hidden = true;
   viewer.hidden = true;
   document.body.classList.remove("viewer-open");
 }
@@ -467,23 +525,30 @@ function closeViewer() {
 function moveViewer(direction) {
   const images = projectData[activeProject].images;
   activeImage = (activeImage + direction + images.length) % images.length;
-  renderViewer();
+  renderExpanded();
 }
 
 document.querySelectorAll("[data-lightbox]").forEach((button) => {
   button.addEventListener("click", () => openViewer(Number(button.dataset.lightbox)));
 });
 viewer?.querySelector(".viewer-close")?.addEventListener("click", closeViewer);
+viewer?.querySelector(".viewer-expanded-close")?.addEventListener("click", closeExpanded);
 viewer?.querySelector(".viewer-prev")?.addEventListener("click", () => moveViewer(-1));
 viewer?.querySelector(".viewer-next")?.addEventListener("click", () => moveViewer(1));
 viewer?.addEventListener("click", (event) => {
   if (event.target === viewer) closeViewer();
 });
+viewerExpanded?.addEventListener("click", (event) => {
+  if (event.target === viewerExpanded) closeExpanded();
+});
 document.addEventListener("keydown", (event) => {
   if (viewer?.hidden) return;
-  if (event.key === "Escape") closeViewer();
-  if (event.key === "ArrowLeft") moveViewer(-1);
-  if (event.key === "ArrowRight") moveViewer(1);
+  if (event.key === "Escape") {
+    if (viewerExpanded && !viewerExpanded.hidden) closeExpanded();
+    else closeViewer();
+  }
+  if (viewerExpanded && !viewerExpanded.hidden && event.key === "ArrowLeft") moveViewer(-1);
+  if (viewerExpanded && !viewerExpanded.hidden && event.key === "ArrowRight") moveViewer(1);
 });
 
 document.querySelectorAll(".experience-toggle").forEach((button) => {
