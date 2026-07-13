@@ -15,8 +15,8 @@ const resetButton = document.querySelector("#hero-three-reset");
 if (host && canvas) {
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x05070d);
-  scene.fog = new THREE.FogExp2(0x05070d, 0.035);
+  scene.background = new THREE.Color(0xfff8e9);
+  scene.fog = new THREE.FogExp2(0xfff8e9, 0.035);
 
   const camera = new THREE.PerspectiveCamera(38, 1, 0.01, 100);
   camera.position.set(0, 0.1, 5.2);

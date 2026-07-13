@@ -5,6 +5,10 @@ from pathlib import Path
 import bpy
 
 
+EXCLUDED_OBJECTS = {"bg", "Circle.001"}
+WEB_BACKGROUND = (1.0, 0.9387, 0.8069, 1.0)
+
+
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", required=True)
@@ -18,6 +22,16 @@ def parse_args():
 def render_poster(path: Path, frame: int):
     scene = bpy.context.scene
     scene.frame_set(frame)
+    for obj in scene.objects:
+        if obj.name in EXCLUDED_OBJECTS:
+            obj.hide_render = True
+
+    scene.world.color = WEB_BACKGROUND[:3]
+    if scene.world.use_nodes:
+        background = scene.world.node_tree.nodes.get("Background")
+        if background:
+            background.inputs["Color"].default_value = WEB_BACKGROUND
+
     scene.render.engine = "BLENDER_EEVEE"
     scene.render.resolution_x = 900
     scene.render.resolution_y = 900
@@ -25,7 +39,7 @@ def render_poster(path: Path, frame: int):
     scene.render.image_settings.file_format = "WEBP"
     scene.render.image_settings.color_mode = "RGBA"
     scene.render.image_settings.quality = 82
-    scene.render.film_transparent = False
+    scene.render.film_transparent = True
     scene.render.filepath = str(path)
     bpy.ops.render.render(write_still=True)
 
@@ -46,7 +60,7 @@ def flatten_meshes(decimate_ratio: float):
     meshes = [
         obj
         for obj in scene.objects
-        if obj.type == "MESH" and not obj.hide_render and obj.name != "bg"
+        if obj.type == "MESH" and not obj.hide_render and obj.name not in EXCLUDED_OBJECTS
     ]
     for obj in bpy.context.selected_objects:
         obj.select_set(False)
