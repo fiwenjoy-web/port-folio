@@ -7,6 +7,23 @@ import bpy
 
 EXCLUDED_OBJECTS = {"bg", "Circle.001"}
 WEB_BACKGROUND = (1.0, 0.9387, 0.8069, 1.0)
+COLORFUL_PALETTE = {
+    "Ink": "211A36",
+    "Coral": "FF5D68",
+    "Purple": "7654FF",
+    "Cyan": "25D6ED",
+    "Mint": "61E5BE",
+    "Yellow": "F5DA35",
+}
+
+COLORFUL_OBJECTS = {
+    "Cyan": {"Icosphere", "sine line", "sine line.001", "Spiral curve.001"},
+    "Purple": {"Cube.001", "Torus.001", "star"},
+    "Coral": {"Cube.002", "rock Gen.001", "star.001", "voxel heart"},
+    "Mint": {"Cube.003", "Simple Twist", "Octopus shape"},
+    "Yellow": {"Torus", "Torus.002", "Cube.004", "rock Gen", "Spiral curve"},
+    "Ink": {"Icosphere.001", "Text.002"},
+}
 
 
 def parse_args():
@@ -17,6 +34,46 @@ def parse_args():
     parser.add_argument("--max-texture", type=int, default=4096)
     parser.add_argument("--decimate", type=float, default=1.0)
     return parser.parse_args(sys.argv[sys.argv.index("--") + 1 :])
+
+
+def srgb_channel_to_linear(value: int):
+    channel = value / 255
+    return channel / 12.92 if channel <= 0.04045 else ((channel + 0.055) / 1.055) ** 2.4
+
+
+def make_color_material(name: str, hex_color: str):
+    material_name = f"Web {name}"
+    material = bpy.data.materials.get(material_name) or bpy.data.materials.new(material_name)
+    rgb = tuple(srgb_channel_to_linear(int(hex_color[index : index + 2], 16)) for index in (0, 2, 4))
+    color = (*rgb, 1.0)
+    material.diffuse_color = color
+    material.use_nodes = True
+    shader = material.node_tree.nodes.get("Principled BSDF")
+    if shader:
+        shader.inputs["Base Color"].default_value = color
+        shader.inputs["Roughness"].default_value = 0.32
+        shader.inputs["Metallic"].default_value = 0.04
+    return material
+
+
+def apply_colorful_materials():
+    materials = {
+        name: make_color_material(name, hex_color)
+        for name, hex_color in COLORFUL_PALETTE.items()
+    }
+    for color_name, object_names in COLORFUL_OBJECTS.items():
+        for object_name in object_names:
+            obj = bpy.data.objects.get(object_name)
+            if not obj or not hasattr(obj.data, "materials"):
+                continue
+            obj.data.materials.clear()
+            obj.data.materials.append(materials[color_name])
+
+    for object_name, color_name in {"Text": "Purple", "Text.001": "Cyan"}.items():
+        obj = bpy.data.objects.get(object_name)
+        if obj and hasattr(obj.data, "materials"):
+            obj.data.materials.clear()
+            obj.data.materials.append(materials[color_name])
 
 
 def render_poster(path: Path, frame: int):
@@ -143,6 +200,7 @@ def main():
     output.parent.mkdir(parents=True, exist_ok=True)
     poster.parent.mkdir(parents=True, exist_ok=True)
 
+    apply_colorful_materials()
     render_poster(poster, args.frame)
     resize_textures(args.max_texture)
     models = flatten_meshes(args.decimate)
