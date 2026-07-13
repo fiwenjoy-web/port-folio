@@ -10,7 +10,7 @@ export function MarqueeStrip() {
 
   return (
     <div
-      className="relative overflow-hidden py-6 select-none"
+      className="relative mt-8 overflow-hidden py-6 select-none md:mt-10"
       style={{
         fontFamily: SANS,
         borderTop: "1px solid rgba(255,255,255,0.06)",
