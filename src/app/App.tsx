@@ -1,5 +1,6 @@
 import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { MotionConfig } from "motion/react";
+import { Palette } from "lucide-react";
 import { ContentProvider, useContent } from "./context/ContentContext";
 import { HeroFrame66 } from "./components/HeroFrame66";
 import { SkillsSection } from "./components/SkillsSection";
@@ -98,6 +99,20 @@ function PortfolioApp() {
     <div className="min-h-screen" style={{ background: "#06060a", color: "#ffffff" }}>
       <ScrollProgress />
       <FloatingCTA />
+      <a
+        href="./colorful/"
+        aria-label="Switch to Colorful Playful theme"
+        className="fixed bottom-5 left-5 z-[45] flex h-11 items-center gap-2 rounded-full px-3.5 text-xs font-bold text-white transition-transform hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#fd853a]"
+        style={{
+          background: "linear-gradient(135deg, #fd853a, #48c6ec)",
+          border: "1px solid rgba(255,255,255,0.5)",
+          boxShadow: "0 10px 32px rgba(0,0,0,0.38)",
+          fontFamily: "'Noto Sans Thai', sans-serif",
+        }}
+      >
+        <Palette size={16} />
+        <span className="hidden sm:inline">COLORFUL THEME</span>
+      </a>
 
       {/* Capsule navigation header */}
       <SiteHeader onLogoClick={handleLogoClick} />
