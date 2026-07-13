@@ -362,8 +362,8 @@ p {
   align-self: stretch;
   background: var(--cream);
   border: 0;
-  border-radius: 7px;
-  box-shadow: 7px 7px 0 var(--purple);
+  border-radius: 0;
+  box-shadow: none;
   min-height: 570px;
   overflow: hidden;
   position: relative;

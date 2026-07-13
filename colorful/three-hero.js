@@ -46,9 +46,21 @@ if (host && canvas) {
   orbit.enablePan = false;
   orbit.minDistance = 3.1;
   orbit.maxDistance = 8;
-  orbit.autoRotate = !reducedMotion;
-  orbit.autoRotateSpeed = 0.65;
+  orbit.autoRotate = false;
   orbit.saveState();
+
+  let floatingModel = null;
+  let motionEnabled = !reducedMotion;
+  const motionClock = new THREE.Clock();
+
+  const updateMotionButton = () => {
+    if (!toggleButton) return;
+    toggleButton.textContent = motionEnabled ? "\u2161" : "\u25b6";
+    const label = motionEnabled ? "Pause floating motion" : "Play floating motion";
+    toggleButton.setAttribute("aria-label", label);
+    toggleButton.setAttribute("title", label);
+  };
+  updateMotionButton();
 
   const resize = () => {
     const width = Math.max(host.clientWidth, 1);
@@ -68,6 +80,19 @@ if (host && canvas) {
   const render = () => {
     requestAnimationFrame(render);
     if (!inView || document.hidden) return;
+    if (floatingModel && motionEnabled) {
+      const elapsed = motionClock.getElapsedTime();
+      floatingModel.position.set(
+        Math.sin(elapsed * 0.62) * 0.085,
+        Math.sin(elapsed * 0.78 + 0.8) * 0.045,
+        Math.cos(elapsed * 0.54) * 0.06,
+      );
+      floatingModel.rotation.set(
+        Math.sin(elapsed * 0.5) * 0.014,
+        -0.08 + Math.sin(elapsed * 0.46) * 0.05,
+        Math.sin(elapsed * 0.38) * 0.012,
+      );
+    }
     orbit.update();
     renderer.render(scene, camera);
   };
@@ -86,12 +111,14 @@ if (host && canvas) {
       const bounds = new THREE.Box3().setFromObject(model);
       const size = bounds.getSize(new THREE.Vector3());
       const center = bounds.getCenter(new THREE.Vector3());
-      const scale = 3.72 / Math.max(size.x, size.y);
+      const scale = 3.45 / Math.max(size.x, size.y);
 
       model.position.sub(center);
       model.scale.setScalar(scale);
-      model.rotation.set(0, -0.08, 0);
-      scene.add(model);
+      floatingModel = new THREE.Group();
+      floatingModel.rotation.y = -0.08;
+      floatingModel.add(model);
+      scene.add(floatingModel);
 
       orbit.target.set(0, 0, 0);
       orbit.update();
@@ -112,12 +139,13 @@ if (host && canvas) {
   );
 
   toggleButton?.addEventListener("click", () => {
-    orbit.autoRotate = !orbit.autoRotate;
-    toggleButton.textContent = orbit.autoRotate ? "\u2161" : "\u25b6";
-    const label = orbit.autoRotate ? "Pause automatic rotation" : "Play automatic rotation";
-    toggleButton.setAttribute("aria-label", label);
-    toggleButton.setAttribute("title", label);
+    motionEnabled = !motionEnabled;
+    updateMotionButton();
   });
 
-  resetButton?.addEventListener("click", () => orbit.reset());
+  resetButton?.addEventListener("click", () => {
+    orbit.reset();
+    floatingModel?.position.set(0, 0, 0);
+    floatingModel?.rotation.set(0, -0.08, 0);
+  });
 }
