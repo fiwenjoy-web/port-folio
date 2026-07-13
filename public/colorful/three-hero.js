@@ -2,6 +2,7 @@ import * as THREE from "three";
 import { OrbitControls } from "../vendor/three/addons/controls/OrbitControls.js";
 import { DRACOLoader } from "../vendor/three/addons/loaders/DRACOLoader.js";
 import { GLTFLoader } from "../vendor/three/addons/loaders/GLTFLoader.js";
+import { RoomEnvironment } from "../vendor/three/addons/environments/RoomEnvironment.js";
 
 const host = document.querySelector("[data-three-hero]");
 const canvas = document.querySelector("#hero-three-canvas");
@@ -29,14 +30,24 @@ if (host && canvas) {
   });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
   renderer.outputColorSpace = THREE.SRGBColorSpace;
-  renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.12;
+  renderer.toneMapping = THREE.NeutralToneMapping;
+  renderer.toneMappingExposure = 1.08;
 
-  scene.add(new THREE.HemisphereLight(0xc9e9ff, 0x101a37, 2.4));
-  const keyLight = new THREE.DirectionalLight(0xffffff, 2.8);
+  const environment = new RoomEnvironment();
+  const pmrem = new THREE.PMREMGenerator(renderer);
+  scene.environment = pmrem.fromScene(environment, 0.04).texture;
+  scene.environmentIntensity = 0.85;
+  environment.dispose();
+  pmrem.dispose();
+
+  scene.add(new THREE.HemisphereLight(0xffffff, 0xffead2, 1.65));
+  const keyLight = new THREE.DirectionalLight(0xffffff, 1.8);
   keyLight.position.set(3, 4, 5);
   scene.add(keyLight);
-  const rimLight = new THREE.DirectionalLight(0x00cfff, 2.2);
+  const fillLight = new THREE.DirectionalLight(0xfff3e3, 1.0);
+  fillLight.position.set(-3, 2, 4);
+  scene.add(fillLight);
+  const rimLight = new THREE.DirectionalLight(0x25d6ed, 0.55);
   rimLight.position.set(-4, 1, -3);
   scene.add(rimLight);
 

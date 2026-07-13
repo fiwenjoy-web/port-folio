@@ -131,6 +131,7 @@ def flatten_meshes(decimate_ratio: float):
 
     bpy.context.view_layer.objects.active = meshes[0]
     bpy.ops.object.convert(target="MESH")
+    apply_colorful_materials()
 
     default_material = bpy.data.materials.get("Web Default") or bpy.data.materials.new("Web Default")
     default_material.diffuse_color = (0.72, 0.82, 1.0, 1.0)
