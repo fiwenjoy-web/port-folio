@@ -3,323 +3,191 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#fff8e9" />
     <title>WEERAPONG HAMATHULIN | COLORFUL PORTFOLIO</title>
     <link rel="icon" href="./assets/logo.png" type="image/png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Kanit:wght@300;400;500;600;700&family=Montserrat:wght@400&family=Urbanist:wght@500;600;700&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
-    <a class="theme-switch" href="../" aria-label="Switch to the dark portfolio theme" title="Dark theme">
-      <span aria-hidden="true"></span>
-      DARK THEME
-    </a>
-    <main class="page-shell">
-      <section class="hero" id="home" aria-labelledby="hero-title">
-        <header class="site-header" aria-label="Primary navigation">
-          <nav class="nav-pill">
-            <a class="nav-link active" href="#home">Home</a>
-            <a class="nav-link" href="#about">About</a>
-            <a class="nav-link" href="#service">Service</a>
-            <a class="brand" href="#home" aria-label="Fuse home">
-              <img src="./assets/logo.png" alt="Fuse" />
-            </a>
-            <a class="nav-link" href="#resume">Resume</a>
-            <a class="nav-link" href="#project">Project</a>
-            <a class="nav-link" href="#contact">Contact</a>
-          </nav>
-        </header>
+    <header class="site-header">
+      <nav class="nav-shell" aria-label="Primary navigation">
+        <a class="brand" href="#home" aria-label="Fuse colorful portfolio home">
+          <span class="brand-mark">F</span>
+          <span>FUSE<span>LAB</span></span>
+        </a>
+        <div class="nav-links">
+          <a class="nav-link active" href="#home">Home</a>
+          <a class="nav-link" href="#work">Work</a>
+          <a class="nav-link" href="#services">Services</a>
+          <a class="nav-link" href="#toolkit">Toolkit</a>
+          <a class="nav-link" href="#experience">Experience</a>
+        </div>
+        <div class="nav-actions">
+          <a class="theme-switch" href="../" title="Dark theme">Dark</a>
+          <a class="talk-button" href="#contact">Let&apos;s talk</a>
+        </div>
+      </nav>
+    </header>
 
+    <main>
+      <section class="hero section-shell" id="home" aria-labelledby="hero-title">
         <div class="hero-copy">
-          <div class="hello-badge">
-            Hello!
-            <span class="burst" aria-hidden="true"></span>
+          <p class="availability"><span></span> Available for projects</p>
+          <h1 id="hero-title">Creative<br /><span>Designer</span></h1>
+          <h2><span id="hero-role">AI Visual</span> + Motion + 3D</h2>
+          <p class="hero-description" id="hero-testimonial">I create energetic visual systems, product campaigns, motion, and 3D work that help modern brands stand out.</p>
+          <div class="hero-buttons">
+            <a class="primary-button" href="#work">View my work <span aria-hidden="true">&#8599;</span></a>
+            <a class="outline-button" href="#experience">About me</a>
           </div>
-          <h1 id="hero-title"><b class="hero-prefix" id="hero-intro">I&apos;m</b> <span id="hero-name">Fuse</span><br /><b id="hero-role">Product Designer</b></h1>
-        </div>
-
-        <aside class="hero-note" aria-label="Recommendation">
-          <span class="quote-mark">"</span>
-          <p id="hero-testimonial">Exceptional product design ensures our website&apos;s success. Highly Recommended</p>
-        </aside>
-
-        <aside class="hero-rating" aria-label="Experience rating">
-          <div class="stars" aria-label="5 stars">*****</div>
-          <strong id="hero-experience">3 Years</strong>
-          <span id="hero-experience-label">Experience</span>
-        </aside>
-
-        <div class="hero-visual" aria-hidden="true">
-          <div class="aqua-arc"></div>
-          <img src="./assets/hero-person.png" alt="" />
-        </div>
-
-        <div class="hero-actions" aria-label="Primary actions">
-          <a class="button primary" href="#project">Portfolio <span aria-hidden="true">&nearr;</span></a>
-          <a class="button ghost" href="#contact">Hire me</a>
-        </div>
-      </section>
-
-      <section class="services dark-panel" id="service" aria-labelledby="services-title">
-        <img class="rock rock-left" src="./assets/rock-left.png" alt="" />
-        <img class="rock rock-center" src="./assets/rock-center.png" alt="" />
-        <img class="rock rock-right" src="./assets/rock-right.png" alt="" />
-
-        <div class="section-head two-column">
-          <h2 id="services-title">My <span>Services</span></h2>
-          <p>Creative production built for modern brands, from campaign concepts and AI visuals to polished web experiences.</p>
-        </div>
-
-        <div class="service-grid">
-          <article class="service-card">
-            <h3>AI Visual Production</h3>
-            <div class="phone-stack">
-              <span></span>
-              <span></span>
-              <img src="./assets/service-ui.png" alt="UI dashboard mobile screens" />
-            </div>
-            <a class="round-link" href="#project" aria-label="View AI Visual Production projects">&nearr;</a>
-          </article>
-          <article class="service-card">
-            <h3>3D Product Visuals</h3>
-            <div class="phone-stack">
-              <span></span>
-              <span></span>
-              <img src="./assets/service-web.png" alt="Food ordering web design screens" />
-            </div>
-            <a class="round-link" href="#project" aria-label="View 3D Product Visual projects">&nearr;</a>
-          </article>
-          <article class="service-card">
-            <h3>UI / Web Design</h3>
-            <div class="phone-stack">
-              <span></span>
-              <span></span>
-              <img src="./assets/service-ui.png" alt="Landing page mobile screens" />
-            </div>
-            <a class="round-link" href="#project" aria-label="View UI and Web Design projects">&nearr;</a>
-          </article>
-        </div>
-        <div class="dots" aria-hidden="true"><span></span><i></i><i></i><i></i></div>
-      </section>
-
-      <section class="experience" id="resume" aria-labelledby="experience-title">
-        <h2 id="experience-title">My <span>Work Experience</span></h2>
-        <div class="experience-grid">
-          <div class="company-list">
-            <article>
-              <h3>Dr. Hygiene Medical Products</h3>
-              <p>2025 - Present</p>
-            </article>
-            <article>
-              <h3>Pinnacle Asset Management</h3>
-              <p>2023 - 2025</p>
-            </article>
-            <article>
-              <h3>Maejo University</h3>
-              <p>2019 - 2023</p>
-            </article>
-          </div>
-          <div class="timeline" aria-hidden="true">
-            <span></span>
-            <span class="dark-dot"></span>
-            <span></span>
-          </div>
-          <div class="role-list">
-            <article>
-              <h3>Graphic Designer &amp; Content Creator</h3>
-              <p>Commercial visuals, social campaigns, AI-assisted product advertising, and trend-led short-form content.</p>
-            </article>
-            <article>
-              <h3>Marketing Officer &amp; Sales Administrator</h3>
-              <p>Marketing operations, promotional materials, web content, and digital asset management.</p>
-            </article>
-            <article>
-              <h3>Business Administration, Management</h3>
-            </article>
+          <div class="hero-stats">
+            <article><strong id="hero-experience">3+</strong><span id="hero-experience-label">Years experience</span></article>
+            <article><strong>50+</strong><span>Projects delivered</span></article>
+            <article class="mini-profile"><span>F</span><b>Ready<br />to create</b></article>
           </div>
         </div>
-      </section>
 
-      <section class="hire" id="about" aria-labelledby="hire-title">
-        <div class="hire-portrait">
-          <img src="./assets/hire-person.png" alt="Designer pointing toward the hire me content" />
-        </div>
-        <div class="hire-copy">
-          <h2 id="hire-title">Why <span>Hire me</span> ?</h2>
-          <p>I combine commercial design thinking with AI-assisted production and 3D workflows to create visuals that are fast, polished, and ready to perform.</p>
-          <div class="stats">
-            <strong>50+<span>Projects Delivered</span></strong>
-            <strong>3<span>Years Experience</span></strong>
+        <div class="hero-art" aria-label="Fuse creative identity artwork">
+          <span class="shape dot-cyan"></span>
+          <span class="shape dot-green"></span>
+          <span class="shape sparkle-pink">&#10022;</span>
+          <span class="shape sparkle-blue">+</span>
+          <div class="float-note note-top">PLAYFUL<br /><b>THINKING</b></div>
+          <div class="fuse-orbit">
+            <span class="orbit-line"></span>
+            <span class="fuse-core">FUSE</span>
           </div>
-          <a class="outline-button" href="#contact">Hire me</a>
-        </div>
-      </section>
-
-      <section class="portfolio" id="project" aria-labelledby="portfolio-title">
-        <div class="section-head">
-          <h2 id="portfolio-title">Let&apos;s have a look at my <span>Portfolio</span></h2>
-          <a class="small-button" href="#blog">See More</a>
-        </div>
-
-        <div class="portfolio-gallery">
-          <article class="portfolio-card">
-            <img data-project-image="1" src="./assets/portfolio-lirante.png" alt="Commercial poster project preview" />
-            <button class="small-round" type="button" data-lightbox="1" aria-label="Open Commercial Poster project">&nearr;</button>
-            <h3 data-project-title="1">Commercial Poster</h3>
-          </article>
-          <article class="portfolio-card">
-            <img data-project-image="2" src="./assets/portfolio-lirante.png" alt="3D product visualization project preview" />
-            <button class="small-round" type="button" data-lightbox="2" aria-label="Open 3D Product Visualization project">&nearr;</button>
-            <h3 data-project-title="2">3D Product Visualization</h3>
-          </article>
-        </div>
-        <div class="dots cyan" aria-hidden="true"><span></span><i></i><i></i><i></i></div>
-
-        <div class="tags">
-          <span>Graphic Design</span>
-          <span>Product Visuals</span>
-          <span>AI Production</span>
-          <span>3D Rendering</span>
-          <span>Campaigns</span>
-        </div>
-
-        <div class="project-summary">
-          <h3>Commercial Visual Production <button type="button" data-lightbox="1" aria-label="Open Commercial Visual Production">&nearr;</button></h3>
-          <p>Bold commercial artwork and product visuals created across digital media, e-commerce campaigns, and print. Every piece combines clear communication with a polished, contemporary finish.</p>
-        </div>
-      </section>
-
-      <section class="testimonials dark-panel" aria-labelledby="testimonials-title">
-        <img class="rock rock-left" src="./assets/rock-left.png" alt="" />
-        <img class="rock rock-center" src="./assets/rock-center.png" alt="" />
-        <img class="rock rock-right" src="./assets/rock-right.png" alt="" />
-        <div class="testimonials-head">
-          <h2 id="testimonials-title">Testimonials That<br />Speak to <span>My Results</span></h2>
-          <p>Feedback from teams who trusted me with commercial visuals, campaign production, and creative problem solving.</p>
-        </div>
-        <div class="testimonial-row">
-          <article class="testimonial-card side">
-            <p>A rare designer who understands both commercial strategy and modern AI workflows.</p>
-          </article>
-          <article class="testimonial-card">
-            <div class="person-line">
-              <img src="./assets/testimonial-avatar.png" alt="Client testimonial" />
-              <div><strong>Napat S.</strong><span>Brand Manager, Dr. Hygiene</span></div>
-            </div>
-            <div class="stars">***** <b>5.0</b></div>
-            <p>The AI-assisted product visuals elevated our entire e-commerce presence. Fast turnaround and a polished commercial finish.</p>
-          </article>
-          <article class="testimonial-card side">
-            <div class="person-line">
-              <img src="./assets/testimonial-avatar.png" alt="Client testimonial" />
-              <div><strong>Ploy T.</strong><span>Marketing Lead, Pinnacle</span></div>
-            </div>
-            <div class="stars">***** <b>5.0</b></div>
-          </article>
-        </div>
-      </section>
-
-      <section class="cta" aria-labelledby="cta-title">
-        <h2 id="cta-title">Have an Awesome Project<br />Idea? <span>Let&apos;s Discuss</span></h2>
-        <form class="email-form">
-          <label>
-            <span aria-hidden="true">&#9993;</span>
-            <input type="email" placeholder="Enter Email Address" aria-label="Email address" required />
-          </label>
-          <button type="submit">Send</button>
-        </form>
-        <div class="trust-row">
-          <span>* 5.0 Client Rating</span>
-          <span>&bull; 50+ Projects Delivered</span>
-          <span>&diams; Creative Designer &amp; AI Visual Production</span>
+          <div class="float-note note-bottom">CREATIVE<br /><b>ENERGY</b> &#8599;</div>
+          <div class="social-dots" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
         </div>
       </section>
 
       <div class="ticker" aria-hidden="true">
-        <span>AI Visuals + Product Design + Campaigns + Blender + Motion +</span>
-        <span>AI Visuals + Product Design + Campaigns + Blender + Motion +</span>
+        <div>AI VISUALS <b>+</b> 3D DESIGN <b>+</b> MOTION <b>+</b> CAMPAIGN DESIGN <b>+</b> UI / UX <b>+</b></div>
+        <div>AI VISUALS <b>+</b> 3D DESIGN <b>+</b> MOTION <b>+</b> CAMPAIGN DESIGN <b>+</b> UI / UX <b>+</b></div>
       </div>
 
-      <section class="blog" id="blog" aria-labelledby="blog-title">
-        <div class="section-head">
-          <h2 id="blog-title">More selected<br />creative work</h2>
-          <a class="small-button" href="#contact">Start a Project</a>
+      <section class="work section-shell" id="work" aria-labelledby="work-title">
+        <div class="section-heading split-heading">
+          <div>
+            <p class="section-kicker coral">Selected work</p>
+            <h2 id="work-title">Playful ideas. Real<br /><span>results</span></h2>
+          </div>
+          <p>A selection of commercial design, AI production, and 3D experiments built to be bold, useful, and memorable.</p>
         </div>
-        <div class="blog-grid">
-          <article class="blog-card">
-            <div class="blog-image">
-              <img data-project-image="3" src="./assets/blog-uiux.png" alt="AI Product 3D Visual project" />
-              <button type="button" data-lightbox="3" aria-label="Open AI Product Visual project">&nearr;</button>
-            </div>
-            <span class="chip">AI Production</span>
-            <p class="meta">Fuse <b></b> Selected Work</p>
-            <h3>AI Product 3D Visuals</h3>
+
+        <div class="project-grid">
+          <article class="project-card project-coral">
+            <button type="button" data-lightbox="1" aria-label="Open Commercial Poster project">
+              <img data-project-image="1" src="./assets/blog-uiux.png" alt="Commercial Poster project preview" />
+              <span class="project-object tilt-left">DH</span>
+              <span class="corner-arrow">&#8599;</span>
+            </button>
+            <div><span>01 / Graphic campaign</span><h3 data-project-title="1">Commercial Poster</h3></div>
           </article>
-          <article class="blog-card">
-            <div class="blog-image">
-              <img data-project-image="4" src="./assets/blog-sugee.png" alt="E-Commerce Campaign project" />
-              <button type="button" data-lightbox="4" aria-label="Open E-Commerce Campaign project">&nearr;</button>
-            </div>
-            <span class="chip">Campaign Design</span>
-            <p class="meta">Fuse <b></b> Selected Work</p>
-            <h3>E-Commerce Campaigns</h3>
+          <article class="project-card project-mint">
+            <button type="button" data-lightbox="2" aria-label="Open 3D Product Visualization project">
+              <img data-project-image="2" src="./assets/blog-sugee.png" alt="3D Product Visualization project preview" />
+              <span class="burst-object">&#10038;</span>
+              <span class="corner-arrow">&#8599;</span>
+            </button>
+            <div><span>02 / Product visual</span><h3 data-project-title="2">3D Product Visualization</h3></div>
           </article>
-          <article class="blog-card">
-            <div class="blog-image">
-              <img data-project-image="5" src="./assets/blog-cinetrade.png" alt="AI-Assisted Web System project" />
-              <button type="button" data-lightbox="5" aria-label="Open AI-Assisted Web System project">&nearr;</button>
-            </div>
-            <span class="chip">Web &amp; UI Design</span>
-            <p class="meta">Fuse <b></b> Selected Work</p>
-            <h3>AI-Assisted Web System</h3>
+          <article class="project-card project-purple">
+            <button type="button" data-lightbox="3" aria-label="Open AI Product 3D Visuals project">
+              <img data-project-image="3" src="./assets/blog-cinetrade.png" alt="AI Product 3D Visuals project preview" />
+              <span class="project-object tilt-right">AI</span>
+              <span class="corner-arrow">&#8599;</span>
+            </button>
+            <div><span>03 / AI production</span><h3 data-project-title="3">AI Product 3D Visuals</h3></div>
+          </article>
+          <article class="project-card project-gradient">
+            <button type="button" data-lightbox="4" aria-label="Open E-Commerce Campaign project">
+              <img data-project-image="4" src="./assets/portfolio-lirante.png" alt="E-Commerce Campaign project preview" />
+              <span class="project-object tilt-left">EC</span>
+              <span class="corner-arrow">&#8599;</span>
+            </button>
+            <div><span>04 / Motion and 3D</span><h3 data-project-title="4">E-Commerce Campaigns</h3></div>
           </article>
         </div>
       </section>
 
-      <footer class="footer" id="contact">
-        <div class="footer-top">
-          <h2>Let&apos;s Connect</h2>
-          <a class="button primary" href="mailto:Fusenra@gmail.com">Hire me <span aria-hidden="true">&nearr;</span></a>
+      <section class="services section-shell" id="services" aria-labelledby="services-title">
+        <div class="section-heading">
+          <p class="section-kicker purple">What I do</p>
+          <h2 id="services-title">Creative services with<br /><span>energy</span></h2>
         </div>
-        <hr />
-        <div class="footer-main">
-          <div class="footer-brand">
-            <img src="./assets/logo.png" alt="Fuse" />
-            <p>Creative designer specializing in AI-assisted visual production, product imagery, 3D rendering, and modern digital media.</p>
+        <div class="service-grid">
+          <article class="service-card service-coral"><span>01</span><div class="service-icon">AV</div><h3>AI Visual<br />Production</h3><p>Campaign artwork and product imagery made with a sharp commercial finish.</p><a href="#work">Explore &#8599;</a></article>
+          <article class="service-card service-purple"><span>02</span><div class="service-icon">3D</div><h3>3D Product<br />Visuals</h3><p>Stylized product scenes, mockups, lighting, and motion-ready visual concepts.</p><a href="#work">Explore &#8599;</a></article>
+          <article class="service-card service-cyan"><span>03</span><div class="service-icon">EC</div><h3>E-Commerce<br />Campaigns</h3><p>High-impact artwork for Shopee, Lazada, TikTok Shop, and social media.</p><a href="#work">Explore &#8599;</a></article>
+          <article class="service-card service-green"><span>04</span><div class="service-icon">UI</div><h3>Web &amp; UI<br />Design</h3><p>Clear, modern interfaces shaped around practical user and business needs.</p><a href="#work">Explore &#8599;</a></article>
+        </div>
+      </section>
+
+      <section class="toolkit" id="toolkit" aria-labelledby="toolkit-title">
+        <div class="section-shell toolkit-inner">
+          <div class="section-heading light-heading">
+            <p class="section-kicker mint">Skills and tools</p>
+            <h2 id="toolkit-title">A colorful toolkit<br />for serious <span>results</span></h2>
           </div>
-          <div class="footer-links">
-            <h3>Navigation</h3>
-            <a href="#home">Home</a>
-            <a href="#about">About Us</a>
-            <a href="#service">Service</a>
-            <a href="#resume">Resume</a>
-            <a href="#project">Project</a>
-          </div>
-          <div class="footer-links">
-            <h3>Contact</h3>
-            <a href="tel:0834809368">083-480-9368</a>
-            <a href="mailto:Fusenra@gmail.com">Fusenra@gmail.com</a>
-            <span>Chiangmai, Thailand</span>
-          </div>
-          <div class="newsletter">
-            <h3>Get the latest information</h3>
-            <form>
-              <input type="email" placeholder="Email Address" aria-label="Contact email" required />
-              <button type="submit" aria-label="Send email">&#10148;</button>
-            </form>
+          <div class="toolkit-grid">
+            <div class="proficiency-list">
+              <article><i class="bar-coral"></i><span>Visual Design</span><b data-proficiency="0">95%</b></article>
+              <article><i class="bar-purple"></i><span>AI Production</span><b data-proficiency="1">90%</b></article>
+              <article><i class="bar-cyan"></i><span>3D Rendering</span><b data-proficiency="2">78%</b></article>
+              <article><i class="bar-green"></i><span>Motion Design</span><b data-proficiency="3">82%</b></article>
+            </div>
+            <div class="tools-panel">
+              <p>Tools I use every day</p>
+              <div class="tools-grid">
+                <span class="tool-blue"><b>Ps</b>Photoshop</span>
+                <span class="tool-orange"><b>Ai</b>Illustrator</span>
+                <span class="tool-purple"><b>Pr</b>Premiere</span>
+                <span class="tool-violet"><b>Ae</b>After FX</span>
+                <span class="tool-red"><b>Bl</b>Blender</span>
+                <span class="tool-pink"><b>Xd</b>Adobe XD</span>
+                <span class="tool-cyan"><b>Vs</b>VS Code</span>
+                <span class="tool-magenta"><b>Fg</b>Figma</span>
+              </div>
+            </div>
           </div>
         </div>
-        <hr />
-        <div class="copyright">
-          <span>Copyright&copy; 2026 Weerapong Hamathulin. All Rights Reserved.</span>
-          <span>Creative Designer / AI Visual Production</span>
+      </section>
+
+      <section class="experience section-shell" id="experience" aria-labelledby="experience-title">
+        <div class="section-heading">
+          <p class="section-kicker green">Experience</p>
+          <h2 id="experience-title">Where creativity<br />meets <span>experience</span></h2>
         </div>
-      </footer>
+        <div class="experience-list">
+          <article class="experience-coral"><span>2025 - Present</span><h3>Dr. Hygiene Medical Products</h3><p>Graphic Designer &amp; Content Creator producing commercial visuals, AI-assisted campaigns, and social content.</p></article>
+          <article class="experience-cyan"><span>2023 - 2025</span><h3>Pinnacle Asset Management</h3><p>Marketing operations, promotional materials, web content, and organized digital asset workflows.</p></article>
+          <article class="experience-green"><span>2019 - 2023</span><h3>Maejo University</h3><p>Bachelor of Business Administration in Management, Chiangmai, Thailand.</p></article>
+        </div>
+      </section>
+
+      <section class="contact" id="contact" aria-labelledby="contact-title">
+        <span class="contact-star" aria-hidden="true">&#10022;</span>
+        <div class="section-shell contact-inner">
+          <p>Have a project in mind?</p>
+          <h2 id="contact-title">Let&apos;s make something<br /><span>full of energy.</span></h2>
+          <a href="mailto:Fusenra@gmail.com">Start a project &#8599;</a>
+        </div>
+      </section>
     </main>
+
+    <footer>
+      <div class="section-shell footer-inner">
+        <span>FUSELAB / CREATIVE DESIGNER</span>
+        <a href="mailto:Fusenra@gmail.com">Fusenra@gmail.com</a>
+        <span>&copy; 2026 Weerapong Hamathulin</span>
+      </div>
+    </footer>
+
     <div class="image-viewer" role="dialog" aria-modal="true" aria-label="Project image viewer" hidden>
       <button class="viewer-close" type="button" aria-label="Close image viewer">&times;</button>
       <button class="viewer-nav viewer-prev" type="button" aria-label="Previous image">&lsaquo;</button>
