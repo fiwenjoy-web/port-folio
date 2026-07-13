@@ -16,7 +16,7 @@
       <nav class="nav-shell" aria-label="Primary navigation">
         <a class="brand" href="#home" aria-label="Fuse colorful portfolio home">
           <span class="brand-mark">F</span>
-          <span>FUSE<span>LAB</span></span>
+          <span data-brand-name>FUSE<span>LAB</span></span>
         </a>
         <div class="nav-links">
           <a class="nav-link active" href="#home">Home</a>
@@ -35,18 +35,19 @@
     <main>
       <section class="hero section-shell" id="home" aria-labelledby="hero-title">
         <div class="hero-copy">
-          <p class="availability"><span></span> Available for projects</p>
+          <p class="availability"><span></span> <b id="hero-status">SEEKING FULL-TIME POSITION</b></p>
+          <p class="hero-person-name" id="hero-name">WEERAPONG HAMATHULIN</p>
           <h1 id="hero-title">Creative<br /><span>Designer</span></h1>
-          <h2><span id="hero-role">AI Visual</span> + Motion + 3D</h2>
-          <p class="hero-description" id="hero-testimonial">I create energetic visual systems, product campaigns, motion, and 3D work that help modern brands stand out.</p>
+          <h2 id="hero-role">CREATIVE DESIGNER / AI VISUAL PRODUCTION</h2>
+          <p class="hero-description" id="hero-bio">Creative designer specializing in AI-assisted visual production, commercial content, and modern digital media workflows.</p>
           <div class="hero-buttons">
-            <a class="primary-button" href="#work">View my work <span aria-hidden="true">&#8599;</span></a>
-            <a class="outline-button" href="#experience">About me</a>
+            <a class="primary-button" id="hero-primary" href="#work">VIEW WORK <span aria-hidden="true">&#8599;</span></a>
+            <a class="outline-button" id="hero-secondary" href="#contact">SEEKING FULL-TIME POSITION</a>
           </div>
           <div class="hero-stats">
-            <article><strong id="hero-experience">3+</strong><span id="hero-experience-label">Years experience</span></article>
-            <article><strong>50+</strong><span>Projects delivered</span></article>
-            <article class="mini-profile"><span>F</span><b>Ready<br />to create</b></article>
+            <article><strong data-hero-stat-value="0">3+</strong><span data-hero-stat-label="0">Years experience</span></article>
+            <article><strong data-hero-stat-value="1">50+</strong><span data-hero-stat-label="1">Projects delivered</span></article>
+            <article class="mini-profile"><span data-hero-stat-value="2">AI</span><b data-hero-stat-label="2">Visual<br />production</b></article>
           </div>
         </div>
 
@@ -66,80 +67,83 @@
       </section>
 
       <div class="ticker" aria-hidden="true">
-        <div>AI VISUALS <b>+</b> 3D DESIGN <b>+</b> MOTION <b>+</b> CAMPAIGN DESIGN <b>+</b> UI / UX <b>+</b></div>
-        <div>AI VISUALS <b>+</b> 3D DESIGN <b>+</b> MOTION <b>+</b> CAMPAIGN DESIGN <b>+</b> UI / UX <b>+</b></div>
+        <div data-marquee>AI VISUAL PRODUCTION <b>+</b> 3D RENDERING <b>+</b> MOTION DESIGN <b>+</b> BRAND IDENTITY <b>+</b> E-COMMERCE <b>+</b></div>
+        <div data-marquee>AI VISUAL PRODUCTION <b>+</b> 3D RENDERING <b>+</b> MOTION DESIGN <b>+</b> BRAND IDENTITY <b>+</b> E-COMMERCE <b>+</b></div>
       </div>
 
       <section class="work section-shell" id="work" aria-labelledby="work-title">
         <div class="section-heading split-heading">
           <div>
-            <p class="section-kicker coral">Selected work</p>
-            <h2 id="work-title">Playful ideas. Real<br /><span>results</span></h2>
+            <p class="section-kicker coral" id="portfolio-label">PORTFOLIO</p>
+            <h2 id="work-title"><span id="portfolio-heading-1">WORK &amp;</span><br /><span id="portfolio-heading-2">DESIGN</span></h2>
           </div>
-          <p>A selection of commercial design, AI production, and 3D experiments built to be bold, useful, and memorable.</p>
+          <p id="portfolio-subtitle">A selection of recent commercial and creative projects.</p>
         </div>
 
         <div class="project-grid">
           <article class="project-card project-coral">
             <button type="button" data-lightbox="1" aria-label="Open Commercial Poster project">
               <img data-project-image="1" src="./assets/blog-uiux.png" alt="Commercial Poster project preview" />
-              <span class="project-object tilt-left">DH</span>
               <span class="corner-arrow">&#8599;</span>
             </button>
-            <div><span>01 / Graphic campaign</span><h3 data-project-title="1">Commercial Poster</h3></div>
+            <div><span data-project-category="1">Graphic Design</span><h3 data-project-title="1">Commercial Poster</h3><p data-project-tags="1">Photoshop / Illustrator</p></div>
           </article>
           <article class="project-card project-mint">
             <button type="button" data-lightbox="2" aria-label="Open 3D Product Visualization project">
               <img data-project-image="2" src="./assets/blog-sugee.png" alt="3D Product Visualization project preview" />
-              <span class="burst-object">&#10038;</span>
               <span class="corner-arrow">&#8599;</span>
             </button>
-            <div><span>02 / Product visual</span><h3 data-project-title="2">3D Product Visualization</h3></div>
+            <div><span data-project-category="2">3D Render</span><h3 data-project-title="2">3D Product Visualization</h3><p data-project-tags="2">Blender / 3D Render</p></div>
           </article>
           <article class="project-card project-purple">
             <button type="button" data-lightbox="3" aria-label="Open AI Product 3D Visuals project">
               <img data-project-image="3" src="./assets/blog-cinetrade.png" alt="AI Product 3D Visuals project preview" />
-              <span class="project-object tilt-right">AI</span>
               <span class="corner-arrow">&#8599;</span>
             </button>
-            <div><span>03 / AI production</span><h3 data-project-title="3">AI Product 3D Visuals</h3></div>
+            <div><span data-project-category="3">AI Production</span><h3 data-project-title="3">AI Product 3D Visuals</h3><p data-project-tags="3">AI / Product Visual</p></div>
           </article>
           <article class="project-card project-gradient">
             <button type="button" data-lightbox="4" aria-label="Open E-Commerce Campaign project">
               <img data-project-image="4" src="./assets/portfolio-lirante.png" alt="E-Commerce Campaign project preview" />
-              <span class="project-object tilt-left">EC</span>
               <span class="corner-arrow">&#8599;</span>
             </button>
-            <div><span>04 / Motion and 3D</span><h3 data-project-title="4">E-Commerce Campaigns</h3></div>
+            <div><span data-project-category="4">Campaign Design</span><h3 data-project-title="4">E-Commerce Campaigns</h3><p data-project-tags="4">Shopee / Lazada / TikTok</p></div>
+          </article>
+          <article class="project-card project-cyan project-wide">
+            <button type="button" data-lightbox="5" aria-label="Open AI-Assisted Web System project">
+              <img data-project-image="5" src="./assets/blog-uiux.png" alt="AI-Assisted Web System project preview" />
+              <span class="corner-arrow">&#8599;</span>
+            </button>
+            <div><span data-project-category="5">Web Design</span><h3 data-project-title="5">AI-Assisted Web System</h3><p data-project-tags="5">Figma / React / AI Workflow</p></div>
           </article>
         </div>
       </section>
 
       <section class="services section-shell" id="services" aria-labelledby="services-title">
         <div class="section-heading">
-          <p class="section-kicker purple">What I do</p>
-          <h2 id="services-title">Creative services with<br /><span>energy</span></h2>
+          <p class="section-kicker purple" id="services-label">WHAT I OFFER</p>
+          <h2 id="services-title"><span id="services-heading-1">SERVICES &amp;</span><br /><span id="services-heading-2">PRICING</span></h2>
         </div>
         <div class="service-grid">
-          <article class="service-card service-coral"><span>01</span><div class="service-icon">AV</div><h3>AI Visual<br />Production</h3><p>Campaign artwork and product imagery made with a sharp commercial finish.</p><a href="#work">Explore &#8599;</a></article>
-          <article class="service-card service-purple"><span>02</span><div class="service-icon">3D</div><h3>3D Product<br />Visuals</h3><p>Stylized product scenes, mockups, lighting, and motion-ready visual concepts.</p><a href="#work">Explore &#8599;</a></article>
-          <article class="service-card service-cyan"><span>03</span><div class="service-icon">EC</div><h3>E-Commerce<br />Campaigns</h3><p>High-impact artwork for Shopee, Lazada, TikTok Shop, and social media.</p><a href="#work">Explore &#8599;</a></article>
-          <article class="service-card service-green"><span>04</span><div class="service-icon">UI</div><h3>Web &amp; UI<br />Design</h3><p>Clear, modern interfaces shaped around practical user and business needs.</p><a href="#work">Explore &#8599;</a></article>
+          <article class="service-card service-coral"><span>01</span><div class="service-icon">AV</div><h3 data-service-title="0">AI Visual Production</h3><p data-service-desc="0">Generative AI-enhanced product visuals, campaign artwork, and brand imagery.</p><a href="#contact" data-service-price="0">From ฿3,500 &#8599;</a></article>
+          <article class="service-card service-purple"><span>02</span><div class="service-icon">3D</div><h3 data-service-title="1">3D Product Rendering</h3><p data-service-desc="1">Photorealistic 3D renders and mockup concepts for packaging and advertising.</p><a href="#contact" data-service-price="1">From ฿4,500 &#8599;</a></article>
+          <article class="service-card service-cyan"><span>03</span><div class="service-icon">EC</div><h3 data-service-title="2">E-Commerce Campaigns</h3><p data-service-desc="2">Full-suite campaign design for Shopee, Lazada, and TikTok Shop.</p><a href="#contact" data-service-price="2">From ฿2,800 &#8599;</a></article>
+          <article class="service-card service-green"><span>04</span><div class="service-icon">UI</div><h3 data-service-title="3">Web &amp; UI Design</h3><p data-service-desc="3">AI-assisted web system design and front-end implementation.</p><a href="#contact" data-service-price="3">From ฿6,000 &#8599;</a></article>
         </div>
       </section>
 
       <section class="toolkit" id="toolkit" aria-labelledby="toolkit-title">
         <div class="section-shell toolkit-inner">
           <div class="section-heading light-heading">
-            <p class="section-kicker mint">Skills and tools</p>
-            <h2 id="toolkit-title">A colorful toolkit<br />for serious <span>results</span></h2>
+            <p class="section-kicker mint" id="skills-label">EXPERTISE</p>
+            <h2 id="toolkit-title"><span id="skills-heading-1">SKILLS &amp;</span><br /><span id="skills-heading-2">TOOLS</span></h2>
           </div>
           <div class="toolkit-grid">
             <div class="proficiency-list">
-              <article><i class="bar-coral"></i><span>Visual Design</span><b data-proficiency="0">95%</b></article>
-              <article><i class="bar-purple"></i><span>AI Production</span><b data-proficiency="1">90%</b></article>
-              <article><i class="bar-cyan"></i><span>3D Rendering</span><b data-proficiency="2">78%</b></article>
-              <article><i class="bar-green"></i><span>Motion Design</span><b data-proficiency="3">82%</b></article>
+              <article><i class="bar-coral"></i><span data-proficiency-label="0">Visual Design</span><b data-proficiency="0">95%</b></article>
+              <article><i class="bar-purple"></i><span data-proficiency-label="1">AI Production</span><b data-proficiency="1">90%</b></article>
+              <article><i class="bar-cyan"></i><span data-proficiency-label="2">3D Rendering</span><b data-proficiency="2">78%</b></article>
+              <article><i class="bar-green"></i><span data-proficiency-label="3">Motion Design</span><b data-proficiency="3">82%</b></article>
             </div>
             <div class="tools-panel">
               <p>Tools I use every day</p>
@@ -160,22 +164,22 @@
 
       <section class="experience section-shell" id="experience" aria-labelledby="experience-title">
         <div class="section-heading">
-          <p class="section-kicker green">Experience</p>
-          <h2 id="experience-title">Where creativity<br />meets <span>experience</span></h2>
+          <p class="section-kicker green" id="experience-label">BACKGROUND</p>
+          <h2 id="experience-title"><span id="experience-heading-1">EXPERIENCE &amp;</span><br /><span id="experience-heading-2">EDUCATION</span></h2>
         </div>
         <div class="experience-list">
-          <article class="experience-coral"><span>2025 - Present</span><h3>Dr. Hygiene Medical Products</h3><p>Graphic Designer &amp; Content Creator producing commercial visuals, AI-assisted campaigns, and social content.</p></article>
-          <article class="experience-cyan"><span>2023 - 2025</span><h3>Pinnacle Asset Management</h3><p>Marketing operations, promotional materials, web content, and organized digital asset workflows.</p></article>
-          <article class="experience-green"><span>2019 - 2023</span><h3>Maejo University</h3><p>Bachelor of Business Administration in Management, Chiangmai, Thailand.</p></article>
+          <article class="experience-coral"><span data-experience-period="0">2025 - Present</span><h3 data-experience-title="0">Dr. Hygiene Medical Products</h3><p data-experience-desc="0">Graphic Designer &amp; Content Creator</p></article>
+          <article class="experience-cyan"><span data-experience-period="1">2023 - 2025</span><h3 data-experience-title="1">Pinnacle Asset Management</h3><p data-experience-desc="1">Marketing Officer &amp; Sales Administrator</p></article>
+          <article class="experience-green"><span data-experience-period="2">2019 - 2023</span><h3 data-experience-title="2">Maejo University</h3><p data-experience-desc="2">Bachelor of Business Administration, Management</p></article>
         </div>
       </section>
 
       <section class="contact" id="contact" aria-labelledby="contact-title">
         <span class="contact-star" aria-hidden="true">&#10022;</span>
         <div class="section-shell contact-inner">
-          <p>Have a project in mind?</p>
-          <h2 id="contact-title">Let&apos;s make something<br /><span>full of energy.</span></h2>
-          <a href="mailto:Fusenra@gmail.com">Start a project &#8599;</a>
+          <p id="contact-eyebrow">HAVE A PROJECT IN MIND?</p>
+          <h2 id="contact-title"><span id="contact-heading-1">LET&apos;S MAKE SOMETHING</span><br /><span id="contact-heading-2">FULL OF ENERGY.</span></h2>
+          <a id="contact-email" href="mailto:Fusenra@gmail.com">START A PROJECT &#8599;</a>
         </div>
       </section>
     </main>
