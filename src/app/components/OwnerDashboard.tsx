@@ -25,8 +25,9 @@ type EditableField = {
   key: string;
   label: string;
   path: ContentPath;
-  value: string | BT;
+  value: string | number | BT;
   bilingual: boolean;
+  numeric: boolean;
 };
 
 const CMS_SECTION_META: Array<{ id: ContentSectionId; label: string; color: string }> = [
@@ -70,11 +71,15 @@ function formatFieldLabel(path: ContentPath) {
 
 function collectTextFields(value: unknown, path: ContentPath = []): EditableField[] {
   if (isBilingualText(value)) {
-    return [{ key: path.join("."), label: formatFieldLabel(path), path, value, bilingual: true }];
+    return [{ key: path.join("."), label: formatFieldLabel(path), path, value, bilingual: true, numeric: false }];
   }
 
   if (typeof value === "string") {
-    return [{ key: path.join("."), label: formatFieldLabel(path), path, value, bilingual: false }];
+    return [{ key: path.join("."), label: formatFieldLabel(path), path, value, bilingual: false, numeric: false }];
+  }
+
+  if (typeof value === "number") {
+    return [{ key: path.join("."), label: formatFieldLabel(path), path, value, bilingual: false, numeric: true }];
   }
 
   if (Array.isArray(value)) {
@@ -212,6 +217,21 @@ export function OwnerDashboard({ open, storedImages, onClose, onImagesChange }: 
     });
   }
 
+  function setNumberValue(sectionId: ContentSectionId, path: ContentPath, value: number) {
+    if (!Number.isFinite(value)) return;
+    updateContent((draft) => {
+      let target: unknown = draft[sectionId];
+      for (const segment of path.slice(0, -1)) {
+        target = (target as Record<string | number, unknown>)[segment];
+      }
+
+      const key = path[path.length - 1];
+      if (key === undefined || !target || typeof target !== "object") return draft;
+      (target as Record<string | number, unknown>)[key] = Math.min(100, Math.max(0, Math.round(value)));
+      return draft;
+    });
+  }
+
   // ── Render ────────────────────────────────────────────────────
   return (
     <AnimatePresence>
@@ -317,7 +337,7 @@ export function OwnerDashboard({ open, storedImages, onClose, onImagesChange }: 
                 <div className="flex gap-1 px-7 pt-5 pb-4 shrink-0">
                   {([
                     { id: "images" as Tab, icon: ImageIcon, label: "Images" },
-                    { id: "content" as Tab, icon: FileText, label: "Content / Text" },
+                    { id: "content" as Tab, icon: FileText, label: "Content / Settings" },
                   ] as const).map(({ id, icon: Icon, label }) => (
                     <button key={id} onClick={() => setTab(id)}
                       className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all"
@@ -445,9 +465,9 @@ export function OwnerDashboard({ open, storedImages, onClose, onImagesChange }: 
                       <div className="flex items-center justify-between p-4 rounded-xl"
                         style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}>
                         <div>
-                          <p className="text-sm font-semibold text-white">Text Content</p>
+                          <p className="text-sm font-semibold text-white">Content Settings</p>
                           <p className="text-xs mt-0.5" style={{ color: "rgba(255,255,255,0.4)" }}>
-                            Edit EN and TH text for each section. Saved automatically.
+                            Edit text and proficiency values. Saved automatically.
                           </p>
                         </div>
                         <button onClick={() => { resetContent(); showToast("Content reset to defaults."); }}
@@ -463,7 +483,7 @@ export function OwnerDashboard({ open, storedImages, onClose, onImagesChange }: 
                           type="search"
                           value={contentSearch}
                           onChange={(event) => setContentSearch(event.target.value)}
-                          placeholder="Search every text field..."
+                          placeholder="Search content settings..."
                           className="w-full rounded-xl py-2.5 pl-9 pr-3 text-sm text-white outline-none placeholder:text-white/25"
                           style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }}
                         />
@@ -476,7 +496,7 @@ export function OwnerDashboard({ open, storedImages, onClose, onImagesChange }: 
                           ? allFields.filter((field) => {
                               const value = field.bilingual
                                 ? `${(field.value as BT).en} ${(field.value as BT).th}`
-                                : field.value as string;
+                                : String(field.value);
                               return `${field.label} ${value}`.toLowerCase().includes(query);
                             })
                           : allFields;
@@ -511,7 +531,34 @@ export function OwnerDashboard({ open, storedImages, onClose, onImagesChange }: 
                                             {field.label}
                                           </p>
                                           <div className="flex flex-col gap-2">
-                                            {field.bilingual ? (["en", "th"] as const).map((l) => {
+                                            {field.numeric ? (
+                                              <div className="flex items-center gap-3">
+                                                <input
+                                                  type="range"
+                                                  min="0"
+                                                  max="100"
+                                                  step="1"
+                                                  value={field.value as number}
+                                                  aria-label={field.label}
+                                                  onChange={(e) => setNumberValue(sec.id, field.path, Number(e.target.value))}
+                                                  className="min-w-0 flex-1 cursor-pointer"
+                                                  style={{ accentColor: sec.color }}
+                                                />
+                                                <div className="relative w-24 shrink-0">
+                                                  <input
+                                                    type="number"
+                                                    min="0"
+                                                    max="100"
+                                                    step="1"
+                                                    value={field.value as number}
+                                                    onChange={(e) => setNumberValue(sec.id, field.path, Number(e.target.value))}
+                                                    className="w-full rounded-lg px-3 py-2 pr-8 text-sm text-white outline-none"
+                                                    style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }}
+                                                  />
+                                                  <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-xs text-white/35">%</span>
+                                                </div>
+                                              </div>
+                                            ) : field.bilingual ? (["en", "th"] as const).map((l) => {
                                               const textValue = (field.value as BT)[l];
                                               return (
                                               <div key={l}>
