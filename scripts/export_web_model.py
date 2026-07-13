@@ -43,7 +43,11 @@ def flatten_meshes(decimate_ratio: float):
     scene = bpy.context.scene
     scene.frame_set(scene.frame_current)
 
-    meshes = [obj for obj in scene.objects if obj.type == "MESH" and not obj.hide_render]
+    meshes = [
+        obj
+        for obj in scene.objects
+        if obj.type == "MESH" and not obj.hide_render and obj.name != "bg"
+    ]
     for obj in bpy.context.selected_objects:
         obj.select_set(False)
 

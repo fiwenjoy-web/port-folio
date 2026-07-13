@@ -10,6 +10,13 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="./styles.css" />
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "../vendor/three/three.module.min.js"
+        }
+      }
+    </script>
   </head>
   <body>
     <header class="site-header">
@@ -51,18 +58,16 @@
           </div>
         </div>
 
-        <div class="hero-art" aria-label="Fuse creative identity artwork">
-          <span class="shape dot-cyan"></span>
-          <span class="shape dot-green"></span>
-          <span class="shape sparkle-pink">&#10022;</span>
-          <span class="shape sparkle-blue">+</span>
-          <div class="float-note note-top">PLAYFUL<br /><b>THINKING</b></div>
-          <div class="fuse-orbit">
-            <span class="orbit-line"></span>
-            <span class="fuse-core">FUSE</span>
+        <div class="hero-art" data-three-hero aria-label="Interactive 3D portfolio artwork">
+          <img class="hero-three-poster" src="../models/dstk-poster.webp" alt="3D portfolio composition preview" />
+          <canvas id="hero-three-canvas" class="hero-three-canvas" role="img" aria-label="Interactive 3D portfolio composition"></canvas>
+          <span class="hero-three-badge">BLENDER / WEBGL</span>
+          <span class="hero-three-loading" id="hero-three-loading">LOADING 3D&nbsp; 0%</span>
+          <p class="hero-three-error" id="hero-three-error" hidden>3D preview unavailable</p>
+          <div class="hero-three-controls" id="hero-three-controls" hidden>
+            <button type="button" id="hero-three-toggle" aria-label="Pause automatic rotation" title="Pause automatic rotation">&#8545;</button>
+            <button type="button" id="hero-three-reset" aria-label="Reset 3D view" title="Reset 3D view">&#8635;</button>
           </div>
-          <div class="float-note note-bottom">CREATIVE<br /><b>ENERGY</b> &#8599;</div>
-          <div class="social-dots" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
         </div>
       </section>
 
@@ -200,5 +205,6 @@
       <span class="viewer-count"></span>
     </div>
     <script src="./script.js"></script>
+    <script type="module" src="./three-hero.js"></script>
   </body>
 </html>

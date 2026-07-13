@@ -23,35 +23,6 @@ const PortfolioModal = lazy(() =>
 const OwnerDashboard = lazy(() =>
   import("./components/OwnerDashboard").then(({ OwnerDashboard: Component }) => ({ default: Component })),
 );
-const ThreeDShowcase = lazy(() =>
-  import("./components/ThreeDShowcase").then(({ ThreeDShowcase: Component }) => ({ default: Component })),
-);
-
-function DeferredThreeDShowcase() {
-  const hostRef = useRef<HTMLDivElement>(null);
-  const [active, setActive] = useState(false);
-
-  useEffect(() => {
-    const host = hostRef.current;
-    if (!host || active) return;
-    const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) setActive(true);
-    }, { rootMargin: "500px" });
-    observer.observe(host);
-    return () => observer.disconnect();
-  }, [active]);
-
-  return (
-    <div id="three-d-showcase" ref={hostRef} className="min-h-[920px] md:min-h-[1000px]">
-      {active ? (
-        <Suspense fallback={null}>
-          <ThreeDShowcase />
-        </Suspense>
-      ) : null}
-    </div>
-  );
-}
-
 const DIVIDER = (
   <div className="mx-auto max-w-7xl px-6 md:px-16 lg:px-24"
     style={{ height: "1px", background: "linear-gradient(90deg, transparent, rgba(0,212,255,0.18), transparent)" }} />
@@ -154,8 +125,6 @@ function PortfolioApp() {
       <div id="experience"><ExperienceSection /></div>
       {DIVIDER}
       <div id="services"><ServicesSection /></div>
-      {DIVIDER}
-      <DeferredThreeDShowcase />
       {DIVIDER}
       <div id="portfolio"><PortfolioSection projects={projects} onSelectProject={handleSelectProject} /></div>
       {DIVIDER}
