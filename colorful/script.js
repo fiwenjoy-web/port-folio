@@ -38,37 +38,50 @@ const DEFAULT_PROJECTS = [
 
 const DEFAULT_SERVICES = [
   {
-    title: "AI Visual Production",
-    description: "Generative AI-enhanced product visuals, campaign artwork, and brand imagery with a polished commercial finish.",
-    price: "From \u0e3f3,500",
-    tags: ["Midjourney", "Stable Diffusion", "Photoshop AI"],
+    title: "AI-Assisted Visual Production",
+    description: "Using AI workflows to explore visual concepts, generate creative directions, support product imagery, and speed up production while keeping a polished commercial finish.",
+    tags: ["AI Workflow", "Prompting", "Visual Exploration"],
   },
   {
-    title: "3D Product Rendering",
-    description: "Detailed 3D renders and mockup concepts for packaging, product advertising, and e-commerce imagery.",
-    price: "From \u0e3f4,500",
-    tags: ["Blender", "3D Modeling", "Lighting"],
+    title: "3D Product Mockup & Render",
+    description: "Creating product mockups, 3D render concepts, cosmetic-style visuals, and presentation-ready product scenes for advertising and portfolio work.",
+    tags: ["Blender", "Product Render", "Mockup"],
   },
   {
-    title: "E-Commerce Campaigns",
-    description: "Full-suite campaign design for Shopee, Lazada, and TikTok Shop across static and short-form content.",
-    price: "From \u0e3f2,800",
+    title: "E-commerce Campaign Design",
+    description: "Creating visuals for Shopee, Lazada, TikTok Shop, social media campaigns, and short-form content designed for online product communication.",
     tags: ["Shopee", "Lazada", "TikTok Shop"],
   },
   {
-    title: "Web & UI Design",
-    description: "AI-assisted web system design and front-end implementation from wireframe to responsive interface.",
-    price: "From \u0e3f6,000",
-    tags: ["Figma", "React", "AI Workflow"],
+    title: "UI / Web Visual Design",
+    description: "Designing landing pages, web layouts, interface concepts, dashboard visuals, and digital presentation systems with a clean modern visual style.",
+    tags: ["Figma", "UI Design", "Web Layout"],
+  },
+  {
+    title: "Commercial Visual Design",
+    description: "Designing promotional graphics, campaign key visuals, banners, social media content, and product-focused advertising materials for digital platforms.",
+    tags: ["Poster Design", "Social Media", "Campaign Visuals"],
+  },
+  {
+    title: "Creative Workflow Systems",
+    description: "Organizing creative processes, design assets, AI workflows, file structures, and production systems to make visual work faster and more consistent.",
+    tags: ["Workflow", "Asset System", "Production"],
   },
 ];
 
 const DEFAULT_PROCESS = [
-  { label: "Brief", description: "Share your project goals and references" },
-  { label: "Concept", description: "Review the initial creative direction" },
-  { label: "Produce", description: "Full production with revision rounds" },
-  { label: "Deliver", description: "Final files in every required format" },
+  { label: "Direction", description: "Clarify the goal, audience, references, and visual direction." },
+  { label: "AI Exploration", description: "Explore concepts, styles, compositions, and production options." },
+  { label: "Visual Production", description: "Build, refine, retouch, render, and prepare the final visual system." },
+  { label: "Final Delivery", description: "Export clean assets and presentation-ready files for real use." },
 ];
+
+const LEGACY_SERVICE_TITLES = new Set([
+  "AI Visual Production",
+  "3D Product Rendering",
+  "E-Commerce Campaigns",
+  "Web & UI Design",
+]);
 
 const DEFAULT_FOCUS = [
   "AI-Assisted Visual Production",
@@ -183,12 +196,6 @@ function setTagList(element, tags) {
   });
 }
 
-function formatPrice(value, fallback) {
-  const price = cleanText(value, fallback);
-  const amount = price.match(/[0-9][0-9,]*/)?.[0];
-  return amount ? `From \u0e3f${amount} \u2197` : `${price} \u2197`;
-}
-
 const storedContent = readStorage("wh_site_content");
 const storedImages = readStorage("wh_portfolio_images") || {};
 
@@ -265,9 +272,16 @@ if (storedContent) {
   setText("#portfolio-heading-1", english(storedContent.portfolio?.heading1, "WORK &"));
   setText("#portfolio-heading-2", english(storedContent.portfolio?.heading2, "DESIGN"));
   setText("#portfolio-subtitle", english(storedContent.portfolio?.subtitle, "A selection of recent commercial and creative projects."));
-  setText("#services-label", english(storedContent.services?.sectionLabel, "WHAT I OFFER"));
-  setText("#services-heading-1", english(storedContent.services?.heading1, "SERVICES &"));
-  setText("#services-heading-2", english(storedContent.services?.heading2, "PRICING"));
+  const hasLegacyServices =
+    english(storedContent.services?.sectionLabel) === "WHAT I OFFER" ||
+    english(storedContent.services?.heading1) === "SERVICES &" ||
+    english(storedContent.services?.heading2) === "PRICING";
+  setText("#services-label", hasLegacyServices ? "WHAT I CAN DO" : english(storedContent.services?.sectionLabel, "WHAT I CAN DO"));
+  setText("#services-heading-1", hasLegacyServices ? "CREATIVE" : english(storedContent.services?.heading1, "CREATIVE"));
+  setText("#services-heading-2", hasLegacyServices ? "CAPABILITIES" : english(storedContent.services?.heading2, "CAPABILITIES"));
+  setText("#services-description", hasLegacyServices
+    ? "A focused set of creative skills combining visual design, AI-assisted production, product presentation, and digital media workflows."
+    : english(storedContent.services?.description, "A focused set of creative skills combining visual design, AI-assisted production, product presentation, and digital media workflows."));
   setText("#skills-label", english(storedContent.skills?.sectionLabel, "EXPERTISE"));
   setText("#skills-heading-1", english(storedContent.skills?.heading1, "SKILLS &"));
   setText("#skills-heading-2", english(storedContent.skills?.heading2, "TOOLS"));
@@ -287,29 +301,34 @@ if (storedContent) {
 
 const serviceData = DEFAULT_SERVICES.map((fallback, index) => {
   const stored = storedContent?.services?.items?.[index];
+  const storedTitle = english(stored?.title);
+  const useStored = storedTitle && !LEGACY_SERVICE_TITLES.has(storedTitle);
   return {
-    title: english(stored?.title, fallback.title),
-    description: english(stored?.desc, fallback.description),
-    price: stored?.price || fallback.price,
-    tags: storedContent?.services?.tags?.[index]?.length ? storedContent.services.tags[index] : fallback.tags,
+    title: useStored ? storedTitle : fallback.title,
+    description: useStored ? english(stored?.desc, fallback.description) : fallback.description,
+    tags: useStored && storedContent?.services?.tags?.[index]?.length ? storedContent.services.tags[index] : fallback.tags,
   };
 });
 
 serviceData.forEach((service, index) => {
   setText(`[data-service-title="${index}"]`, service.title);
   setText(`[data-service-desc="${index}"]`, service.description);
-  setText(`[data-service-price="${index}"]`, formatPrice(service.price, DEFAULT_SERVICES[index].price));
   setTagList(document.querySelector(`[data-service-tags="${index}"]`), service.tags);
 });
 
+const storedProcessTitle = english(storedContent?.services?.processTitle);
+const hasLegacyProcess =
+  storedProcessTitle === "HOW WE WORK" ||
+  english(storedContent?.services?.steps?.[0]?.label) === "Brief";
 const processData = DEFAULT_PROCESS.map((fallback, index) => {
   const stored = storedContent?.services?.steps?.[index];
   return {
-    label: english(stored?.label, fallback.label),
-    description: english(stored?.desc, fallback.description),
+    label: hasLegacyProcess ? fallback.label : english(stored?.label, fallback.label),
+    description: hasLegacyProcess ? fallback.description : english(stored?.desc, fallback.description),
   };
 });
-setText("#process-title", english(storedContent?.services?.processTitle, "HOW WE WORK"));
+setText("#process-title", hasLegacyProcess ? "CREATIVE WORKFLOW" : english(storedContent?.services?.processTitle, "CREATIVE WORKFLOW"));
+setText("#process-heading", hasLegacyProcess ? "How I build visuals" : english(storedContent?.services?.workflowHeading, "How I build visuals"));
 processData.forEach((step, index) => {
   setText(`[data-process-label="${index}"]`, step.label);
   setText(`[data-process-desc="${index}"]`, step.description);
