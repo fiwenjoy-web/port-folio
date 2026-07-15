@@ -1,14 +1,14 @@
 import { motion } from "motion/react";
-import { Sparkles, Box, ShoppingBag, Globe, ArrowUpRight } from "lucide-react";
+import { Sparkles, Box, ShoppingBag, Globe, ArrowUpRight, Megaphone, Workflow } from "lucide-react";
 import { useContent } from "../context/ContentContext";
 
 const SANS = "'Noto Sans Thai', sans-serif";
-const ICONS = [Sparkles, Box, ShoppingBag, Globe];
-const COLORS = ["#00d4ff", "#818cf8", "#f59e0b", "#34d399"];
+const ICONS = [Sparkles, Box, ShoppingBag, Globe, Megaphone, Workflow];
+const COLORS = ["#00d4ff", "#818cf8", "#f59e0b", "#34d399", "#fb7185", "#a78bfa"];
 
 export function ServicesSection() {
   const { content, t } = useContent();
-  const { services, footer } = content;
+  const { services } = content;
 
   return (
     <section className="relative py-28 px-6 md:px-16 lg:px-24 overflow-hidden" style={{ fontFamily: SANS }}>
@@ -32,8 +32,11 @@ export function ServicesSection() {
                 {t(services.heading2)}
               </span>
             </h2>
+            <p className="mt-4 max-w-2xl text-sm leading-relaxed md:text-base" style={{ color: "rgba(255,255,255,0.48)", fontWeight: 400 }}>
+              {t(services.description)}
+            </p>
           </div>
-          <a href={`mailto:${footer.email}`}
+          <a href="#portfolio"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-bold transition-all hover:scale-105 shrink-0"
             style={{ background: "rgba(0,212,255,0.08)", border: "1px solid rgba(0,212,255,0.25)", color: "#00d4ff", letterSpacing: "0.05em" }}>
             {t(services.quoteLabel)} <ArrowUpRight size={14} />
@@ -41,11 +44,11 @@ export function ServicesSection() {
         </motion.div>
 
         {/* Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {services.items.map((svc, i) => {
             const Icon = ICONS[i];
             const color = COLORS[i];
-            const tags = services.tags[i];
+            const tags = services.tags[i] || [];
             return (
               <motion.div key={i}
                 initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.1 }}
@@ -87,7 +90,7 @@ export function ServicesSection() {
                   {/* Footer */}
                   <div className="flex items-center justify-between pt-4"
                     style={{ borderTop: "1px solid rgba(255,255,255,0.05)" }}>
-                    <span className="text-sm font-bold" style={{ color }}>{svc.price}</span>
+                    <span className="text-xs font-bold uppercase" style={{ color, letterSpacing: "0.08em" }}>Capability {String(i + 1).padStart(2, "0")}</span>
                     <div className="w-7 h-7 rounded-lg flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-200 translate-x-1 group-hover:translate-x-0"
                       style={{ background: `${color}20` }}>
                       <ArrowUpRight size={13} color={color} />
@@ -110,6 +113,9 @@ export function ServicesSection() {
           <p className="text-xs tracking-[0.25em] uppercase mb-8 text-center" style={{ color: "rgba(255,255,255,0.3)", fontFamily: SANS }}>
             {t(services.processTitle)}
           </p>
+          <h3 className="mb-8 text-center text-2xl font-bold text-white md:text-3xl" style={{ fontFamily: SANS, letterSpacing: 0 }}>
+            {t(services.workflowHeading)}
+          </h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 relative">
             {/* connecting line */}
             <div className="hidden md:block absolute top-5 left-[12.5%] right-[12.5%] h-px"

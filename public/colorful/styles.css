@@ -712,6 +712,14 @@ p {
   -webkit-text-stroke: 0;
 }
 
+.section-description {
+  font-family: "Kanit", sans-serif;
+  font-size: 14px;
+  line-height: 1.65;
+  margin-top: 18px;
+  max-width: 680px;
+}
+
 .light-heading h2 > span:first-child {
   color: var(--white);
 }
@@ -912,7 +920,7 @@ p {
 .service-grid {
   display: grid;
   gap: 14px;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .service-card {
@@ -1045,6 +1053,14 @@ p {
   font-weight: 800;
   letter-spacing: 0.08em;
   margin-bottom: 16px;
+}
+
+.service-process h3 {
+  font-size: clamp(28px, 3vw, 42px);
+  font-weight: 800;
+  letter-spacing: 0;
+  line-height: 0.95;
+  margin-bottom: 22px;
 }
 
 .service-process ol {

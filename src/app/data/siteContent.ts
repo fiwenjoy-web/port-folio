@@ -75,12 +75,13 @@ export interface SiteContent {
     sectionLabel: BT;
     heading1: BT;
     heading2: BT;
+    description: BT;
     quoteLabel: BT;
     processTitle: BT;
+    workflowHeading: BT;
     items: Array<{
       title: BT;
       desc: BT;
-      price: string;
     }>;
     tags: string[][];
     steps: Array<{ step: string; label: BT; desc: BT }>;
@@ -142,7 +143,7 @@ export const DEFAULT_CONTENT: SiteContent = {
   navigation: {
     links: [
       { en: "About", th: "เกี่ยวกับ" },
-      { en: "Service", th: "บริการ" },
+      { en: "Capabilities", th: "ความสามารถ" },
       { en: "Resume", th: "ประวัติ" },
       { en: "Contact", th: "ติดต่อ" },
     ],
@@ -336,56 +337,73 @@ export const DEFAULT_CONTENT: SiteContent = {
     ],
   },
   services: {
-    sectionLabel: { en: "WHAT I OFFER", th: "สิ่งที่ฉันนำเสนอ" },
-    heading1: { en: "SERVICES &", th: "บริการ &" },
-    heading2: { en: "PRICING", th: "ราคา" },
-    quoteLabel: { en: "REQUEST A QUOTE", th: "ขอใบเสนอราคา" },
-    processTitle: { en: "HOW WE WORK", th: "ขั้นตอนการทำงาน" },
+    sectionLabel: { en: "WHAT I CAN DO", th: "สิ่งที่ผมทำได้" },
+    heading1: { en: "CREATIVE", th: "ความสามารถด้าน" },
+    heading2: { en: "CAPABILITIES", th: "ครีเอทีฟ" },
+    description: {
+      en: "A focused set of creative skills combining visual design, AI-assisted production, product presentation, and digital media workflows.",
+      th: "ชุดทักษะด้านครีเอทีฟที่ผสมผสานงานออกแบบภาพ การผลิตงานด้วย AI การนำเสนอสินค้า และเวิร์กโฟลว์สื่อดิจิทัล",
+    },
+    quoteLabel: { en: "VIEW PORTFOLIO", th: "ดูผลงาน" },
+    processTitle: { en: "CREATIVE WORKFLOW", th: "เวิร์กโฟลว์ครีเอทีฟ" },
+    workflowHeading: { en: "How I build visuals", th: "วิธีที่ผมสร้างงานภาพ" },
     items: [
       {
-        title: { en: "AI Visual Production", th: "การผลิตภาพด้วย AI" },
+        title: { en: "AI-Assisted Visual Production", th: "ผลิตงานภาพด้วย AI" },
         desc: {
-          en: "Generative AI-enhanced product visuals, campaign artwork, and brand imagery — produced fast with a polished commercial finish.",
-          th: "ภาพสินค้าที่ปรับปรุงด้วย AI เชิงสร้างสรรค์ งานศิลป์แคมเปญ และภาพแบรนด์ — ผลิตได้รวดเร็วด้วยความสำเร็จเชิงพาณิชย์",
+          en: "Using AI workflows to explore visual concepts, generate creative directions, support product imagery, and speed up production while keeping a polished commercial finish.",
+          th: "ใช้เวิร์กโฟลว์ AI เพื่อสำรวจคอนเซปต์ภาพ สร้างแนวทางครีเอทีฟ สนับสนุนงานภาพสินค้า และช่วยให้ผลิตงานได้เร็วขึ้นโดยยังคงคุณภาพเชิงพาณิชย์",
         },
-        price: "From ฿3,500",
       },
       {
-        title: { en: "3D Product Rendering", th: "การเรนเดอร์สินค้า 3D" },
+        title: { en: "3D Product Mockup & Render", th: "ม็อกอัพและเรนเดอร์สินค้า 3D" },
         desc: {
-          en: "Photorealistic 3D renders and mockup concepts for packaging, product advertising, and e-commerce listing imagery.",
-          th: "การเรนเดอร์ 3D และแนวคิดโมเดลที่สมจริงสำหรับบรรจุภัณฑ์ โฆษณาสินค้า และภาพรายการอีคอมเมิร์ซ",
+          en: "Creating product mockups, 3D render concepts, cosmetic-style visuals, and presentation-ready product scenes for advertising and portfolio work.",
+          th: "สร้างม็อกอัพสินค้า คอนเซปต์เรนเดอร์ 3D ภาพสไตล์คอสเมติก และซีนสินค้าสำหรับงานโฆษณาและพอร์ตโฟลิโอ",
         },
-        price: "From ฿4,500",
       },
       {
-        title: { en: "E-Commerce Campaigns", th: "แคมเปญอีคอมเมิร์ซ" },
+        title: { en: "E-commerce Campaign Design", th: "ออกแบบแคมเปญอีคอมเมิร์ซ" },
         desc: {
-          en: "Full-suite campaign design for Shopee, Lazada, and TikTok Shop — banners, covers, product shots, and short-form video.",
-          th: "การออกแบบแคมเปญครบชุดสำหรับ Shopee, Lazada และ TikTok Shop — แบนเนอร์ ปก ภาพสินค้า และวิดีโอสั้น",
+          en: "Creating visuals for Shopee, Lazada, TikTok Shop, social media campaigns, and short-form content designed for online product communication.",
+          th: "สร้างสื่อภาพสำหรับ Shopee, Lazada, TikTok Shop แคมเปญโซเชียลมีเดีย และคอนเทนต์วิดีโอสั้นสำหรับการสื่อสารสินค้าออนไลน์",
         },
-        price: "From ฿2,800",
       },
       {
-        title: { en: "Web & UI Design", th: "ออกแบบเว็บและ UI" },
+        title: { en: "UI / Web Visual Design", th: "ออกแบบภาพสำหรับ UI และเว็บไซต์" },
         desc: {
-          en: "AI-assisted web system design and front-end implementation. From wireframe to pixel-perfect responsive interface.",
-          th: "การออกแบบระบบเว็บและการพัฒนา Front-end ด้วย AI ตั้งแต่ Wireframe จนถึงอินเทอร์เฟซ Responsive ที่สมบูรณ์",
+          en: "Designing landing pages, web layouts, interface concepts, dashboard visuals, and digital presentation systems with a clean modern visual style.",
+          th: "ออกแบบ Landing Page เลย์เอาต์เว็บไซต์ คอนเซปต์อินเทอร์เฟซ ภาพแดชบอร์ด และระบบการนำเสนอดิจิทัลในสไตล์ที่สะอาดและทันสมัย",
         },
-        price: "From ฿6,000",
+      },
+      {
+        title: { en: "Commercial Visual Design", th: "ออกแบบภาพเชิงพาณิชย์" },
+        desc: {
+          en: "Designing promotional graphics, campaign key visuals, banners, social media content, and product-focused advertising materials for digital platforms.",
+          th: "ออกแบบกราฟิกโปรโมชัน ภาพหลักแคมเปญ แบนเนอร์ คอนเทนต์โซเชียลมีเดีย และสื่อโฆษณาสินค้าที่เหมาะกับแพลตฟอร์มดิจิทัล",
+        },
+      },
+      {
+        title: { en: "Creative Workflow Systems", th: "ระบบเวิร์กโฟลว์งานครีเอทีฟ" },
+        desc: {
+          en: "Organizing creative processes, design assets, AI workflows, file structures, and production systems to make visual work faster and more consistent.",
+          th: "จัดระบบกระบวนการทำงานครีเอทีฟ ไฟล์ออกแบบ เวิร์กโฟลว์ AI โครงสร้างไฟล์ และระบบการผลิตงาน เพื่อให้งานภาพทำได้เร็วขึ้นและสม่ำเสมอมากขึ้น",
+        },
       },
     ],
     tags: [
-      ["Midjourney", "Stable Diffusion", "Photoshop AI"],
-      ["Blender", "3D Modeling", "Lighting"],
+      ["AI Workflow", "Prompting", "Visual Exploration"],
+      ["Blender", "Product Render", "Mockup"],
       ["Shopee", "Lazada", "TikTok Shop"],
-      ["Figma", "React", "AI Workflow"],
+      ["Figma", "UI Design", "Web Layout"],
+      ["Poster Design", "Social Media", "Campaign Visuals"],
+      ["Workflow", "Asset System", "Production"],
     ],
     steps: [
-      { step: "01", label: { en: "Brief", th: "รับบรีฟ" }, desc: { en: "Share your project goals and references", th: "แชร์เป้าหมายโปรเจกต์และอ้างอิง" } },
-      { step: "02", label: { en: "Concept", th: "คอนเซปต์" }, desc: { en: "Initial concepts and direction approval", th: "แนวคิดเริ่มต้นและการอนุมัติทิศทาง" } },
-      { step: "03", label: { en: "Produce", th: "ผลิต" }, desc: { en: "Full production with revision rounds", th: "การผลิตเต็มรูปแบบพร้อมรอบแก้ไข" } },
-      { step: "04", label: { en: "Deliver", th: "ส่งมอบ" }, desc: { en: "Final files in all required formats", th: "ไฟล์สุดท้ายในทุกรูปแบบที่ต้องการ" } },
+      { step: "01", label: { en: "Direction", th: "กำหนดทิศทาง" }, desc: { en: "Clarify the goal, audience, references, and visual direction.", th: "วางเป้าหมาย กลุ่มผู้ชม reference และทิศทางภาพให้ชัดเจน" } },
+      { step: "02", label: { en: "AI Exploration", th: "สำรวจด้วย AI" }, desc: { en: "Explore concepts, styles, compositions, and production options.", th: "ทดลองคอนเซปต์ สไตล์ องค์ประกอบภาพ และทางเลือกในการผลิตงาน" } },
+      { step: "03", label: { en: "Visual Production", th: "ผลิตงานภาพ" }, desc: { en: "Build, refine, retouch, render, and prepare the final visual system.", th: "สร้างงาน ปรับรายละเอียด รีทัช เรนเดอร์ และจัดระบบภาพสุดท้าย" } },
+      { step: "04", label: { en: "Final Delivery", th: "ส่งมอบงานสุดท้าย" }, desc: { en: "Export clean assets and presentation-ready files for real use.", th: "ส่งออกไฟล์ที่สะอาด พร้อมนำเสนอและพร้อมใช้งานจริง" } },
     ],
   },
   portfolio: {
@@ -511,10 +529,37 @@ export function loadStoredContent(): SiteContent {
   try {
     const raw = localStorage.getItem(CONTENT_STORAGE_KEY);
     if (!raw) return DEFAULT_CONTENT;
-    return mergeWithDefaults(DEFAULT_CONTENT, JSON.parse(raw)) as SiteContent;
+    const merged = mergeWithDefaults(DEFAULT_CONTENT, JSON.parse(raw)) as SiteContent;
+    const upgraded = upgradeLegacyServicesContent(merged);
+    if (upgraded !== merged) saveStoredContent(upgraded);
+    return upgraded;
   } catch {
     return DEFAULT_CONTENT;
   }
+}
+
+function upgradeLegacyServicesContent(content: SiteContent): SiteContent {
+  const hasLegacyServices =
+    content.services.sectionLabel.en === "WHAT I OFFER" ||
+    content.services.heading1.en === "SERVICES &" ||
+    content.services.heading2.en === "PRICING" ||
+    content.services.quoteLabel.en === "REQUEST A QUOTE" ||
+    content.services.processTitle.en === "HOW WE WORK" ||
+    content.services.items.some((item) => (
+      item.title.en === "AI Visual Production" ||
+      item.title.en === "3D Product Rendering" ||
+      item.title.en === "E-Commerce Campaigns" ||
+      item.title.en === "Web & UI Design"
+    ));
+
+  const hasLegacyNavigation = content.navigation.links[1]?.en === "Service";
+
+  if (!hasLegacyServices && !hasLegacyNavigation) return content;
+
+  const next = structuredClone(content);
+  if (hasLegacyNavigation) next.navigation.links[1] = structuredClone(DEFAULT_CONTENT.navigation.links[1]);
+  if (hasLegacyServices) next.services = structuredClone(DEFAULT_CONTENT.services);
+  return next;
 }
 
 function mergeWithDefaults(defaultValue: unknown, storedValue: unknown): unknown {
