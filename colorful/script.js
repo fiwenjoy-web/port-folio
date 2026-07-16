@@ -36,6 +36,94 @@ const DEFAULT_PROJECTS = [
   },
 ];
 
+const CASE_STUDY_WORKFLOW = [
+  { step: "01", label: "Direction", desc: "Clarify the objective, audience, platform, and visual references before production." },
+  { step: "02", label: "AI Exploration", desc: "Explore visual routes, prompt directions, compositions, and mood variations." },
+  { step: "03", label: "Visual Production", desc: "Build the selected direction through design, mockup, retouching, and layout refinement." },
+  { step: "04", label: "Final Delivery", desc: "Prepare final visuals and adapt them into formats ready for portfolio or digital use." },
+];
+
+const CASE_STUDY_VISUAL_SYSTEM = [
+  { label: "Visual Direction", desc: "Defines the mood, tone, and design language of the project." },
+  { label: "Color Palette", desc: "Uses color to make the product or message clear and memorable." },
+  { label: "Layout System", desc: "Organizes hierarchy, spacing, and composition for multiple formats." },
+  { label: "Final Output", desc: "Turns the concept into polished visuals ready for presentation." },
+];
+
+const CASE_STUDY_OUTPUTS = [
+  { label: "Cover / Hero Image", desc: "A strong overview image that introduces the project mood." },
+  { label: "Concept / Mood Direction", desc: "References or AI exploration used to shape the work." },
+  { label: "Main Poster / Key Visual", desc: "The main visual designed to communicate the product story." },
+  { label: "Digital Adaptation", desc: "A layout adapted for social, e-commerce, or presentation use." },
+];
+
+function createCaseStudy(overview, goal, concept, direction, reflection, options = {}) {
+  return {
+    overview,
+    goal,
+    concept,
+    direction,
+    workflow: options.workflow || CASE_STUDY_WORKFLOW,
+    visualSystem: options.visualSystem || CASE_STUDY_VISUAL_SYSTEM,
+    outputs: options.outputs || CASE_STUDY_OUTPUTS,
+    reflection,
+  };
+}
+
+const DEFAULT_CASE_STUDIES = [
+  createCaseStudy(
+    "A commercial poster design project focused on turning simple product or brand assets into polished visuals for print and digital communication.",
+    "Create a strong first impression, communicate the offer clearly, and make the visual feel campaign-ready.",
+    "From raw assets to a finished key visual, this project explores hierarchy, typography, retouching, and color grading as a complete commercial design workflow.",
+    ["Bold typography", "High-contrast composition", "Commercial campaign mood"],
+    "This project highlights commercial composition, typography control, color direction, and the ability to make static visuals feel campaign-ready."
+  ),
+  createCaseStudy(
+    "A 3D product visualization project exploring how mockups, lighting, and render composition can create premium product presentation.",
+    "Present the product with stronger depth, cleaner material detail, and a more advertising-ready scene.",
+    "The project connects product modeling, lighting design, material polish, and final layout into one 3D presentation workflow.",
+    ["Premium product lighting", "Clean mockup presentation", "Depth and material detail"],
+    "This project demonstrates 3D composition, lighting judgment, mockup presentation, and product-focused visual storytelling."
+  ),
+  createCaseStudy(
+    "An AI product visual system exploring how AI, 3D mockups, and commercial design can create product-focused advertising visuals for digital platforms.",
+    "Build a repeatable visual workflow that can move from idea exploration to polished product advertising outputs.",
+    "From simple product assets to polished commercial visuals, this project connects idea generation, AI-assisted direction, 3D presentation, and final advertising design.",
+    ["AI-assisted visual direction", "Product-focused composition", "Polished advertising finish"],
+    "This project shows AI workflow thinking, product visual direction, 3D-assisted presentation, and final commercial design execution.",
+    {
+      visualSystem: [
+        ...CASE_STUDY_VISUAL_SYSTEM,
+        { label: "AI Prompt Exploration", desc: "Uses prompts to explore mood, composition, and campaign directions before final design." },
+        { label: "Social / E-commerce Adaptation", desc: "Adapts the same visual idea into formats suitable for digital platforms." },
+      ],
+    }
+  ),
+  createCaseStudy(
+    "An e-commerce campaign design project built to make product visuals work across marketplace, social media, and short-form commerce touchpoints.",
+    "Make the product clearer, more clickable, and easier to adapt across Shopee, Lazada, TikTok Shop, and social formats.",
+    "The campaign treats one product story as a flexible visual system, then adapts it into banners, covers, social posts, and marketplace-ready graphics.",
+    ["Clear product hierarchy", "Marketplace-ready layout", "Fast digital communication"],
+    "This project highlights campaign adaptation, marketplace design, product communication, and consistency across platforms.",
+    {
+      outputs: [
+        { label: "Main Poster", desc: "Primary campaign visual for the product story." },
+        { label: "Product Banner", desc: "Horizontal format for marketplace or website placement." },
+        { label: "Shopee / Lazada Visual", desc: "Marketplace adaptation focused on clarity and click-through." },
+        { label: "TikTok Shop Cover", desc: "Vertical or cover-style format for short-form commerce." },
+        { label: "Story Size", desc: "Adapted layout for mobile-first viewing." },
+      ],
+    }
+  ),
+  createCaseStudy(
+    "A web and UI visual design project exploring how layout, design systems, and AI-assisted workflows can turn ideas into polished digital interfaces.",
+    "Create a clean, responsive, presentation-ready interface that communicates clearly and feels modern.",
+    "This project connects visual design, component thinking, responsive layout, and implementation workflow into a practical web system.",
+    ["Clean interface hierarchy", "Responsive web layout", "Design-to-build workflow"],
+    "This project demonstrates UI layout thinking, web visual design, responsive composition, and AI-assisted implementation workflow."
+  ),
+];
+
 const DEFAULT_SERVICES = [
   {
     title: "AI-Assisted Visual Production",
@@ -196,6 +284,36 @@ function setTagList(element, tags) {
   });
 }
 
+function normalizeCaseStudy(value, fallback) {
+  const direction = Array.isArray(value?.direction)
+    ? value.direction.map((item) => english(item)).filter(Boolean)
+    : fallback.direction;
+  const workflow = Array.isArray(value?.workflow)
+    ? value.workflow.map((item, index) => ({
+        step: cleanText(item?.step, String(index + 1).padStart(2, "0")),
+        label: english(item?.label, `Step ${index + 1}`),
+        desc: english(item?.desc),
+      }))
+    : fallback.workflow;
+  const visualSystem = Array.isArray(value?.visualSystem)
+    ? value.visualSystem.map((item) => ({ label: english(item?.label), desc: english(item?.desc) }))
+    : fallback.visualSystem;
+  const outputs = Array.isArray(value?.outputs)
+    ? value.outputs.map((item) => ({ label: english(item?.label), desc: english(item?.desc) }))
+    : fallback.outputs;
+
+  return {
+    overview: english(value?.overview, fallback.overview),
+    goal: english(value?.goal, fallback.goal),
+    concept: english(value?.concept, fallback.concept),
+    direction,
+    workflow,
+    visualSystem,
+    outputs,
+    reflection: english(value?.reflection, fallback.reflection),
+  };
+}
+
 const storedContent = readStorage("wh_site_content");
 const storedImages = readStorage("wh_portfolio_images") || {};
 
@@ -207,6 +325,7 @@ const projectData = DEFAULT_PROJECTS.map((fallback, index) => {
     description: english(stored?.description, fallback.description),
     tags: stored?.tags?.length ? stored.tags.map((tag) => cleanText(tag)) : fallback.tags,
     images: storedImages[index + 1]?.length ? storedImages[index + 1] : fallback.images,
+    caseStudy: normalizeCaseStudy(stored?.caseStudy, DEFAULT_CASE_STUDIES[index]),
   };
 });
 
@@ -498,9 +617,24 @@ function createCollageImage(source, index, project) {
     image.src = DEFAULT_PROJECTS[activeProject].images[0];
   }, { once: true });
   const expand = document.createElement("span");
+  expand.className = "viewer-expand";
   expand.setAttribute("aria-hidden", "true");
   expand.textContent = "\u2197";
-  button.append(image, expand);
+  button.append(image);
+
+  const output = project.caseStudy.outputs[index];
+  if (output) {
+    const caption = document.createElement("div");
+    caption.className = "viewer-caption";
+    const label = document.createElement("b");
+    label.textContent = output.label;
+    const description = document.createElement("small");
+    description.textContent = output.desc;
+    caption.append(label, description);
+    button.append(caption);
+  }
+
+  button.append(expand);
   button.addEventListener("click", () => openExpanded(index, button));
   return button;
 }
@@ -511,8 +645,54 @@ function renderViewer() {
   setText("[data-viewer-category]", project.category);
   setText("[data-viewer-title]", project.title);
   setText("[data-viewer-description]", project.description);
+  setText("[data-viewer-overview]", project.caseStudy.overview);
+  setText("[data-viewer-goal]", project.caseStudy.goal);
+  setText("[data-viewer-concept]", project.caseStudy.concept);
+  setText("[data-viewer-reflection]", project.caseStudy.reflection);
   setTagList(document.querySelector("[data-viewer-tags]"), project.tags);
   if (viewerTotal) viewerTotal.textContent = `${String(project.images.length).padStart(2, "0")} IMAGES`;
+
+  const direction = document.querySelector("[data-viewer-direction]");
+  if (direction) {
+    direction.replaceChildren();
+    project.caseStudy.direction.forEach((item) => {
+      const tag = document.createElement("i");
+      tag.textContent = item;
+      direction.append(tag);
+    });
+  }
+
+  const workflow = document.querySelector("[data-viewer-workflow]");
+  if (workflow) {
+    workflow.replaceChildren();
+    project.caseStudy.workflow.forEach((item) => {
+      const row = document.createElement("li");
+      const step = document.createElement("b");
+      step.textContent = item.step;
+      const copy = document.createElement("div");
+      const label = document.createElement("strong");
+      label.textContent = item.label;
+      const description = document.createElement("small");
+      description.textContent = item.desc;
+      copy.append(label, description);
+      row.append(step, copy);
+      workflow.append(row);
+    });
+  }
+
+  const visualSystem = document.querySelector("[data-viewer-system]");
+  if (visualSystem) {
+    visualSystem.replaceChildren();
+    project.caseStudy.visualSystem.forEach((item) => {
+      const row = document.createElement("li");
+      const label = document.createElement("strong");
+      label.textContent = item.label;
+      const description = document.createElement("small");
+      description.textContent = item.desc;
+      row.append(label, description);
+      visualSystem.append(row);
+    });
+  }
 
   viewerCollage.replaceChildren();
   viewerCollage.append(createCollageImage(project.images[0], 0, project));

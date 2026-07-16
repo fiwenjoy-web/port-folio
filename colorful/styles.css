@@ -1676,6 +1676,146 @@ footer {
   padding: 6px 9px;
 }
 
+.viewer-story {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  padding: 0 26px 12px;
+}
+
+.viewer-story article,
+.viewer-direction,
+.viewer-system > div,
+.viewer-reflection {
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 7px;
+}
+
+.viewer-story article {
+  min-height: 150px;
+  padding: 20px;
+}
+
+.viewer-story .viewer-story-wide {
+  background: rgba(255, 90, 109, 0.08);
+  border-color: rgba(255, 90, 109, 0.25);
+  grid-column: 1 / -1;
+  min-height: auto;
+}
+
+.viewer-story span,
+.viewer-direction > span,
+.viewer-system > div > span,
+.viewer-output-heading > span,
+.viewer-reflection > span {
+  color: var(--cyan);
+  display: block;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.09em;
+  margin-bottom: 10px;
+}
+
+.viewer-story p,
+.viewer-reflection p {
+  color: rgba(255, 255, 255, 0.65);
+  font-family: "Kanit", sans-serif;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.viewer-direction {
+  margin: 0 26px 12px;
+  padding: 18px 20px;
+}
+
+.viewer-direction > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.viewer-direction i {
+  background: rgba(167, 139, 250, 0.12);
+  border: 1px solid rgba(167, 139, 250, 0.3);
+  border-radius: 999px;
+  color: #d8c9ff;
+  font-size: 9px;
+  font-style: normal;
+  font-weight: 700;
+  padding: 7px 10px;
+}
+
+.viewer-system {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  padding: 0 26px 28px;
+}
+
+.viewer-system > div {
+  padding: 20px;
+}
+
+.viewer-system ol,
+.viewer-system ul {
+  display: grid;
+  gap: 8px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.viewer-system li {
+  align-items: flex-start;
+  background: rgba(0, 0, 0, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 6px;
+  display: flex;
+  gap: 10px;
+  padding: 12px;
+}
+
+.viewer-system li > b {
+  color: var(--mint);
+  font-size: 10px;
+}
+
+.viewer-system li > div,
+.viewer-system ul li {
+  display: grid;
+  gap: 4px;
+}
+
+.viewer-system strong {
+  color: var(--white);
+  font-size: 10px;
+}
+
+.viewer-system small {
+  color: rgba(255, 255, 255, 0.42);
+  font-family: "Kanit", sans-serif;
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.viewer-output-heading {
+  align-items: end;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 26px 14px;
+}
+
+.viewer-output-heading > span {
+  margin: 0;
+}
+
+.viewer-output-heading b {
+  color: var(--white);
+  font-size: 13px;
+}
+
 .viewer-collage {
   display: grid;
   gap: 14px;
@@ -1722,7 +1862,7 @@ footer {
   height: 190px;
 }
 
-.viewer-collage button > span {
+.viewer-collage .viewer-expand {
   align-items: center;
   background: rgba(255, 248, 233, 0.94);
   border: 1px solid var(--ink);
@@ -1739,8 +1879,37 @@ footer {
   width: 38px;
 }
 
-.viewer-collage button:hover > span {
+.viewer-collage button:hover > .viewer-expand {
   transform: scale(1.08) rotate(5deg);
+}
+
+.viewer-caption {
+  background: linear-gradient(180deg, transparent, rgba(5, 3, 14, 0.94));
+  bottom: 0;
+  color: var(--white);
+  display: grid;
+  gap: 4px;
+  left: 0;
+  padding: 40px 16px 15px;
+  position: absolute;
+  right: 0;
+  text-align: left;
+}
+
+.viewer-caption b {
+  font-size: 11px;
+}
+
+.viewer-caption small {
+  color: rgba(255, 255, 255, 0.58);
+  font-family: "Kanit", sans-serif;
+  font-size: 10px;
+  line-height: 1.45;
+}
+
+.viewer-reflection {
+  margin: 0 26px 28px;
+  padding: 20px;
 }
 
 .viewer-footer {
@@ -2097,6 +2266,40 @@ footer {
 
   .viewer-meta {
     padding: 24px 18px 20px;
+  }
+
+  .viewer-story,
+  .viewer-system {
+    grid-template-columns: 1fr;
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .viewer-story article {
+    min-height: auto;
+    padding: 16px;
+  }
+
+  .viewer-direction,
+  .viewer-reflection {
+    margin-left: 12px;
+    margin-right: 12px;
+    padding: 16px;
+  }
+
+  .viewer-system {
+    padding-bottom: 22px;
+  }
+
+  .viewer-system > div {
+    padding: 16px;
+  }
+
+  .viewer-output-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 5px;
+    padding: 0 12px 12px;
   }
 
   .viewer-collage {
