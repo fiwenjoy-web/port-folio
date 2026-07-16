@@ -24,6 +24,13 @@ const PortfolioModal = lazy(() =>
 const OwnerDashboard = lazy(() =>
   import("./components/OwnerDashboard").then(({ OwnerDashboard: Component }) => ({ default: Component })),
 );
+const PROJECT_SLUGS = [
+  "commercial-poster",
+  "3d-product-visualization",
+  "ai-product-visuals",
+  "ecommerce-campaigns",
+  "ai-assisted-web-system",
+] as const;
 const DIVIDER = (
   <div className="mx-auto max-w-7xl px-6 md:px-16 lg:px-24"
     style={{ height: "1px", background: "linear-gradient(90deg, transparent, rgba(0,212,255,0.18), transparent)" }} />
@@ -84,6 +91,16 @@ function PortfolioApp() {
   const handleSelectProject = useCallback((project: Project) => {
     setPortfolioModalLoaded(true);
     setSelectedProject(project);
+    const url = new URL(window.location.href);
+    url.searchParams.set("project", PROJECT_SLUGS[project.id - 1] ?? String(project.id));
+    window.history.pushState({ project: project.id }, "", url);
+  }, []);
+
+  const closeProject = useCallback(() => {
+    setSelectedProject(null);
+    const url = new URL(window.location.href);
+    url.searchParams.delete("project");
+    window.history.replaceState({}, "", url);
   }, []);
 
   // Keyboard shortcut: Ctrl+Shift+O
@@ -137,6 +154,26 @@ function PortfolioApp() {
     };
   }), [content.portfolio.projects, lang, publishedImages, storedImages]);
 
+  useEffect(() => {
+    if (!projects.length || isAdminRoute) return;
+    const syncProjectFromUrl = () => {
+      const slug = new URLSearchParams(window.location.search).get("project");
+      if (!slug) {
+        setSelectedProject(null);
+        return;
+      }
+      const index = PROJECT_SLUGS.indexOf(slug as typeof PROJECT_SLUGS[number]);
+      const numericId = Number(slug);
+      const project = projects[index >= 0 ? index : numericId - 1];
+      if (!project) return;
+      setPortfolioModalLoaded(true);
+      setSelectedProject(project);
+    };
+    syncProjectFromUrl();
+    window.addEventListener("popstate", syncProjectFromUrl);
+    return () => window.removeEventListener("popstate", syncProjectFromUrl);
+  }, [isAdminRoute, projects]);
+
   if (isAdminRoute) {
     return (
       <div className="min-h-screen" style={{ background: "#07070d", color: "#ffffff" }}>
@@ -166,22 +203,22 @@ function PortfolioApp() {
 
       <div id="hero"><HeroFrame66 /></div>
       <MarqueeStrip />
-      <div id="about"><SkillsSection /></div>
+      <div id="about" className="deferred-section"><SkillsSection /></div>
       {DIVIDER}
-      <PhilosophySection />
+      <div className="deferred-section"><PhilosophySection /></div>
       {DIVIDER}
-      <div id="experience"><ExperienceSection /></div>
+      <div id="experience" className="deferred-section"><ExperienceSection /></div>
       {DIVIDER}
-      <div id="services"><ServicesSection /></div>
+      <div id="services" className="deferred-section"><ServicesSection /></div>
       {DIVIDER}
-      <div id="portfolio"><PortfolioSection projects={projects} onSelectProject={handleSelectProject} /></div>
+      <div id="portfolio" className="deferred-section"><PortfolioSection projects={projects} onSelectProject={handleSelectProject} /></div>
       {DIVIDER}
-      <TestimonialsSection />
-      <div id="contact"><FooterSection /></div>
+      <div className="deferred-section"><TestimonialsSection /></div>
+      <div id="contact" className="deferred-section"><FooterSection /></div>
 
       {portfolioModalLoaded ? (
         <Suspense fallback={null}>
-          <PortfolioModal project={selectedProject} onClose={() => setSelectedProject(null)} />
+          <PortfolioModal project={selectedProject} onClose={closeProject} />
         </Suspense>
       ) : null}
     </div>

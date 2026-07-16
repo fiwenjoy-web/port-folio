@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Quote, Star, ChevronLeft, ChevronRight } from "lucide-react";
+import { Layers3, ChevronLeft, ChevronRight } from "lucide-react";
 import { useContent } from "../context/ContentContext";
 
 const SANS = "'Noto Sans Thai', sans-serif";
@@ -71,23 +71,20 @@ export function TestimonialsSection() {
                 boxShadow: `0 20px 60px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.03)`,
               }}
             >
-              {/* Quote glyph */}
+              {/* Profile strength glyph */}
               <div className="absolute -top-5 left-8 w-11 h-11 rounded-2xl flex items-center justify-center"
                 style={{ background: activeAccent, boxShadow: `0 8px 24px ${activeAccent}55` }}>
-                <Quote size={18} color="#000" fill="#000" />
+                <Layers3 size={18} color="#000" />
               </div>
 
-              {/* Stars */}
-              <div className="flex gap-1 mb-5 mt-2">
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <Star key={i} size={15} color={activeAccent} fill={activeAccent} />
-                ))}
-              </div>
+              <p className="mb-5 mt-2 text-xs font-bold uppercase tracking-[0.18em]" style={{ color: activeAccent }}>
+                Professional strength {String(index + 1).padStart(2, "0")}
+              </p>
 
               {/* Quote text */}
               <p className="text-lg md:text-xl leading-relaxed mb-8"
                 style={{ color: "rgba(255,255,255,0.82)", fontWeight: 400 }}>
-                "{t(active.quote)}"
+                {t(active.quote)}
               </p>
 
               {/* Author */}
@@ -125,7 +122,7 @@ export function TestimonialsSection() {
                   background: i === index ? "#00d4ff" : "rgba(255,255,255,0.2)",
                   boxShadow: i === index ? "0 0 10px rgba(0,212,255,0.6)" : "none",
                 }}
-                aria-label={`Go to testimonial ${i + 1}`} />
+                aria-label={`Go to professional strength ${i + 1}`} />
             ))}
           </div>
 

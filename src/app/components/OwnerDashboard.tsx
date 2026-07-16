@@ -8,14 +8,14 @@ import {
 import { DEFAULT_IMAGES, getProjectImages, saveStoredImages } from "../data/projectImages";
 import {
   GITHUB_TOKEN_SESSION_KEY,
+  publishSiteContent,
   publishProjectImages,
+  validateGithubToken,
   type PublishedImages,
 } from "../data/githubPublisher";
 import { useContent } from "../context/ContentContext";
 import type { SiteContent, BT } from "../data/siteContent";
 import { CaseStudyBuilder } from "./CaseStudyBuilder";
-
-const OWNER_PASSWORD = "owner2025";
 
 const PROJECT_LABELS: Record<number, { title: string; folder: string; color: string }> = {
   1: { title: "Commercial Poster", folder: "commercial-poster/", color: "#00d4ff" },
@@ -116,9 +116,10 @@ export function OwnerDashboard({ open, mode = "drawer", storedImages, publishedI
   const { content, updateContent, resetContent } = useContent();
   const isPage = mode === "page";
   const [authed, setAuthed] = useState(false);
-  const [password, setPassword] = useState("");
+  const [accessToken, setAccessToken] = useState(() => sessionStorage.getItem(GITHUB_TOKEN_SESSION_KEY) || "");
   const [showPw, setShowPw] = useState(false);
-  const [pwError, setPwError] = useState(false);
+  const [authError, setAuthError] = useState("");
+  const [checkingAccess, setCheckingAccess] = useState(false);
   const [tab, setTab] = useState<Tab>("images");
   const [activeProject, setActiveProject] = useState<number | null>(null);
   const [activeCmsSection, setActiveCmsSection] = useState<string | null>(null);
@@ -127,23 +128,28 @@ export function OwnerDashboard({ open, mode = "drawer", storedImages, publishedI
   const [toast, setToast] = useState("");
   const [githubToken, setGithubToken] = useState(() => sessionStorage.getItem(GITHUB_TOKEN_SESSION_KEY) || "");
   const [publishingProject, setPublishingProject] = useState<number | null>(null);
+  const [publishingContent, setPublishingContent] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const activeUploadRef = useRef<number | null>(null);
 
-  function handleLogin() {
-    if (password === OWNER_PASSWORD) {
+  async function handleLogin() {
+    if (checkingAccess) return;
+    setCheckingAccess(true);
+    setAuthError("");
+    try {
+      await validateGithubToken(accessToken);
+      handleGithubToken(accessToken);
       setAuthed(true);
-      setPwError(false);
-      setPassword("");
-    } else {
-      setPwError(true);
+    } catch (error) {
+      setAuthError(error instanceof Error ? error.message : "Unable to verify GitHub access");
+    } finally {
+      setCheckingAccess(false);
     }
   }
 
   function handleClose() {
     setAuthed(false);
-    setPassword("");
-    setPwError(false);
+    setAuthError("");
     setActiveProject(null);
     setActiveCmsSection(null);
     setContentSearch("");
@@ -161,6 +167,20 @@ export function OwnerDashboard({ open, mode = "drawer", storedImages, publishedI
     setGithubToken(token);
     if (token) sessionStorage.setItem(GITHUB_TOKEN_SESSION_KEY, token);
     else sessionStorage.removeItem(GITHUB_TOKEN_SESSION_KEY);
+  }
+
+  async function handlePublishContent() {
+    if (!githubToken || publishingContent) return;
+    setPublishingContent(true);
+    try {
+      await publishSiteContent(githubToken, content);
+      showToast("Content committed. GitHub Pages is deploying both themes.");
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "GitHub publish failed";
+      showToast(`Publish failed: ${message}`);
+    } finally {
+      setPublishingContent(false);
+    }
   }
 
   async function readFiles(files: FileList, projectId: number) {
@@ -390,19 +410,21 @@ export function OwnerDashboard({ open, mode = "drawer", storedImages, publishedI
                   </div>
                   <h2 className="text-2xl font-bold text-white text-center mb-2">Owner Access</h2>
                   <p className="text-sm text-center mb-8" style={{ color: "rgba(255,255,255,0.4)" }}>
-                    Enter your password to manage the portfolio.
+                    Use a GitHub token with access to this repository. It stays only in this browser tab.
                   </p>
                   <div className="relative mb-3">
                     <input
                       type={showPw ? "text" : "password"}
-                      value={password}
-                      onChange={(e) => { setPassword(e.target.value); setPwError(false); }}
-                      onKeyDown={(e) => e.key === "Enter" && handleLogin()}
-                      placeholder="Password"
+                      value={accessToken}
+                      onChange={(e) => { setAccessToken(e.target.value); setAuthError(""); }}
+                      onKeyDown={(e) => e.key === "Enter" && void handleLogin()}
+                      placeholder="Fine-grained GitHub token"
+                      autoComplete="off"
+                      spellCheck={false}
                       className="w-full px-4 py-3 pr-12 rounded-xl text-sm outline-none"
                       style={{
                         background: "rgba(255,255,255,0.05)",
-                        border: `1px solid ${pwError ? "#ef4444" : "rgba(255,255,255,0.1)"}`,
+                        border: `1px solid ${authError ? "#ef4444" : "rgba(255,255,255,0.1)"}`,
                         color: "#fff",
                       }}
                     />
@@ -412,11 +434,11 @@ export function OwnerDashboard({ open, mode = "drawer", storedImages, publishedI
                       {showPw ? <EyeOff size={16} /> : <Eye size={16} />}
                     </button>
                   </div>
-                  {pwError && <p className="text-xs text-red-400 mb-3 text-center">Incorrect password. Try again.</p>}
-                  <button onClick={handleLogin}
+                  {authError ? <p className="text-xs text-red-400 mb-3 text-center">{authError}</p> : null}
+                  <button onClick={() => void handleLogin()} disabled={!accessToken.trim() || checkingAccess}
                     className="w-full py-3 rounded-xl font-bold text-sm transition-all hover:scale-105"
                     style={{ background: "linear-gradient(135deg, #00d4ff, #0066ff)", color: "#000", letterSpacing: "0.06em" }}>
-                    UNLOCK DASHBOARD
+                    {checkingAccess ? "VERIFYING ACCESS..." : "UNLOCK WITH GITHUB"}
                   </button>
                 </motion.div>
               </div>
@@ -603,20 +625,28 @@ export function OwnerDashboard({ open, mode = "drawer", storedImages, publishedI
                   ) : tab === "content" ? (
                     /* ── Content tab ── */
                     <div className="flex flex-col gap-4">
-                      {/* Reset all */}
+                      {/* Publish and reset */}
                       <div className="flex items-center justify-between p-4 rounded-xl"
                         style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}>
                         <div>
                           <p className="text-sm font-semibold text-white">Content Settings</p>
                           <p className="text-xs mt-0.5" style={{ color: "rgba(255,255,255,0.4)" }}>
-                            Edit text and proficiency values. Saved automatically.
+                            Changes save as a local draft. Publish when ready so everyone sees them.
                           </p>
                         </div>
-                        <button onClick={() => { resetContent(); showToast("Content reset to defaults."); }}
-                          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs transition-all hover:scale-105"
-                          style={{ background: "rgba(239,68,68,0.1)", border: "1px solid rgba(239,68,68,0.25)", color: "#ef4444", fontFamily: "'Noto Sans Thai', sans-serif" }}>
-                          <RotateCcw size={12} />RESET ALL
-                        </button>
+                        <div className="flex flex-wrap justify-end gap-2">
+                          <button onClick={() => void handlePublishContent()} disabled={publishingContent}
+                            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs transition-all hover:scale-105 disabled:opacity-50"
+                            style={{ background: "rgba(52,211,153,0.12)", border: "1px solid rgba(52,211,153,0.35)", color: "#34d399", fontFamily: "'Noto Sans Thai', sans-serif" }}>
+                            {publishingContent ? <LoaderCircle size={12} className="animate-spin" /> : <Github size={12} />}
+                            {publishingContent ? "PUBLISHING..." : "PUBLISH CONTENT"}
+                          </button>
+                          <button onClick={() => { resetContent(); showToast("Content reset to defaults."); }}
+                            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs transition-all hover:scale-105"
+                            style={{ background: "rgba(239,68,68,0.1)", border: "1px solid rgba(239,68,68,0.25)", color: "#ef4444", fontFamily: "'Noto Sans Thai', sans-serif" }}>
+                            <RotateCcw size={12} />RESET ALL
+                          </button>
+                        </div>
                       </div>
 
                       <label className="relative block">

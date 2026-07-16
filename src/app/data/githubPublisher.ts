@@ -3,6 +3,7 @@ const OWNER = "fiwenjoy-web";
 const REPO = "port-folio";
 const BRANCH = "main";
 const MANIFEST_PATH = "public/portfolio/manifest.json";
+const CONTENT_PATH = "public/content/site-content.json";
 
 export const GITHUB_TOKEN_SESSION_KEY = "wh_github_publish_token";
 
@@ -28,6 +29,68 @@ async function githubRequest(path: string, token: string, init: RequestInit = {}
   }
 
   return response.json() as Promise<GitHubResponse>;
+}
+
+export async function validateGithubToken(token: string) {
+  if (!token.trim()) throw new Error("GitHub token is required");
+  const repository = await githubRequest(`/repos/${OWNER}/${REPO}`, token);
+  const permissions = repository.permissions as { push?: boolean } | undefined;
+  if (!permissions?.push) {
+    throw new Error(`Token needs Contents: Read and write access to ${OWNER}/${REPO}`);
+  }
+  return true;
+}
+
+async function commitFiles({
+  token,
+  message,
+  entries,
+}: {
+  token: string;
+  message: string;
+  entries: Array<{ path: string; content: string; encoding: "base64" | "utf-8" }>;
+}) {
+  await validateGithubToken(token);
+  const ref = await githubRequest(`/repos/${OWNER}/${REPO}/git/ref/heads/${BRANCH}`, token);
+  const parentSha = (ref.object as { sha?: string } | undefined)?.sha;
+  if (!parentSha) throw new Error("Unable to read the main branch");
+  const parentCommit = await githubRequest(`/repos/${OWNER}/${REPO}/git/commits/${parentSha}`, token);
+  const baseTreeSha = (parentCommit.tree as { sha?: string } | undefined)?.sha;
+  if (!baseTreeSha) throw new Error("Unable to read the repository tree");
+
+  const treeEntries: Array<{ path: string; mode: string; type: string; sha: string }> = [];
+  for (const entry of entries) {
+    const blob = await githubRequest(`/repos/${OWNER}/${REPO}/git/blobs`, token, {
+      method: "POST",
+      body: JSON.stringify({ content: entry.content, encoding: entry.encoding }),
+    });
+    const sha = String(blob.sha || "");
+    if (!sha) throw new Error(`Unable to upload ${entry.path}`);
+    treeEntries.push({ path: entry.path, mode: "100644", type: "blob", sha });
+  }
+
+  const tree = await githubRequest(`/repos/${OWNER}/${REPO}/git/trees`, token, {
+    method: "POST",
+    body: JSON.stringify({ base_tree: baseTreeSha, tree: treeEntries }),
+  });
+  if (!tree.sha) throw new Error("Unable to create the commit tree");
+  const commit = await githubRequest(`/repos/${OWNER}/${REPO}/git/commits`, token, {
+    method: "POST",
+    body: JSON.stringify({ message, tree: tree.sha, parents: [parentSha] }),
+  });
+  if (!commit.sha) throw new Error("Unable to create the commit");
+  await githubRequest(`/repos/${OWNER}/${REPO}/git/refs/heads/${BRANCH}`, token, {
+    method: "PATCH",
+    body: JSON.stringify({ sha: commit.sha, force: false }),
+  });
+}
+
+export async function publishSiteContent(token: string, content: unknown) {
+  await commitFiles({
+    token,
+    message: "Publish portfolio content",
+    entries: [{ path: CONTENT_PATH, content: `${JSON.stringify(content, null, 2)}\n`, encoding: "utf-8" }],
+  });
 }
 
 function fileToBase64(file: File) {

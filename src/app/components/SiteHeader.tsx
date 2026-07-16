@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { ArrowUpRight, Menu, X } from "lucide-react";
+import { ArrowUpRight, FileDown, Menu, X } from "lucide-react";
 import { useContent } from "../context/ContentContext";
 import { BrandLogo } from "./BrandLogo";
 
@@ -114,7 +114,20 @@ export function SiteHeader({ onLogoClick }: SiteHeaderProps) {
 
           <nav className="hidden items-center gap-0.5 md:flex" aria-label="Main navigation">
             {content.navigation.links.map((label, index) => (
-              <NavLink key={NAV_TARGETS[index]} label={t(label)} onClick={() => scrollTo(NAV_TARGETS[index])} />
+              index === 2 ? (
+                <a
+                  key="resume"
+                  href={`${import.meta.env.BASE_URL}resume/`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="relative flex shrink-0 items-center gap-1.5 rounded-full px-4 py-2 text-sm text-white/70 transition-colors duration-200 hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#48c6ec]/60"
+                  style={{ fontFamily: KANIT, letterSpacing: 0 }}
+                >
+                  {t(label)} <FileDown size={13} aria-hidden="true" />
+                </a>
+              ) : (
+                <NavLink key={NAV_TARGETS[index]} label={t(label)} onClick={() => scrollTo(NAV_TARGETS[index])} />
+              )
             ))}
           </nav>
 
@@ -167,15 +180,28 @@ export function SiteHeader({ onLogoClick }: SiteHeaderProps) {
             >
               <nav className="grid grid-cols-2 gap-1" aria-label="Mobile navigation">
                 {content.navigation.links.map((label, index) => (
-                  <button
-                    key={NAV_TARGETS[index]}
-                    type="button"
-                    onClick={() => scrollTo(NAV_TARGETS[index])}
-                    className="rounded-xl px-4 py-3 text-left text-sm text-white/70 transition-colors hover:bg-white/8 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#48c6ec]/60"
-                    style={{ fontFamily: KANIT, letterSpacing: 0 }}
-                  >
-                    {t(label)}
-                  </button>
+                  index === 2 ? (
+                    <a
+                      key="resume"
+                      href={`${import.meta.env.BASE_URL}resume/`}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="flex items-center gap-2 rounded-xl px-4 py-3 text-left text-sm text-white/70 transition-colors hover:bg-white/8 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#48c6ec]/60"
+                      style={{ fontFamily: KANIT, letterSpacing: 0 }}
+                    >
+                      {t(label)} <FileDown size={14} aria-hidden="true" />
+                    </a>
+                  ) : (
+                    <button
+                      key={NAV_TARGETS[index]}
+                      type="button"
+                      onClick={() => scrollTo(NAV_TARGETS[index])}
+                      className="rounded-xl px-4 py-3 text-left text-sm text-white/70 transition-colors hover:bg-white/8 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#48c6ec]/60"
+                      style={{ fontFamily: KANIT, letterSpacing: 0 }}
+                    >
+                      {t(label)}
+                    </button>
+                  )
                 ))}
               </nav>
               <div className="mt-2 flex items-center justify-between border-t border-white/10 pt-3">

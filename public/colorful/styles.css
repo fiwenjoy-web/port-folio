@@ -2685,3 +2685,14 @@ footer {
   .service-card { transition-duration: 0.01ms !important; }
 
 }
+@supports (content-visibility: auto) {
+  .work,
+  .services,
+  .toolkit,
+  .experience,
+  .testimonials,
+  .contact {
+    content-visibility: auto;
+    contain-intrinsic-size: 900px;
+  }
+}

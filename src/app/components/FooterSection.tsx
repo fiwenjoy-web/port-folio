@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-import { Mail, Phone, MapPin, ArrowUpRight } from "lucide-react";
+import { Mail, Phone, MapPin, ArrowUpRight, FileDown } from "lucide-react";
 import { useContent } from "../context/ContentContext";
 import { BrandLogo } from "./BrandLogo";
 
@@ -55,6 +55,12 @@ export function FooterSection() {
               style={{ color: "rgba(255,255,255,0.65)", border: "1px solid rgba(255,255,255,0.1)", letterSpacing: "0.04em" }}>
               <Phone size={15} />
               {footer.phone}
+            </a>
+            <a href={`${import.meta.env.BASE_URL}resume/`} target="_blank" rel="noreferrer"
+              className="flex items-center gap-2.5 px-8 py-4 rounded-full font-semibold text-sm transition-all hover:bg-white/5"
+              style={{ color: "rgba(255,255,255,0.65)", border: "1px solid rgba(255,255,255,0.1)", letterSpacing: "0.04em" }}>
+              <FileDown size={15} />
+              DOWNLOAD RESUME
             </a>
           </motion.div>
         </div>

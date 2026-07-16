@@ -1,6 +1,6 @@
 import { lazy, Suspense, useEffect, useState, type PointerEvent as ReactPointerEvent } from "react";
 import { motion, useMotionTemplate, useMotionValue, useReducedMotion, useSpring, useTransform } from "motion/react";
-import { ArrowUpRight, Mail, Quote, Star } from "lucide-react";
+import { ArrowUpRight, Layers3, Mail } from "lucide-react";
 import { useContent } from "../context/ContentContext";
 import portraitUrl from "../../assets/portrait.webp";
 
@@ -111,7 +111,7 @@ function DesktopHeroContent() {
 
       <div className="absolute left-[5%] top-[43%] w-[25%]">
         <div>
-          <Quote size={32} fill="#344054" color="#344054" aria-hidden="true" />
+          <Layers3 size={32} color="#344054" aria-hidden="true" />
           <p className="mt-5 text-[clamp(0.8rem,1.35cqw,1.2rem)] font-medium leading-[1.45] text-[#344054]" style={{ whiteSpace: "pre-line" }}>
             {t(hero.testimonial)}
           </p>
@@ -120,11 +120,7 @@ function DesktopHeroContent() {
 
       <div className="absolute right-[5%] top-[42%] w-[20%] text-center">
         <div>
-          <div className="mb-4 flex justify-center gap-1 text-[#00c0e8]">
-            {Array.from({ length: 5 }, (_, index) => (
-              <Star key={index} size={24} fill="currentColor" strokeWidth={0} aria-hidden="true" />
-            ))}
-          </div>
+          <p className="mb-4 text-[clamp(0.65rem,0.9cqw,0.8rem)] font-bold uppercase text-[#00a9d4]">Professional experience</p>
           <p className="text-[clamp(2rem,3.4cqw,3.1rem)] font-bold leading-none">{t(hero.experienceValue)}</p>
           <p className="mt-2 text-[clamp(0.8rem,1.3cqw,1.15rem)]">{t(hero.experienceLabel)}</p>
         </div>

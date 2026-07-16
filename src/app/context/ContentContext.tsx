@@ -6,6 +6,7 @@ import {
   loadStoredContent,
   saveStoredContent,
   DEFAULT_CONTENT,
+  mergeContentWithDefaults,
 } from "../data/siteContent";
 
 interface ContentContextValue {
@@ -22,6 +23,29 @@ const ContentContext = createContext<ContentContextValue | null>(null);
 export function ContentProvider({ children }: { children: ReactNode }) {
   const [content, setContent] = useState<SiteContent>(() => loadStoredContent());
   const [lang, setLang] = useState<Lang>("en");
+
+  useEffect(() => {
+    const isAdminRoute = new URLSearchParams(window.location.search).get("admin") === "1"
+      || /\/admin\/?$/.test(window.location.pathname);
+    if (isAdminRoute) return;
+
+    const controller = new AbortController();
+    fetch(`${import.meta.env.BASE_URL}content/site-content.json?ts=${Date.now()}`, {
+      cache: "no-store",
+      signal: controller.signal,
+    })
+      .then((response) => response.ok ? response.json() : null)
+      .then((published) => {
+        if (published && typeof published === "object" && Object.keys(published).length > 0) {
+          setContent(mergeContentWithDefaults(published));
+        }
+      })
+      .catch((error) => {
+        if (error instanceof DOMException && error.name === "AbortError") return;
+      });
+
+    return () => controller.abort();
+  }, []);
 
   useEffect(() => {
     document.documentElement.lang = lang;

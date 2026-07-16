@@ -252,7 +252,7 @@ export const DEFAULT_CONTENT: SiteContent = {
       { en: "Contact", th: "ติดต่อ" },
     ],
     portfolioLabel: { en: "Portfolio", th: "ผลงาน" },
-    hireLabel: { en: "Hire me", th: "จ้างงาน" },
+    hireLabel: { en: "Contact me", th: "ติดต่อผม" },
   },
   hero: {
     name: "WEERAPONG HAMATHULIN",
@@ -279,21 +279,21 @@ export const DEFAULT_CONTENT: SiteContent = {
     },
     stats: [
       { value: "3+", label: { en: "Years Experience", th: "ปีประสบการณ์" } },
-      { value: "50+", label: { en: "Projects Delivered", th: "โปรเจกต์ที่ส่งมอบ" } },
+      { value: "5", label: { en: "Creative Disciplines", th: "ทักษะครีเอทีฟหลัก" } },
       { value: "AI", label: { en: "Visual Production", th: "การผลิตภาพ" } },
       { value: "5", label: { en: "Core Skills", th: "ทักษะหลัก" } },
     ],
     greeting: { en: "Hello!", th: "สวัสดี!" },
     introPrefix: { en: "I'm", th: "ผมคือ" },
     displayName: "Fuse",
-    title: { en: "Product Designer", th: "นักออกแบบผลิตภัณฑ์" },
+    title: { en: "Creative Designer", th: "นักออกแบบครีเอทีฟ" },
     testimonial: {
-      en: "Exceptional product design ensures our website's success. Highly Recommended",
-      th: "งานออกแบบผลิตภัณฑ์ที่ยอดเยี่ยมช่วยให้เว็บไซต์ของเราประสบความสำเร็จ ขอแนะนำอย่างยิ่ง",
+      en: "I combine commercial design thinking, AI-assisted exploration, and production craft to build clear, polished visual systems.",
+      th: "ผมผสานแนวคิดเชิงพาณิชย์ การสำรวจด้วย AI และทักษะการผลิต เพื่อสร้างระบบภาพที่ชัดเจนและพร้อมใช้งาน",
     },
     experienceValue: { en: "3 Years", th: "3 ปี" },
     experienceLabel: { en: "Experience", th: "ประสบการณ์" },
-    portraitAlt: { en: "Fuse, product designer", th: "ฟิวส์ นักออกแบบผลิตภัณฑ์" },
+    portraitAlt: { en: "Fuse, creative designer", th: "ฟิวส์ นักออกแบบครีเอทีฟ" },
     portfolioButton: { en: "Portfolio", th: "ผลงาน" },
   },
   marquee: {
@@ -721,27 +721,27 @@ export const DEFAULT_CONTENT: SiteContent = {
     ],
   },
   testimonials: {
-    sectionLabel: { en: "TESTIMONIALS", th: "คำรับรอง" },
-    heading1: { en: "Trusted by", th: "ได้รับความไว้วางใจจาก" },
-    heading2: { en: "clients", th: "ลูกค้า" },
+    sectionLabel: { en: "PROFESSIONAL PROFILE", th: "โปรไฟล์การทำงาน" },
+    heading1: { en: "How I bring", th: "จุดแข็งใน" },
+    heading2: { en: "value", th: "การทำงาน" },
     items: [
       {
-        quote: { en: "The AI-assisted product visuals elevated our entire e-commerce presence. Fast turnaround, polished commercial finish — exactly what our brand needed.", th: "ภาพสินค้าที่ผลิตด้วย AI ยกระดับภาพลักษณ์อีคอมเมิร์ซของเราทั้งหมด งานเร็วและเนี้ยบ ตรงกับที่แบรนด์เราต้องการเป๊ะ" },
-        name: "Napat S.",
-        role: { en: "Brand Manager, Dr. Hygiene", th: "ผู้จัดการแบรนด์, Dr. Hygiene" },
-        initials: "NS",
+        quote: { en: "Connects commercial design judgment with AI-assisted exploration to turn broad ideas into focused visual directions.", th: "เชื่อมการตัดสินใจด้านงานออกแบบเชิงพาณิชย์กับการสำรวจด้วย AI เพื่อเปลี่ยนไอเดียกว้าง ๆ ให้เป็นทิศทางภาพที่ชัดเจน" },
+        name: "Visual Direction",
+        role: { en: "Project strength", th: "จุดแข็งของการทำงาน" },
+        initials: "VD",
       },
       {
-        quote: { en: "Exceptional 3D renders that looked better than photography. The lighting and detail work made our packaging launch a standout success.", th: "งานเรนเดอร์ 3D ยอดเยี่ยม ดูดีกว่าถ่ายจริง การจัดแสงและรายละเอียดทำให้การเปิดตัวบรรจุภัณฑ์ของเราโดดเด่นมาก" },
-        name: "Ploy T.",
-        role: { en: "Marketing Lead, Pinnacle", th: "หัวหน้าการตลาด, Pinnacle" },
-        initials: "PT",
+        quote: { en: "Builds repeatable workflows across design, mockup, 3D, and file organization so production stays fast and consistent.", th: "สร้างเวิร์กโฟลว์ที่ทำซ้ำได้ทั้งงานออกแบบ ม็อกอัพ 3D และการจัดไฟล์ เพื่อให้งานผลิตรวดเร็วและสม่ำเสมอ" },
+        name: "Production Workflow",
+        role: { en: "Project strength", th: "จุดแข็งของการทำงาน" },
+        initials: "PW",
       },
       {
-        quote: { en: "A rare designer who understands both commercial strategy and cutting-edge AI workflows. Every campaign delivered measurable results.", th: "นักออกแบบหายากที่เข้าใจทั้งกลยุทธ์เชิงพาณิชย์และขั้นตอน AI ล้ำสมัย ทุกแคมเปญให้ผลลัพธ์ที่วัดได้จริง" },
-        name: "Kridsada M.",
-        role: { en: "Founder, TH Commerce", th: "ผู้ก่อตั้ง, TH Commerce" },
-        initials: "KM",
+        quote: { en: "Adapts one visual system into campaign, social, e-commerce, presentation, and short-form formats without losing consistency.", th: "ปรับระบบภาพเดียวให้ใช้ได้กับแคมเปญ โซเชียล อีคอมเมิร์ซ งานนำเสนอ และวิดีโอสั้น โดยยังคงความสม่ำเสมอ" },
+        name: "Platform Adaptation",
+        role: { en: "Project strength", th: "จุดแข็งของการทำงาน" },
+        initials: "PA",
       },
     ],
   },
@@ -770,9 +770,9 @@ export const DEFAULT_CONTENT: SiteContent = {
     email: "Fusenra@gmail.com",
     phone: "083-480-9368",
     location: { en: "Chiangmai, Thailand", th: "เชียงใหม่ ประเทศไทย" },
-    ctaEyebrow: { en: "LET'S WORK TOGETHER", th: "มาร่วมงานกัน" },
-    ctaHeading1: { en: "Have a project", th: "มีโปรเจกต์" },
-    ctaHeading2: { en: "in mind?", th: "ในใจหรือยัง?" },
+    ctaEyebrow: { en: "OPEN TO FULL-TIME OPPORTUNITIES", th: "เปิดรับโอกาสงานประจำ" },
+    ctaHeading1: { en: "Let's build", th: "มาสร้างงานภาพ" },
+    ctaHeading2: { en: "meaningful visuals", th: "ที่มีความหมายด้วยกัน" },
     getInTouchLabel: { en: "GET IN TOUCH", th: "ติดต่อฉัน" },
     emailLabel: { en: "EMAIL", th: "อีเมล" },
     phoneLabel: { en: "PHONE", th: "โทรศัพท์" },
@@ -796,6 +796,10 @@ export function loadStoredContent(): SiteContent {
   }
 }
 
+export function mergeContentWithDefaults(value: unknown): SiteContent {
+  return upgradeLegacyServicesContent(mergeWithDefaults(DEFAULT_CONTENT, value) as SiteContent);
+}
+
 function upgradeLegacyServicesContent(content: SiteContent): SiteContent {
   const hasLegacyServices =
     content.services.sectionLabel.en === "WHAT I OFFER" ||
@@ -811,12 +815,29 @@ function upgradeLegacyServicesContent(content: SiteContent): SiteContent {
     ));
 
   const hasLegacyNavigation = content.navigation.links[1]?.en === "Service";
+  const hasLegacyPositioning =
+    content.navigation.hireLabel.en === "Hire me" ||
+    content.hero.stats.some((stat) => stat.value === "50+") ||
+    content.hero.title.en === "Product Designer" ||
+    content.testimonials.sectionLabel.en === "TESTIMONIALS" ||
+    content.footer.ctaEyebrow.en === "LET'S WORK TOGETHER";
 
-  if (!hasLegacyServices && !hasLegacyNavigation) return content;
+  if (!hasLegacyServices && !hasLegacyNavigation && !hasLegacyPositioning) return content;
 
   const next = structuredClone(content);
   if (hasLegacyNavigation) next.navigation.links[1] = structuredClone(DEFAULT_CONTENT.navigation.links[1]);
   if (hasLegacyServices) next.services = structuredClone(DEFAULT_CONTENT.services);
+  if (hasLegacyPositioning) {
+    next.navigation.hireLabel = structuredClone(DEFAULT_CONTENT.navigation.hireLabel);
+    next.hero.stats = structuredClone(DEFAULT_CONTENT.hero.stats);
+    next.hero.title = structuredClone(DEFAULT_CONTENT.hero.title);
+    next.hero.testimonial = structuredClone(DEFAULT_CONTENT.hero.testimonial);
+    next.hero.portraitAlt = structuredClone(DEFAULT_CONTENT.hero.portraitAlt);
+    next.testimonials = structuredClone(DEFAULT_CONTENT.testimonials);
+    next.footer.ctaEyebrow = structuredClone(DEFAULT_CONTENT.footer.ctaEyebrow);
+    next.footer.ctaHeading1 = structuredClone(DEFAULT_CONTENT.footer.ctaHeading1);
+    next.footer.ctaHeading2 = structuredClone(DEFAULT_CONTENT.footer.ctaHeading2);
+  }
   return next;
 }
 
