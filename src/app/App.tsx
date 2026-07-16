@@ -1,4 +1,4 @@
-import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState, type MouseEvent } from "react";
 import { MotionConfig } from "motion/react";
 import { Palette } from "lucide-react";
 import { ContentProvider, useContent } from "./context/ContentContext";
@@ -28,6 +28,43 @@ const DIVIDER = (
   <div className="mx-auto max-w-7xl px-6 md:px-16 lg:px-24"
     style={{ height: "1px", background: "linear-gradient(90deg, transparent, rgba(0,212,255,0.18), transparent)" }} />
 );
+
+function FloatingThemeSwitch() {
+  const [switching, setSwitching] = useState(false);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => () => {
+    if (timerRef.current) clearTimeout(timerRef.current);
+  }, []);
+
+  const handleClick = (event: MouseEvent<HTMLAnchorElement>) => {
+    if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || switching) return;
+    event.preventDefault();
+    const destination = event.currentTarget.href;
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    setSwitching(true);
+    timerRef.current = setTimeout(() => {
+      window.location.assign(destination);
+    }, reducedMotion ? 80 : 560);
+  };
+
+  return (
+    <>
+      <div className={`theme-transition-wash theme-transition-to-colorful${switching ? " is-active" : ""}`} aria-hidden="true" />
+      <a
+        href="./colorful/"
+        aria-label="Switch to Colorful Playful theme"
+        aria-busy={switching}
+        onClick={handleClick}
+        className={`theme-toggle-floating${switching ? " is-switching" : ""}`}
+      >
+        <span className="theme-warp-light" aria-hidden="true" />
+        <Palette size={16} aria-hidden="true" />
+        <span className="theme-toggle-label">COLORFUL THEME</span>
+      </a>
+    </>
+  );
+}
 
 function PortfolioApp() {
   const { content, lang } = useContent();
@@ -120,20 +157,7 @@ function PortfolioApp() {
     <div className="min-h-screen" style={{ background: "#06060a", color: "#ffffff" }}>
       <ScrollProgress />
       <FloatingCTA />
-      <a
-        href="./colorful/"
-        aria-label="Switch to Colorful Playful theme"
-        className="fixed bottom-5 left-5 z-[45] flex h-11 items-center gap-2 rounded-full px-3.5 text-xs font-bold text-white transition-transform hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#fd853a]"
-        style={{
-          background: "linear-gradient(135deg, #fd853a, #48c6ec)",
-          border: "1px solid rgba(255,255,255,0.5)",
-          boxShadow: "0 10px 32px rgba(0,0,0,0.38)",
-          fontFamily: "'Noto Sans Thai', sans-serif",
-        }}
-      >
-        <Palette size={16} />
-        <span className="hidden sm:inline">COLORFUL THEME</span>
-      </a>
+      <FloatingThemeSwitch />
 
       {/* Capsule navigation header */}
       <SiteHeader onLogoClick={handleLogoClick} />

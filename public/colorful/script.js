@@ -241,6 +241,18 @@ const DEFAULT_TESTIMONIALS = [
 
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+const themeSwitch = document.querySelector("[data-theme-switch]");
+const themeTransition = document.querySelector(".theme-transition-wash");
+themeSwitch?.addEventListener("click", (event) => {
+  if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || themeSwitch.classList.contains("is-switching")) return;
+  event.preventDefault();
+  const destination = themeSwitch.href;
+  themeSwitch.classList.add("is-switching");
+  themeSwitch.setAttribute("aria-busy", "true");
+  themeTransition?.classList.add("is-active");
+  window.setTimeout(() => window.location.assign(destination), reducedMotion ? 80 : 560);
+});
+
 function readStorage(key) {
   try {
     return JSON.parse(localStorage.getItem(key) || "null");
@@ -360,6 +372,19 @@ fetch(`../portfolio/manifest.json?ts=${Date.now()}`, { cache: "no-store" })
   .catch(() => {});
 
 if (storedContent) {
+  storedContent.navigation?.links?.slice(0, 4).forEach((label, index) => {
+    document.querySelectorAll(`[data-nav-label="${index}"]`).forEach((element) => {
+      element.textContent = english(label);
+    });
+  });
+  document.querySelectorAll("[data-nav-portfolio]").forEach((element) => {
+    const label = english(storedContent.navigation?.portfolioLabel, "Portfolio");
+    element.firstChild.textContent = `${label} `;
+  });
+  document.querySelectorAll("[data-nav-hire]").forEach((element) => {
+    element.textContent = english(storedContent.navigation?.hireLabel, "Hire me");
+  });
+
   setText("#hero-status", english(storedContent.hero?.navStatus, "SEEKING FULL-TIME POSITION"));
   setText("#hero-name", cleanText(storedContent.hero?.name, "WEERAPONG HAMATHULIN"));
   setText("#hero-role", english(storedContent.hero?.role, "CREATIVE DESIGNER / AI VISUAL PRODUCTION"));
@@ -563,6 +588,30 @@ document.querySelectorAll("[data-contact-phone], [data-footer-phone]").forEach((
   value.textContent = phone;
 });
 setText("[data-contact-location]", contactLocation);
+
+const mobileNavToggle = document.querySelector(".nav-menu-toggle");
+const mobileNavPanel = document.querySelector(".mobile-nav-panel");
+
+function setMobileNavigation(open) {
+  if (!mobileNavToggle || !mobileNavPanel) return;
+  mobileNavToggle.classList.toggle("is-open", open);
+  mobileNavToggle.setAttribute("aria-expanded", String(open));
+  mobileNavToggle.setAttribute("aria-label", open ? "Close navigation" : "Open navigation");
+  mobileNavPanel.hidden = !open;
+}
+
+mobileNavToggle?.addEventListener("click", () => {
+  setMobileNavigation(mobileNavToggle.getAttribute("aria-expanded") !== "true");
+});
+mobileNavPanel?.querySelectorAll("a").forEach((link) => {
+  link.addEventListener("click", () => setMobileNavigation(false));
+});
+window.addEventListener("resize", () => {
+  if (window.innerWidth > 980) setMobileNavigation(false);
+});
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") setMobileNavigation(false);
+});
 
 const navLinks = [...document.querySelectorAll(".nav-link")];
 const sections = navLinks.map((link) => document.querySelector(link.getAttribute("href"))).filter(Boolean);

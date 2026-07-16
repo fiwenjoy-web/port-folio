@@ -243,6 +243,158 @@
   animation-play-state: running;
 }
 
+.theme-toggle-floating {
+  align-items: center;
+  animation: theme-warp-pulse-colorful 3.4s ease-in-out infinite;
+  background: linear-gradient(135deg, #fd853a, #48c6ec);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 999px;
+  bottom: 20px;
+  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.38);
+  color: #fff;
+  display: flex;
+  font-family: "Noto Sans Thai", sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  gap: 8px;
+  height: 44px;
+  isolation: isolate;
+  left: 20px;
+  overflow: hidden;
+  padding: 0 14px;
+  position: fixed;
+  transition: box-shadow 180ms ease, transform 180ms ease;
+  z-index: 45;
+}
+
+.theme-toggle-floating:hover {
+  animation-play-state: paused;
+  box-shadow: 0 14px 38px rgba(72, 198, 236, 0.25), 0 10px 32px rgba(0, 0, 0, 0.42);
+  transform: translateY(-2px) scale(1.04);
+}
+
+.theme-toggle-floating:focus-visible {
+  outline: 2px solid #fd853a;
+  outline-offset: 4px;
+}
+
+.theme-toggle-floating.is-switching {
+  animation: theme-button-pop 560ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  pointer-events: none;
+}
+
+.theme-toggle-floating.is-switching svg {
+  animation: theme-icon-spin 560ms ease both;
+}
+
+.theme-toggle-floating > svg,
+.theme-toggle-label {
+  position: relative;
+  z-index: 2;
+}
+
+.theme-warp-light {
+  animation: theme-warp-sweep 3.4s ease-in-out infinite;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.18), transparent);
+  filter: blur(0.5px);
+  height: 180%;
+  left: -25%;
+  pointer-events: none;
+  position: absolute;
+  top: -40%;
+  transform: translateX(-180%) rotate(18deg);
+  width: 32%;
+  z-index: 1;
+}
+
+.theme-toggle-floating:hover .theme-warp-light,
+.theme-toggle-floating.is-switching .theme-warp-light {
+  animation-play-state: paused;
+  opacity: 0;
+}
+
+.theme-transition-wash {
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  position: fixed;
+  z-index: 44;
+}
+
+.theme-transition-wash::before {
+  border-radius: 50%;
+  bottom: -24vmax;
+  content: "";
+  height: 48vmax;
+  left: -24vmax;
+  position: absolute;
+  transform: scale(0);
+  width: 48vmax;
+}
+
+.theme-transition-to-colorful::before {
+  background: radial-gradient(circle at 58% 42%, #25d6ed 0 10%, #7654ff 30%, #ff5d68 57%, #fff8e9 78%);
+}
+
+.theme-transition-wash.is-active::before {
+  animation: theme-wash-in 620ms cubic-bezier(0.55, 0, 0.2, 1) forwards;
+}
+
+@keyframes theme-button-pop {
+  0% { transform: scale(1); }
+  35% { transform: scale(0.88) rotate(-3deg); }
+  72% { transform: scale(1.1) rotate(2deg); }
+  100% { transform: scale(1); }
+}
+
+@keyframes theme-icon-spin {
+  from { transform: rotate(0deg) scale(1); }
+  to { transform: rotate(180deg) scale(1.15); }
+}
+
+@keyframes theme-wash-in {
+  from { transform: scale(0); }
+  to { transform: scale(6); }
+}
+
+@keyframes theme-warp-sweep {
+  0%, 24% {
+    opacity: 0;
+    transform: translateX(-180%) rotate(18deg);
+  }
+  31% { opacity: 0.95; }
+  52% {
+    opacity: 0.9;
+    transform: translateX(520%) rotate(18deg);
+  }
+  58%, 100% {
+    opacity: 0;
+    transform: translateX(520%) rotate(18deg);
+  }
+}
+
+@keyframes theme-warp-pulse-colorful {
+  0%, 24%, 62%, 100% {
+    box-shadow: 0 10px 32px rgba(0, 0, 0, 0.38), 0 0 0 0 rgba(72, 198, 236, 0);
+  }
+  42% {
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.42), 0 0 0 7px rgba(72, 198, 236, 0.16);
+  }
+}
+
+@media (max-width: 639px) {
+  .theme-toggle-floating {
+    height: 44px;
+    padding: 0;
+    width: 44px;
+    justify-content: center;
+  }
+
+  .theme-toggle-label {
+    display: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -250,5 +402,18 @@
 
   .project-scan-overlay {
     animation: none;
+  }
+
+  .theme-toggle-floating,
+  .theme-toggle-floating.is-switching,
+  .theme-toggle-floating.is-switching svg,
+  .theme-warp-light,
+  .theme-transition-wash.is-active::before {
+    animation: none;
+    transition: none;
+  }
+
+  .theme-transition-wash.is-active::before {
+    transform: scale(6);
   }
 }
