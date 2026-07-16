@@ -250,7 +250,7 @@ themeSwitch?.addEventListener("click", (event) => {
   themeSwitch.classList.add("is-switching");
   themeSwitch.setAttribute("aria-busy", "true");
   themeTransition?.classList.add("is-active");
-  window.setTimeout(() => window.location.assign(destination), reducedMotion ? 80 : 560);
+  window.setTimeout(() => window.location.assign(destination), reducedMotion ? 80 : 1080);
 });
 
 function readStorage(key) {
