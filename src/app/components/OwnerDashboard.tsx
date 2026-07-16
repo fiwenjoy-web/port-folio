@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "motion/react";
 import {
   X, Upload, Trash2, Lock, Eye, EyeOff, CheckCircle,
   Plus, FolderOpen, Image as ImageIcon, FileText, RotateCcw, Search, Github, LoaderCircle,
+  LayoutDashboard, ExternalLink,
 } from "lucide-react";
 import { DEFAULT_IMAGES, getProjectImages, saveStoredImages } from "../data/projectImages";
 import {
@@ -100,6 +101,7 @@ function collectTextFields(value: unknown, path: ContentPath = []): EditableFiel
 
 interface Props {
   open: boolean;
+  mode?: "drawer" | "page";
   storedImages: Record<number, string[]>;
   publishedImages: PublishedImages;
   onClose: () => void;
@@ -109,8 +111,9 @@ interface Props {
 
 type Tab = "images" | "content";
 
-export function OwnerDashboard({ open, storedImages, publishedImages, onClose, onImagesChange, onPublishedImagesChange }: Props) {
+export function OwnerDashboard({ open, mode = "drawer", storedImages, publishedImages, onClose, onImagesChange, onPublishedImagesChange }: Props) {
   const { content, updateContent, resetContent } = useContent();
+  const isPage = mode === "page";
   const [authed, setAuthed] = useState(false);
   const [password, setPassword] = useState("");
   const [showPw, setShowPw] = useState(false);
@@ -296,6 +299,7 @@ export function OwnerDashboard({ open, storedImages, publishedImages, onClose, o
     <AnimatePresence>
       {open && (
         <>
+          {!isPage && (
           <motion.div
             key="dash-backdrop"
             initial={{ opacity: 0 }}
@@ -305,18 +309,19 @@ export function OwnerDashboard({ open, storedImages, publishedImages, onClose, o
             style={{ background: "rgba(0,0,0,0.88)", backdropFilter: "blur(20px)" }}
             onClick={handleClose}
           />
+          )}
 
           <motion.div
             key="dash-panel"
-            initial={{ opacity: 0, x: "100%" }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: "100%" }}
+            initial={isPage ? { opacity: 0, y: 12 } : { opacity: 0, x: "100%" }}
+            animate={isPage ? { opacity: 1, y: 0 } : { opacity: 1, x: 0 }}
+            exit={isPage ? { opacity: 0, y: 12 } : { opacity: 0, x: "100%" }}
             transition={{ type: "spring", damping: 28, stiffness: 260 }}
-            className="fixed right-0 top-0 bottom-0 z-[61] w-full max-w-2xl flex flex-col"
+            className={isPage ? "relative z-0 flex min-h-screen w-full flex-col" : "fixed right-0 top-0 bottom-0 z-[61] w-full max-w-2xl flex flex-col"}
             style={{
-              background: "#08080f",
-              borderLeft: "1px solid rgba(0,212,255,0.15)",
-              boxShadow: "-20px 0 80px rgba(0,0,0,0.8)",
+              background: isPage ? "radial-gradient(circle at top left, rgba(0,212,255,0.12), transparent 34%), #07070d" : "#08080f",
+              borderLeft: isPage ? undefined : "1px solid rgba(0,212,255,0.15)",
+              boxShadow: isPage ? undefined : "-20px 0 80px rgba(0,0,0,0.8)",
               fontFamily: "'Noto Sans Thai', sans-serif",
             }}
             onClick={(e) => e.stopPropagation()}
@@ -328,31 +333,56 @@ export function OwnerDashboard({ open, storedImages, publishedImages, onClose, o
             <input ref={fileInputRef} type="file" accept="image/*" multiple className="hidden" onChange={handleFileInput} />
 
             {/* Header */}
-            <div className="flex items-center justify-between px-7 py-5 shrink-0"
+            <div className={isPage ? "mx-auto flex w-full max-w-7xl items-center justify-between px-5 py-5 md:px-8" : "flex items-center justify-between px-7 py-5 shrink-0"}
               style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
               <div className="flex items-center gap-3">
                 <div className="w-8 h-8 rounded-lg flex items-center justify-center"
                   style={{ background: "linear-gradient(135deg, #00d4ff, #0066ff)" }}>
-                  <Lock size={14} color="#000" />
+                  {isPage ? <LayoutDashboard size={15} color="#000" /> : <Lock size={14} color="#000" />}
                 </div>
                 <div>
-                  <p className="text-white font-bold text-sm">Owner Dashboard</p>
+                  <p className="text-white font-bold text-sm">{isPage ? "Portfolio Admin" : "Owner Dashboard"}</p>
                   <p className="text-xs" style={{ color: "rgba(255,255,255,0.35)", fontFamily: "'Noto Sans Thai', sans-serif" }}>
-                    PORTFOLIO MANAGEMENT
+                    {isPage ? "FULL PAGE MANAGEMENT" : "PORTFOLIO MANAGEMENT"}
                   </p>
                 </div>
               </div>
-              <button onClick={handleClose}
-                className="w-9 h-9 flex items-center justify-center rounded-xl transition-all hover:scale-110"
-                style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.6)" }}>
-                <X size={17} />
-              </button>
+              <div className="flex items-center gap-2">
+                {isPage && (
+                  <a href={import.meta.env.BASE_URL} className="hidden items-center gap-2 rounded-xl px-3 py-2 text-xs font-semibold text-white/60 transition-colors hover:bg-white/8 hover:text-white sm:flex"
+                    style={{ border: "1px solid rgba(255,255,255,0.08)" }}>
+                    <ExternalLink size={14} />
+                    View site
+                  </a>
+                )}
+                <button onClick={handleClose}
+                  className="w-9 h-9 flex items-center justify-center rounded-xl transition-all hover:scale-110"
+                  style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.6)" }}>
+                  <X size={17} />
+                </button>
+              </div>
             </div>
 
             {!authed ? (
               /* ── Login ── */
-              <div className="flex flex-col items-center justify-center flex-1 px-8">
-                <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="w-full max-w-sm">
+              <div className={isPage ? "mx-auto grid min-h-[calc(100vh-82px)] w-full max-w-7xl items-center gap-10 px-5 py-10 md:grid-cols-[1fr_420px] md:px-8" : "flex flex-col items-center justify-center flex-1 px-8"}>
+                {isPage && (
+                  <div className="hidden md:block">
+                    <p className="mb-4 text-xs font-bold uppercase text-cyan-300">Admin workspace</p>
+                    <h1 className="max-w-xl text-5xl font-black leading-none text-white">แก้เว็บได้เต็มจอ ไม่บังหน้า portfolio แล้ว</h1>
+                    <p className="mt-5 max-w-lg text-sm leading-7 text-white/45">
+                      จัดการรูป, publish ขึ้น GitHub, แก้ข้อความสองภาษา และเตรียมต่อยอดเป็น case study builder ในพื้นที่ที่อ่านง่ายกว่าเดิม.
+                    </p>
+                    <div className="mt-8 grid max-w-xl grid-cols-3 gap-3">
+                      {["Images", "Content", "Case study ready"].map((item) => (
+                        <div key={item} className="rounded-2xl border border-white/8 bg-white/[0.03] p-4 text-xs font-semibold text-white/55">
+                          {item}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="w-full max-w-sm justify-self-end">
                   <div className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-6"
                     style={{ background: "linear-gradient(135deg, rgba(0,212,255,0.15), rgba(0,102,255,0.1))", border: "1px solid rgba(0,212,255,0.2)" }}>
                     <Lock size={28} color="#00d4ff" />
@@ -391,15 +421,21 @@ export function OwnerDashboard({ open, storedImages, publishedImages, onClose, o
               </div>
             ) : (
               /* ── Dashboard ── */
-              <div className="flex flex-col flex-1 min-h-0">
+              <div className={isPage ? "mx-auto grid w-full max-w-7xl flex-1 grid-cols-1 gap-6 px-5 py-6 md:grid-cols-[240px_minmax(0,1fr)] md:px-8" : "flex flex-col flex-1 min-h-0"}>
                 {/* Tabs */}
-                <div className="flex gap-1 px-7 pt-5 pb-4 shrink-0">
+                <div className={isPage ? "sticky top-6 h-fit rounded-3xl border border-white/8 bg-white/[0.03] p-3" : "flex gap-1 px-7 pt-5 pb-4 shrink-0"}>
+                  {isPage && (
+                    <div className="mb-3 px-2 py-2">
+                      <p className="text-xs font-bold uppercase text-white/30">Workspace</p>
+                      <p className="mt-1 text-sm font-semibold text-white">จัดการข้อมูลเว็บ</p>
+                    </div>
+                  )}
                   {([
                     { id: "images" as Tab, icon: ImageIcon, label: "Images" },
                     { id: "content" as Tab, icon: FileText, label: "Content / Settings" },
                   ] as const).map(({ id, icon: Icon, label }) => (
                     <button key={id} onClick={() => setTab(id)}
-                      className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all"
+                      className={isPage ? "mb-1 flex w-full items-center gap-3 rounded-2xl px-4 py-3 text-left text-sm font-semibold transition-all" : "flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all"}
                       style={{
                         background: tab === id ? "rgba(0,212,255,0.12)" : "rgba(255,255,255,0.03)",
                         border: `1px solid ${tab === id ? "rgba(0,212,255,0.35)" : "rgba(255,255,255,0.07)"}`,
@@ -411,7 +447,7 @@ export function OwnerDashboard({ open, storedImages, publishedImages, onClose, o
                   ))}
                 </div>
 
-                <div className="flex-1 overflow-y-auto px-7 pb-8">
+                <div className={isPage ? "min-h-0 rounded-3xl border border-white/8 bg-black/20 p-4 md:p-6" : "flex-1 overflow-y-auto px-7 pb-8"}>
                   {tab === "images" ? (
                     /* ── Images tab ── */
                     <div className="flex flex-col gap-4">

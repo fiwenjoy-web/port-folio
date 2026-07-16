@@ -31,17 +31,15 @@ const DIVIDER = (
 
 function PortfolioApp() {
   const { content, lang } = useContent();
+  const isAdminRoute = window.location.search.includes("admin=1") || /\/admin\/?$/.test(window.location.pathname);
 
   const [storedImages, setStoredImages] = useState<Record<number, string[]>>(() => loadStoredImages());
   const [publishedImages, setPublishedImages] = useState<PublishedImages>({});
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [portfolioModalLoaded, setPortfolioModalLoaded] = useState(false);
-  const [dashboardOpen, setDashboardOpen] = useState(false);
-  const [dashboardLoaded, setDashboardLoaded] = useState(false);
 
   const openDashboard = useCallback(() => {
-    setDashboardLoaded(true);
-    setDashboardOpen(true);
+    window.location.href = `${import.meta.env.BASE_URL}?admin=1`;
   }, []);
 
   const handleSelectProject = useCallback((project: Project) => {
@@ -100,6 +98,24 @@ function PortfolioApp() {
     };
   }), [content.portfolio.projects, lang, publishedImages, storedImages]);
 
+  if (isAdminRoute) {
+    return (
+      <div className="min-h-screen" style={{ background: "#07070d", color: "#ffffff" }}>
+        <Suspense fallback={null}>
+          <OwnerDashboard
+            open
+            mode="page"
+            storedImages={storedImages}
+            publishedImages={publishedImages}
+            onClose={() => { window.location.href = import.meta.env.BASE_URL; }}
+            onImagesChange={handleImagesChange}
+            onPublishedImagesChange={setPublishedImages}
+          />
+        </Suspense>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen" style={{ background: "#06060a", color: "#ffffff" }}>
       <ScrollProgress />
@@ -140,18 +156,6 @@ function PortfolioApp() {
       {portfolioModalLoaded ? (
         <Suspense fallback={null}>
           <PortfolioModal project={selectedProject} onClose={() => setSelectedProject(null)} />
-        </Suspense>
-      ) : null}
-      {dashboardLoaded ? (
-        <Suspense fallback={null}>
-          <OwnerDashboard
-            open={dashboardOpen}
-            storedImages={storedImages}
-            publishedImages={publishedImages}
-            onClose={() => setDashboardOpen(false)}
-            onImagesChange={handleImagesChange}
-            onPublishedImagesChange={setPublishedImages}
-          />
         </Suspense>
       ) : null}
     </div>
