@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { X, ArrowUpRight, ChevronLeft, ChevronRight, Maximize2 } from "lucide-react";
+import {
+  X, ArrowUpRight, ChevronLeft, ChevronRight, Maximize2,
+  Target, Lightbulb, Layers, Sparkles, PackageCheck, BookOpen,
+} from "lucide-react";
 import { useContent } from "../context/ContentContext";
 import type { Project } from "../types";
 
@@ -12,11 +15,39 @@ interface Props {
   onClose: () => void;
 }
 
+const CASE_STUDY_UI = {
+  en: {
+    overview: "01 Project Overview",
+    goal: "Problem / Goal",
+    concept: "Concept",
+    direction: "Creative Direction",
+    workflow: "Workflow",
+    visualSystem: "Visual System",
+    outputs: "06 Final Outputs",
+    applications: "Visual applications",
+    reflection: "07 Reflection",
+  },
+  th: {
+    overview: "01 ภาพรวมโปรเจกต์",
+    goal: "โจทย์ / เป้าหมาย",
+    concept: "แนวคิด",
+    direction: "ทิศทางครีเอทีฟ",
+    workflow: "ขั้นตอนการทำงาน",
+    visualSystem: "ระบบภาพ",
+    outputs: "06 ผลงานสุดท้าย",
+    applications: "การนำไปใช้งาน",
+    reflection: "07 สิ่งที่ได้เรียนรู้",
+  },
+} as const;
+
 export function PortfolioModal({ project, onClose }: Props) {
-  const { content, t } = useContent();
+  const { content, lang, t } = useContent();
   const { portfolio } = content;
+  const ui = CASE_STUDY_UI[lang];
   const [activeImageIndex, setActiveImageIndex] = useState<number | null>(null);
   const imageCount = project?.images.length ?? 0;
+  const projectContent = project ? portfolio.projects[project.id - 1] : null;
+  const caseStudy = projectContent?.caseStudy;
 
   useEffect(() => {
     setActiveImageIndex(null);
@@ -87,7 +118,7 @@ export function PortfolioModal({ project, onClose }: Props) {
               role="dialog"
               aria-modal="true"
               aria-labelledby="project-modal-title"
-              className="relative w-full max-w-5xl max-h-[90vh] overflow-y-auto rounded-3xl pointer-events-auto"
+              className="relative w-full max-w-6xl max-h-[90vh] overflow-y-auto rounded-3xl pointer-events-auto"
               style={{
                 background: "rgba(10, 10, 16, 0.97)",
                 border: "1px solid rgba(0,212,255,0.15)",
@@ -177,8 +208,96 @@ export function PortfolioModal({ project, onClose }: Props) {
                 </button>
               </div>
 
-              {/* Image grid */}
+              {/* Case study */}
               <div className="p-6 md:p-8">
+                {caseStudy && (
+                  <div className="mb-8 space-y-6">
+                    <section
+                      className="grid gap-5 rounded-2xl p-5 md:grid-cols-[1.1fr_0.9fr] md:p-6"
+                      style={{ background: "rgba(255,255,255,0.025)", border: "1px solid rgba(255,255,255,0.07)" }}
+                    >
+                      <div>
+                        <p className="mb-3 text-xs font-bold uppercase tracking-[0.22em]" style={{ color: "#00d4ff" }}>{ui.overview}</p>
+                        <p className="text-base leading-relaxed md:text-lg" style={{ color: "rgba(255,255,255,0.78)", fontWeight: 400 }}>
+                          {t(caseStudy.overview)}
+                        </p>
+                      </div>
+                      <div className="rounded-2xl p-4" style={{ background: "rgba(0,212,255,0.055)", border: "1px solid rgba(0,212,255,0.14)" }}>
+                        <div className="mb-3 flex items-center gap-2 text-sm font-bold text-white">
+                          <Target size={16} color="#00d4ff" />
+                          {ui.goal}
+                        </div>
+                        <p className="text-sm leading-relaxed" style={{ color: "rgba(255,255,255,0.55)" }}>{t(caseStudy.goal)}</p>
+                      </div>
+                    </section>
+
+                    <section className="grid gap-5 md:grid-cols-[0.9fr_1.1fr]">
+                      <div className="rounded-2xl p-5" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}>
+                        <div className="mb-4 flex items-center gap-2 text-sm font-bold text-white">
+                          <Lightbulb size={16} color="#f59e0b" />
+                          {ui.concept}
+                        </div>
+                        <p className="text-sm leading-relaxed" style={{ color: "rgba(255,255,255,0.55)" }}>{t(caseStudy.concept)}</p>
+                      </div>
+
+                      <div className="rounded-2xl p-5" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}>
+                        <div className="mb-4 flex items-center gap-2 text-sm font-bold text-white">
+                          <Sparkles size={16} color="#a78bfa" />
+                          {ui.direction}
+                        </div>
+                        <div className="flex flex-wrap gap-2">
+                          {caseStudy.direction.map((item, index) => (
+                            <span key={index} className="rounded-full px-3 py-1.5 text-xs font-semibold"
+                              style={{ background: "rgba(167,139,250,0.09)", border: "1px solid rgba(167,139,250,0.22)", color: "#c4b5fd" }}>
+                              {t(item)}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    </section>
+
+                    <section className="rounded-2xl p-5" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}>
+                      <div className="mb-5 flex items-center gap-2 text-sm font-bold text-white">
+                        <Layers size={16} color="#34d399" />
+                        {ui.workflow}
+                      </div>
+                      <div className="grid gap-3 md:grid-cols-4">
+                        {caseStudy.workflow.map((step) => (
+                          <div key={step.step} className="rounded-xl p-4" style={{ background: "rgba(52,211,153,0.045)", border: "1px solid rgba(52,211,153,0.11)" }}>
+                            <p className="mb-2 text-xs font-black" style={{ color: "#34d399" }}>{step.step}</p>
+                            <h4 className="mb-2 text-sm font-bold text-white">{t(step.label)}</h4>
+                            <p className="text-xs leading-relaxed" style={{ color: "rgba(255,255,255,0.42)" }}>{t(step.desc)}</p>
+                          </div>
+                        ))}
+                      </div>
+                    </section>
+
+                    <section>
+                      <div className="mb-4 flex items-center gap-2 text-sm font-bold text-white">
+                        <PackageCheck size={16} color="#00d4ff" />
+                        {ui.visualSystem}
+                      </div>
+                      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                        {caseStudy.visualSystem.map((item, index) => (
+                          <div key={index} className="rounded-2xl p-4" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}>
+                            <h4 className="mb-2 text-sm font-bold text-white">{t(item.label)}</h4>
+                            <p className="text-xs leading-relaxed" style={{ color: "rgba(255,255,255,0.42)" }}>{t(item.desc)}</p>
+                          </div>
+                        ))}
+                      </div>
+                    </section>
+                  </div>
+                )}
+
+                {/* Image grid */}
+                {caseStudy && (
+                  <div className="mb-4 flex items-center justify-between gap-4">
+                    <div>
+                      <p className="text-xs font-bold uppercase tracking-[0.22em]" style={{ color: "#00d4ff" }}>{ui.outputs}</p>
+                      <h3 className="mt-1 text-xl font-bold text-white">{ui.applications}</h3>
+                    </div>
+                  </div>
+                )}
                 {/* Main large image */}
                 <button
                   type="button"
@@ -199,6 +318,13 @@ export function PortfolioModal({ project, onClose }: Props) {
                   >
                     <Maximize2 size={18} />
                   </span>
+                  {caseStudy?.outputs[0] && (
+                    <span className="absolute bottom-4 left-4 max-w-[calc(100%-2rem)] rounded-xl px-4 py-3 text-left"
+                      style={{ background: "rgba(5,8,14,0.78)", border: "1px solid rgba(255,255,255,0.12)", backdropFilter: "blur(8px)" }}>
+                      <b className="block text-sm text-white">{t(caseStudy.outputs[0].label)}</b>
+                      <small className="mt-1 block text-xs leading-relaxed text-white/50">{t(caseStudy.outputs[0].desc)}</small>
+                    </span>
+                  )}
                 </button>
 
                 {/* Sub-image grid */}
@@ -232,9 +358,26 @@ export function PortfolioModal({ project, onClose }: Props) {
                         >
                           <Maximize2 size={20} color="#00d4ff" />
                         </div>
+                        {caseStudy?.outputs[i + 1] && (
+                          <div className="absolute inset-x-0 bottom-0 p-3 text-left"
+                            style={{ background: "linear-gradient(180deg, transparent, rgba(0,0,0,0.82))" }}>
+                            <b className="block text-xs text-white">{t(caseStudy.outputs[i + 1].label)}</b>
+                            <small className="mt-0.5 line-clamp-2 block text-[11px] leading-snug text-white/50">{t(caseStudy.outputs[i + 1].desc)}</small>
+                          </div>
+                        )}
                       </motion.button>
                     ))}
                   </div>
+                )}
+
+                {caseStudy && (
+                  <section className="mt-8 rounded-2xl p-5" style={{ background: "rgba(0,212,255,0.045)", border: "1px solid rgba(0,212,255,0.12)" }}>
+                    <div className="mb-3 flex items-center gap-2 text-sm font-bold text-white">
+                      <BookOpen size={16} color="#00d4ff" />
+                      {ui.reflection}
+                    </div>
+                    <p className="text-sm leading-relaxed" style={{ color: "rgba(255,255,255,0.6)" }}>{t(caseStudy.reflection)}</p>
+                  </section>
                 )}
 
                 {/* Footer action */}

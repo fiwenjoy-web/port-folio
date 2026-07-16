@@ -99,6 +99,16 @@ export interface SiteContent {
       category: BT;
       description: BT;
       tags: string[];
+      caseStudy: {
+        overview: BT;
+        goal: BT;
+        concept: BT;
+        direction: BT[];
+        workflow: Array<{ step: string; label: BT; desc: BT }>;
+        visualSystem: Array<{ label: BT; desc: BT }>;
+        outputs: Array<{ label: BT; desc: BT }>;
+        reflection: BT;
+      };
     }>;
   };
   testimonials: {
@@ -130,6 +140,100 @@ export interface SiteContent {
     phoneLabel: BT;
     locationLabel: BT;
     bottomRole: BT;
+  };
+}
+
+const CASE_STUDY_WORKFLOW = [
+  {
+    step: "01",
+    label: { en: "Direction", th: "กำหนดทิศทาง" },
+    desc: {
+      en: "Clarify the objective, audience, platform, and visual references before production.",
+      th: "กำหนดเป้าหมาย กลุ่มผู้ชม แพลตฟอร์ม และ reference ภาพก่อนเริ่มผลิตงาน",
+    },
+  },
+  {
+    step: "02",
+    label: { en: "AI Exploration", th: "สำรวจด้วย AI" },
+    desc: {
+      en: "Explore visual routes, prompt directions, compositions, and mood variations.",
+      th: "ทดลองแนวทางภาพ prompt องค์ประกอบ และ mood หลายรูปแบบ",
+    },
+  },
+  {
+    step: "03",
+    label: { en: "Visual Production", th: "ผลิตงานภาพ" },
+    desc: {
+      en: "Build the selected direction through design, mockup, retouching, and layout refinement.",
+      th: "พัฒนาทิศทางที่เลือกผ่านงานออกแบบ mockup การรีทัช และการจัด layout",
+    },
+  },
+  {
+    step: "04",
+    label: { en: "Final Delivery", th: "ส่งมอบงานสุดท้าย" },
+    desc: {
+      en: "Prepare final visuals and adapt them into formats ready for portfolio or digital use.",
+      th: "เตรียมภาพสุดท้ายและปรับเป็น format ที่พร้อมใช้ในพอร์ตหรือแพลตฟอร์มดิจิทัล",
+    },
+  },
+];
+
+const DEFAULT_VISUAL_SYSTEM = [
+  {
+    label: { en: "Visual Direction", th: "ทิศทางภาพ" },
+    desc: { en: "Defines the mood, tone, and design language of the project.", th: "กำหนด mood, tone และภาษาภาพของโปรเจกต์" },
+  },
+  {
+    label: { en: "Color Palette", th: "ชุดสี" },
+    desc: { en: "Uses color to make the product or message feel clear and memorable.", th: "ใช้สีเพื่อทำให้สินค้าและสารที่ต้องการสื่อชัดเจนและจดจำง่าย" },
+  },
+  {
+    label: { en: "Layout System", th: "ระบบเลย์เอาต์" },
+    desc: { en: "Organizes hierarchy, spacing, and composition for multiple formats.", th: "จัดลำดับข้อมูล ระยะห่าง และองค์ประกอบให้ใช้ได้หลาย format" },
+  },
+  {
+    label: { en: "Final Output", th: "ผลงานสุดท้าย" },
+    desc: { en: "Turns the concept into polished visuals ready for presentation.", th: "เปลี่ยนคอนเซปต์ให้เป็นภาพที่พร้อมนำเสนออย่างสมบูรณ์" },
+  },
+];
+
+const DEFAULT_OUTPUTS = [
+  {
+    label: { en: "Cover / Hero Image", th: "ภาพเปิดโปรเจกต์" },
+    desc: { en: "A strong overview image that introduces the project mood.", th: "ภาพรวมที่เปิด mood ของโปรเจกต์ให้ชัดเจน" },
+  },
+  {
+    label: { en: "Concept / Mood Direction", th: "คอนเซปต์และ mood" },
+    desc: { en: "Visual direction, references, or AI exploration used to shape the work.", th: "ทิศทางภาพ reference หรือการทดลอง AI ที่ใช้กำหนดงาน" },
+  },
+  {
+    label: { en: "Main Poster / Key Visual", th: "โปสเตอร์หลัก / Key Visual" },
+    desc: { en: "The main visual designed to communicate the campaign or product story.", th: "ภาพหลักที่ใช้สื่อสารแคมเปญหรือเรื่องราวของสินค้า" },
+  },
+  {
+    label: { en: "Digital Adaptation", th: "การปรับใช้บนดิจิทัล" },
+    desc: { en: "Adapted layouts for social, e-commerce, or presentation use.", th: "เลย์เอาต์ที่ปรับใช้กับ social, e-commerce หรือการนำเสนอ" },
+  },
+];
+
+function createCaseStudy(input: {
+  overview: BT;
+  goal: BT;
+  concept: BT;
+  direction: BT[];
+  reflection: BT;
+  visualSystem?: Array<{ label: BT; desc: BT }>;
+  outputs?: Array<{ label: BT; desc: BT }>;
+}) {
+  return {
+    overview: input.overview,
+    goal: input.goal,
+    concept: input.concept,
+    direction: input.direction,
+    workflow: CASE_STUDY_WORKFLOW,
+    visualSystem: input.visualSystem ?? DEFAULT_VISUAL_SYSTEM,
+    outputs: input.outputs ?? DEFAULT_OUTPUTS,
+    reflection: input.reflection,
   };
 }
 
@@ -423,6 +527,29 @@ export const DEFAULT_CONTENT: SiteContent = {
           th: "การออกแบบโปสเตอร์เชิงพาณิชย์ที่โดดเด่นสำหรับแบรนด์ต่างๆ ทั้งสื่อสิ่งพิมพ์และดิจิทัล ผสมผสานตัวอักษรที่แข็งแกร่ง การปรับสีที่สดใส และการรีทัชด้วย AI",
         },
         tags: ["Photoshop", "Illustrator", "Print Design"],
+        caseStudy: createCaseStudy({
+          overview: {
+            en: "A commercial poster design project focused on turning simple product or brand assets into polished visuals for print and digital communication.",
+            th: "โปรเจกต์ออกแบบโปสเตอร์เชิงพาณิชย์ที่โฟกัสการเปลี่ยน asset สินค้าหรือแบรนด์ให้กลายเป็นภาพที่พร้อมใช้ทั้งสื่อสิ่งพิมพ์และดิจิทัล",
+          },
+          goal: {
+            en: "Create a strong first impression, communicate the offer clearly, and make the visual feel campaign-ready.",
+            th: "สร้างความประทับใจแรกที่ชัด สื่อสารข้อเสนอให้เข้าใจง่าย และทำให้ภาพดูพร้อมใช้ในแคมเปญจริง",
+          },
+          concept: {
+            en: "From raw assets to a finished key visual, this project explores hierarchy, typography, retouching, and color grading as a complete commercial design workflow.",
+            th: "จาก asset ดิบสู่ key visual ที่สมบูรณ์ โปรเจกต์นี้ทดลองการจัดลำดับข้อมูล ตัวอักษร การรีทัช และการปรับสีในเวิร์กโฟลว์งานออกแบบเชิงพาณิชย์",
+          },
+          direction: [
+            { en: "Bold typography", th: "ตัวอักษรชัดและแข็งแรง" },
+            { en: "High-contrast composition", th: "องค์ประกอบภาพ contrast สูง" },
+            { en: "Commercial campaign mood", th: "mood แบบงานแคมเปญเชิงพาณิชย์" },
+          ],
+          reflection: {
+            en: "This project highlights commercial composition, typography control, color direction, and the ability to make static visuals feel campaign-ready.",
+            th: "โปรเจกต์นี้โชว์ทักษะการจัดองค์ประกอบเชิงพาณิชย์ การควบคุมตัวอักษร ทิศทางสี และการทำให้ภาพนิ่งดูพร้อมใช้ในแคมเปญ",
+          },
+        }),
       },
       {
         title: { en: "3D PRODUCT VISUALIZATION", th: "การสร้างภาพสินค้า 3D" },
@@ -432,6 +559,36 @@ export const DEFAULT_CONTENT: SiteContent = {
           th: "การเรนเดอร์สินค้า 3D และโมเดลที่สมจริงสูงสำหรับอีคอมเมิร์ซและโฆษณาเชิงพาณิชย์ ขั้นตอนบน Blender พร้อมการตั้งค่าแสงที่กำหนดเอง",
         },
         tags: ["Blender", "3D Render", "Product Vis"],
+        caseStudy: createCaseStudy({
+          overview: {
+            en: "A 3D product visualization project exploring how mockups, lighting, and render composition can create premium product presentation.",
+            th: "โปรเจกต์สร้างภาพสินค้า 3D ที่ทดลองการใช้ mockup แสง และองค์ประกอบ render เพื่อทำให้สินค้าดูพรีเมียมและพร้อมนำเสนอ",
+          },
+          goal: {
+            en: "Present the product with stronger depth, cleaner material detail, and a more advertising-ready scene.",
+            th: "นำเสนอสินค้าให้มีมิติ รายละเอียดวัสดุชัดขึ้น และมีฉากที่พร้อมใช้ในงานโฆษณามากขึ้น",
+          },
+          concept: {
+            en: "The project connects product modeling, lighting design, material polish, and final layout into one 3D presentation workflow.",
+            th: "โปรเจกต์นี้เชื่อมการขึ้นโมเดลสินค้า การจัดแสง การปรับวัสดุ และ layout สุดท้ายให้เป็นเวิร์กโฟลว์การนำเสนอสินค้า 3D",
+          },
+          direction: [
+            { en: "Premium product lighting", th: "แสงสินค้าแบบพรีเมียม" },
+            { en: "Clean mockup presentation", th: "การนำเสนอ mockup ที่สะอาด" },
+            { en: "Depth and material detail", th: "มิติและรายละเอียดวัสดุ" },
+          ],
+          visualSystem: [
+            ...DEFAULT_VISUAL_SYSTEM,
+            {
+              label: { en: "Product Mockup", th: "ม็อกอัพสินค้า" },
+              desc: { en: "Frames the product as a presentation-ready commercial object.", th: "จัดสินค้าให้เป็นวัตถุเชิงพาณิชย์ที่พร้อมนำเสนอ" },
+            },
+          ],
+          reflection: {
+            en: "This project demonstrates 3D composition, lighting judgment, mockup presentation, and product-focused visual storytelling.",
+            th: "โปรเจกต์นี้โชว์ทักษะการจัดองค์ประกอบ 3D การตัดสินใจเรื่องแสง การนำเสนอ mockup และการเล่าเรื่องภาพแบบโฟกัสสินค้า",
+          },
+        }),
       },
       {
         title: { en: "AI PRODUCT 3D VISUALS", th: "ภาพสินค้า 3D ด้วย AI" },
@@ -441,6 +598,47 @@ export const DEFAULT_CONTENT: SiteContent = {
           th: "ไปป์ไลน์การผลิตภาพด้วย AI ที่ผสานภาพ Generative กับการเรนเดอร์ 3D สำหรับโฆษณาสินค้าและเนื้อหาแคมเปญที่ล้ำสมัย",
         },
         tags: ["AI Generation", "Midjourney", "Photoshop"],
+        caseStudy: createCaseStudy({
+          overview: {
+            en: "An AI product visual system exploring how AI, 3D mockups, and commercial design can create product-focused advertising visuals for digital platforms.",
+            th: "โปรเจกต์ทดลองระบบภาพสินค้าที่ใช้ AI, 3D Mockup และงานออกแบบเชิงพาณิชย์ เพื่อสร้างภาพโฆษณาสินค้าที่พร้อมใช้บนแพลตฟอร์มดิจิทัล",
+          },
+          goal: {
+            en: "Build a repeatable visual workflow that can move from idea exploration to polished product advertising outputs.",
+            th: "สร้างเวิร์กโฟลว์ภาพที่ทำซ้ำได้ ตั้งแต่การสำรวจไอเดียไปจนถึงภาพโฆษณาสินค้าที่สมบูรณ์",
+          },
+          concept: {
+            en: "From simple product assets to polished commercial visuals, this project explores a workflow that connects idea generation, AI-assisted direction, 3D presentation, and final advertising design.",
+            th: "จาก asset สินค้าง่าย ๆ สู่ภาพเชิงพาณิชย์ที่สมบูรณ์ โปรเจกต์นี้ทดลองเวิร์กโฟลว์ที่เชื่อมการคิดไอเดีย การกำหนดทิศทางด้วย AI การนำเสนอแบบ 3D และงานออกแบบโฆษณาสุดท้าย",
+          },
+          direction: [
+            { en: "AI-assisted visual direction", th: "ทิศทางภาพที่ใช้ AI ช่วย" },
+            { en: "Product-focused composition", th: "องค์ประกอบที่โฟกัสสินค้า" },
+            { en: "Polished advertising finish", th: "งานจบแบบโฆษณาที่ดูเนี้ยบ" },
+          ],
+          visualSystem: [
+            ...DEFAULT_VISUAL_SYSTEM,
+            {
+              label: { en: "AI Prompt Exploration", th: "การทดลอง prompt AI" },
+              desc: { en: "Uses prompts to explore mood, composition, and campaign directions before final design.", th: "ใช้ prompt เพื่อทดลอง mood องค์ประกอบ และทิศทางแคมเปญก่อนออกแบบจริง" },
+            },
+            {
+              label: { en: "Social / E-commerce Adaptation", th: "การปรับใช้กับ Social / E-commerce" },
+              desc: { en: "Adapts the same visual idea into formats suitable for digital platforms.", th: "ปรับไอเดียภาพเดียวกันให้เหมาะกับ format บนแพลตฟอร์มดิจิทัล" },
+            },
+          ],
+          outputs: [
+            ...DEFAULT_OUTPUTS,
+            {
+              label: { en: "AI Visual Concept", th: "คอนเซปต์ภาพจาก AI" },
+              desc: { en: "Exploration images used to test visual mood and creative direction.", th: "ภาพทดลองที่ใช้ทดสอบ mood และทิศทางครีเอทีฟ" },
+            },
+          ],
+          reflection: {
+            en: "This project shows AI workflow thinking, product visual direction, 3D-assisted presentation, and final commercial design execution.",
+            th: "โปรเจกต์นี้โชว์การคิดเวิร์กโฟลว์ AI การกำหนดทิศทางภาพสินค้า การนำเสนอที่ใช้ 3D ช่วย และการจบงานออกแบบเชิงพาณิชย์",
+          },
+        }),
       },
       {
         title: { en: "E-COMMERCE CAMPAIGNS", th: "แคมเปญอีคอมเมิร์ซ" },
@@ -450,6 +648,36 @@ export const DEFAULT_CONTENT: SiteContent = {
           th: "การออกแบบแคมเปญแบบครบวงจรสำหรับ Shopee, Lazada และ TikTok Shop รวมถึงชุดแบนเนอร์ ปกสินค้า และเนื้อหาวิดีโอสั้นที่ปรับให้เหมาะกับแต่ละแพลตฟอร์ม",
         },
         tags: ["Shopee", "Lazada", "TikTok"],
+        caseStudy: createCaseStudy({
+          overview: {
+            en: "An e-commerce campaign design project built to make product visuals work across marketplace, social media, and short-form commerce touchpoints.",
+            th: "โปรเจกต์ออกแบบแคมเปญอีคอมเมิร์ซที่ทำให้ภาพสินค้าใช้งานได้หลายจุด ทั้ง marketplace, social media และ short-form commerce",
+          },
+          goal: {
+            en: "Make the product clearer, more clickable, and easier to adapt across Shopee, Lazada, TikTok Shop, and social formats.",
+            th: "ทำให้สินค้าชัดขึ้น น่าคลิกขึ้น และปรับใช้ได้ง่ายกับ Shopee, Lazada, TikTok Shop และ format โซเชียล",
+          },
+          concept: {
+            en: "The campaign treats one product story as a flexible visual system, then adapts it into banners, covers, social posts, and marketplace-ready graphics.",
+            th: "แคมเปญนี้มองเรื่องราวของสินค้าเป็นระบบภาพที่ยืดหยุ่น แล้วปรับใช้เป็นแบนเนอร์ ปกสินค้า โพสต์โซเชียล และกราฟิกสำหรับ marketplace",
+          },
+          direction: [
+            { en: "Clear product hierarchy", th: "ลำดับข้อมูลสินค้าอ่านง่าย" },
+            { en: "Marketplace-ready layout", th: "layout พร้อมใช้บน marketplace" },
+            { en: "Fast digital communication", th: "สื่อสารเร็วสำหรับแพลตฟอร์มดิจิทัล" },
+          ],
+          outputs: [
+            { label: { en: "Main Poster", th: "โปสเตอร์หลัก" }, desc: { en: "Primary campaign visual for the product story.", th: "ภาพหลักของแคมเปญสำหรับเล่าเรื่องสินค้า" } },
+            { label: { en: "Product Banner", th: "แบนเนอร์สินค้า" }, desc: { en: "Horizontal format for marketplace or website placement.", th: "format แนวนอนสำหรับ marketplace หรือเว็บไซต์" } },
+            { label: { en: "Shopee / Lazada Visual", th: "ภาพ Shopee / Lazada" }, desc: { en: "Marketplace adaptation focused on clarity and click-through.", th: "ภาพที่ปรับใช้กับ marketplace โดยเน้นความชัดและน่าคลิก" } },
+            { label: { en: "TikTok Shop Cover", th: "ปก TikTok Shop" }, desc: { en: "Vertical or cover-style format for short-form commerce.", th: "format แนวตั้งหรือปกสำหรับ short-form commerce" } },
+            { label: { en: "Story Size", th: "ขนาด Story" }, desc: { en: "Adapted layout for mobile-first viewing.", th: "layout ที่ปรับเพื่อการดูบนมือถือเป็นหลัก" } },
+          ],
+          reflection: {
+            en: "This project highlights campaign adaptation, marketplace design, product communication, and the ability to keep one visual system consistent across platforms.",
+            th: "โปรเจกต์นี้โชว์การปรับงานแคมเปญ งานออกแบบ marketplace การสื่อสารสินค้า และการรักษาระบบภาพเดียวกันให้สม่ำเสมอข้ามแพลตฟอร์ม",
+          },
+        }),
       },
       {
         title: { en: "AI-ASSISTED WEB SYSTEM", th: "ระบบเว็บด้วยความช่วยเหลือ AI" },
@@ -459,6 +687,36 @@ export const DEFAULT_CONTENT: SiteContent = {
           th: "การออกแบบ Web UI สมัยใหม่และการพัฒนา Front-end ด้วย AI ตั้งแต่ Wireframe จนถึงอินเทอร์เฟซที่สมบูรณ์ สร้างด้วย Design System และระบบอัตโนมัติ",
         },
         tags: ["UI Design", "Figma", "Web Dev"],
+        caseStudy: createCaseStudy({
+          overview: {
+            en: "A web and UI visual design project exploring how layout, design systems, and AI-assisted front-end workflows can turn ideas into polished digital interfaces.",
+            th: "โปรเจกต์ออกแบบภาพสำหรับเว็บและ UI ที่ทดลองการใช้ layout, design system และเวิร์กโฟลว์ front-end ที่มี AI ช่วย เพื่อเปลี่ยนไอเดียให้เป็น interface ที่สมบูรณ์",
+          },
+          goal: {
+            en: "Create a clean, responsive, and presentation-ready interface that communicates clearly and feels modern.",
+            th: "สร้าง interface ที่สะอาด responsive พร้อมนำเสนอ สื่อสารชัด และให้ความรู้สึกทันสมัย",
+          },
+          concept: {
+            en: "This project connects visual design, component thinking, responsive layout, and implementation workflow into a practical web system.",
+            th: "โปรเจกต์นี้เชื่อมงานออกแบบภาพ การคิดเป็น component, responsive layout และเวิร์กโฟลว์การพัฒนาให้เป็นระบบเว็บที่ใช้งานได้จริง",
+          },
+          direction: [
+            { en: "Clean interface hierarchy", th: "ลำดับข้อมูล UI ที่สะอาด" },
+            { en: "Responsive web layout", th: "เลย์เอาต์เว็บแบบ responsive" },
+            { en: "Design-to-build workflow", th: "เวิร์กโฟลว์จาก design สู่การสร้างจริง" },
+          ],
+          visualSystem: [
+            ...DEFAULT_VISUAL_SYSTEM,
+            {
+              label: { en: "Typography", th: "ตัวอักษร" },
+              desc: { en: "Uses type scale and hierarchy to make interface content easier to scan.", th: "ใช้ขนาดและลำดับตัวอักษรเพื่อให้เนื้อหาใน interface อ่านง่าย" },
+            },
+          ],
+          reflection: {
+            en: "This project demonstrates UI layout thinking, web visual design, responsive composition, and AI-assisted implementation workflow.",
+            th: "โปรเจกต์นี้โชว์การคิด layout UI งานภาพสำหรับเว็บ องค์ประกอบแบบ responsive และเวิร์กโฟลว์พัฒนาที่ใช้ AI ช่วย",
+          },
+        }),
       },
     ],
   },
@@ -565,7 +823,13 @@ function upgradeLegacyServicesContent(content: SiteContent): SiteContent {
 function mergeWithDefaults(defaultValue: unknown, storedValue: unknown): unknown {
   if (Array.isArray(defaultValue)) {
     if (!Array.isArray(storedValue)) return structuredClone(defaultValue);
-    return defaultValue.map((item, index) => mergeWithDefaults(item, storedValue[index]));
+    if (storedValue.length === 0) return [];
+
+    const fallbackItem = defaultValue.at(-1);
+    return storedValue.map((item, index) => {
+      const template = defaultValue[index] ?? fallbackItem;
+      return template === undefined ? structuredClone(item) : mergeWithDefaults(template, item);
+    });
   }
 
   if (defaultValue && typeof defaultValue === "object") {

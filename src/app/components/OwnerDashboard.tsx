@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "motion/react";
 import {
   X, Upload, Trash2, Lock, Eye, EyeOff, CheckCircle,
   Plus, FolderOpen, Image as ImageIcon, FileText, RotateCcw, Search, Github, LoaderCircle,
-  LayoutDashboard, ExternalLink,
+  LayoutDashboard, ExternalLink, BookOpen,
 } from "lucide-react";
 import { DEFAULT_IMAGES, getProjectImages, saveStoredImages } from "../data/projectImages";
 import {
@@ -13,6 +13,7 @@ import {
 } from "../data/githubPublisher";
 import { useContent } from "../context/ContentContext";
 import type { SiteContent, BT } from "../data/siteContent";
+import { CaseStudyBuilder } from "./CaseStudyBuilder";
 
 const OWNER_PASSWORD = "owner2025";
 
@@ -109,7 +110,7 @@ interface Props {
   onPublishedImagesChange: (updated: PublishedImages) => void;
 }
 
-type Tab = "images" | "content";
+type Tab = "images" | "content" | "stories";
 
 export function OwnerDashboard({ open, mode = "drawer", storedImages, publishedImages, onClose, onImagesChange, onPublishedImagesChange }: Props) {
   const { content, updateContent, resetContent } = useContent();
@@ -433,6 +434,7 @@ export function OwnerDashboard({ open, mode = "drawer", storedImages, publishedI
                   {([
                     { id: "images" as Tab, icon: ImageIcon, label: "Images" },
                     { id: "content" as Tab, icon: FileText, label: "Content / Settings" },
+                    { id: "stories" as Tab, icon: BookOpen, label: "Case Studies" },
                   ] as const).map(({ id, icon: Icon, label }) => (
                     <button key={id} onClick={() => setTab(id)}
                       className={isPage ? "mb-1 flex w-full items-center gap-3 rounded-2xl px-4 py-3 text-left text-sm font-semibold transition-all" : "flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all"}
@@ -598,7 +600,7 @@ export function OwnerDashboard({ open, mode = "drawer", storedImages, publishedI
                         );
                       })}
                     </div>
-                  ) : (
+                  ) : tab === "content" ? (
                     /* ── Content tab ── */
                     <div className="flex flex-col gap-4">
                       {/* Reset all */}
@@ -755,6 +757,8 @@ export function OwnerDashboard({ open, mode = "drawer", storedImages, publishedI
                         CHANGES SAVED TO BROWSER · SWITCH LANGUAGE VIA EN/TH TOGGLE ON PAGE
                       </p>
                     </div>
+                  ) : (
+                    <CaseStudyBuilder getImages={getImages} />
                   )}
                 </div>
               </div>
