@@ -45,12 +45,15 @@ function FloatingThemeSwitch() {
     setSwitching(true);
     timerRef.current = setTimeout(() => {
       window.location.assign(destination);
-    }, reducedMotion ? 80 : 560);
+    }, reducedMotion ? 80 : 1080);
   };
 
   return (
     <>
-      <div className={`theme-transition-wash theme-transition-to-colorful${switching ? " is-active" : ""}`} aria-hidden="true" />
+      <div className={`theme-transition-wash theme-transition-to-colorful${switching ? " is-active" : ""}`} aria-hidden="true">
+        <span className="theme-transition-streaks" />
+        <span className="theme-transition-core" />
+      </div>
       <a
         href="./colorful/"
         aria-label="Switch to Colorful Playful theme"
