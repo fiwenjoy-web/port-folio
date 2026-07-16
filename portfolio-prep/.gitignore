@@ -1,0 +1,6 @@
+# Keep working assets local until they are uploaded through Portfolio Admin.
+**/*
+!**/
+!README.md
+!CHECKLIST.md
+!.gitignore
