@@ -2684,19 +2684,4 @@ footer {
   .project-card,
   .service-card { transition-duration: 0.01ms !important; }
 
-  .theme-float-switch,
-  .theme-float-switch.is-switching,
-  .theme-float-switch.is-switching svg,
-  .theme-float-switch::after,
-  .theme-warp-light,
-  .theme-transition-wash.is-active::before,
-  .theme-transition-wash.is-active .theme-transition-streaks,
-  .theme-transition-wash.is-active .theme-transition-core {
-    animation: none;
-    transition: none;
-  }
-
-  .theme-transition-wash.is-active::before {
-    transform: scale(6);
-  }
 }

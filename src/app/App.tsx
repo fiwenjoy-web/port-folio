@@ -41,11 +41,10 @@ function FloatingThemeSwitch() {
     if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || switching) return;
     event.preventDefault();
     const destination = event.currentTarget.href;
-    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     setSwitching(true);
     timerRef.current = setTimeout(() => {
       window.location.assign(destination);
-    }, reducedMotion ? 80 : 1080);
+    }, 1080);
   };
 
   return (
