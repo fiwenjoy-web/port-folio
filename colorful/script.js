@@ -220,22 +220,22 @@ const DEFAULT_GLANCE = [
 
 const DEFAULT_TESTIMONIALS = [
   {
-    quote: "The AI-assisted product visuals elevated our entire e-commerce presence. Fast turnaround and a polished commercial finish.",
-    name: "Napat S.",
-    role: "Brand Manager, Dr. Hygiene",
-    initials: "NS",
+    quote: "Connects commercial design judgment with AI-assisted exploration to turn broad ideas into focused visual directions.",
+    name: "Visual Direction",
+    role: "Project strength",
+    initials: "VD",
   },
   {
-    quote: "The 3D renders brought the packaging launch to life. The lighting, detail, and presentation gave the campaign a premium finish.",
-    name: "Ploy T.",
-    role: "Marketing Lead, Pinnacle",
-    initials: "PT",
+    quote: "Builds repeatable workflows across design, mockup, 3D, and file organization so production stays fast and consistent.",
+    name: "Production Workflow",
+    role: "Project strength",
+    initials: "PW",
   },
   {
-    quote: "A designer who understands both commercial strategy and modern AI workflows. The work is clear, energetic, and results focused.",
-    name: "Kridsada M.",
-    role: "Founder, TH Commerce",
-    initials: "KM",
+    quote: "Adapts one visual system into campaign, social, e-commerce, presentation, and short-form formats without losing consistency.",
+    name: "Platform Adaptation",
+    role: "Project strength",
+    initials: "PA",
   },
 ];
 
@@ -326,8 +326,20 @@ function normalizeCaseStudy(value, fallback) {
   };
 }
 
-const storedContent = readStorage("wh_site_content");
+const localContent = readStorage("wh_site_content");
+let publishedContent = null;
+try {
+  const response = await fetch(`../content/site-content.json?ts=${Date.now()}`, { cache: "no-store" });
+  if (response.ok) {
+    const value = await response.json();
+    if (value && typeof value === "object" && Object.keys(value).length > 0) publishedContent = value;
+  }
+} catch {
+  // The checked-in defaults remain available when the published content cannot load.
+}
+const storedContent = publishedContent || localContent;
 const storedImages = readStorage("wh_portfolio_images") || {};
+const hasLegacyProfile = english(storedContent?.testimonials?.sectionLabel) === "TESTIMONIALS";
 
 const projectData = DEFAULT_PROJECTS.map((fallback, index) => {
   const stored = storedContent?.portfolio?.projects?.[index];
@@ -349,6 +361,8 @@ projectData.forEach((project, index) => {
   document.querySelectorAll(`[data-project-image="${id}"]`).forEach((image) => {
     image.src = project.images[0];
     image.alt = `${project.title} project preview`;
+    image.loading = "lazy";
+    image.decoding = "async";
     image.addEventListener("error", () => {
       image.src = DEFAULT_PROJECTS[index].images[0];
     }, { once: true });
@@ -382,7 +396,8 @@ if (storedContent) {
     element.firstChild.textContent = `${label} `;
   });
   document.querySelectorAll("[data-nav-hire]").forEach((element) => {
-    element.textContent = english(storedContent.navigation?.hireLabel, "Hire me");
+    const label = english(storedContent.navigation?.hireLabel, "Contact me");
+    element.textContent = label === "Hire me" ? "Contact me" : label;
   });
 
   setText("#hero-status", english(storedContent.hero?.navStatus, "SEEKING FULL-TIME POSITION"));
@@ -390,11 +405,12 @@ if (storedContent) {
   setText("#hero-role", english(storedContent.hero?.role, "CREATIVE DESIGNER / AI VISUAL PRODUCTION"));
   setText("#hero-bio", english(storedContent.hero?.bio, "Creative designer specializing in AI-assisted visual production, commercial content, and modern digital media workflows."));
   setButtonText("#hero-primary", english(storedContent.hero?.ctaSecondary, "VIEW WORK"));
-  setButtonText("#hero-secondary", english(storedContent.hero?.ctaPrimary, "SEEKING FULL-TIME POSITION"));
+  setButtonText("#hero-secondary", "DOWNLOAD RESUME");
 
   storedContent.hero?.stats?.slice(0, 3).forEach((stat, index) => {
-    setText(`[data-hero-stat-value="${index}"]`, stat.value);
-    setText(`[data-hero-stat-label="${index}"]`, english(stat.label));
+    const isLegacyCount = index === 1 && stat.value === "50+";
+    setText(`[data-hero-stat-value="${index}"]`, isLegacyCount ? "5" : stat.value);
+    setText(`[data-hero-stat-label="${index}"]`, isLegacyCount ? "Creative Disciplines" : english(stat.label));
   });
 
   const marqueeItems = storedContent.marquee?.items?.map((item) => english(item)).filter(Boolean) || [];
@@ -435,12 +451,13 @@ if (storedContent) {
   setText("#experience-label", english(storedContent.experience?.sectionLabel, "BACKGROUND"));
   setText("#experience-heading-1", english(storedContent.experience?.heading1, "EXPERIENCE &"));
   setText("#experience-heading-2", english(storedContent.experience?.heading2, "EDUCATION"));
-  setText("#testimonials-label", english(storedContent.testimonials?.sectionLabel, "TESTIMONIALS"));
-  setText("#testimonials-heading-1", english(storedContent.testimonials?.heading1, "TRUSTED BY"));
-  setText("#testimonials-heading-2", english(storedContent.testimonials?.heading2, "CLIENTS"));
-  setText("#contact-eyebrow", english(storedContent.footer?.ctaEyebrow, "LET'S WORK TOGETHER"));
-  setText("#contact-heading-1", english(storedContent.footer?.ctaHeading1, "HAVE A PROJECT"));
-  setText("#contact-heading-2", english(storedContent.footer?.ctaHeading2, "IN MIND?"));
+  setText("#testimonials-label", hasLegacyProfile ? "PROFESSIONAL PROFILE" : english(storedContent.testimonials?.sectionLabel, "PROFESSIONAL PROFILE"));
+  setText("#testimonials-heading-1", hasLegacyProfile ? "HOW I BRING" : english(storedContent.testimonials?.heading1, "HOW I BRING"));
+  setText("#testimonials-heading-2", hasLegacyProfile ? "VALUE" : english(storedContent.testimonials?.heading2, "VALUE"));
+  const legacyFooter = english(storedContent.footer?.ctaEyebrow) === "LET'S WORK TOGETHER";
+  setText("#contact-eyebrow", legacyFooter ? "OPEN TO FULL-TIME OPPORTUNITIES" : english(storedContent.footer?.ctaEyebrow, "OPEN TO FULL-TIME OPPORTUNITIES"));
+  setText("#contact-heading-1", legacyFooter ? "LET'S BUILD" : english(storedContent.footer?.ctaHeading1, "LET'S BUILD"));
+  setText("#contact-heading-2", legacyFooter ? "MEANINGFUL VISUALS" : english(storedContent.footer?.ctaHeading2, "MEANINGFUL VISUALS"));
 }
 
 const serviceData = DEFAULT_SERVICES.map((fallback, index) => {
@@ -563,6 +580,7 @@ glance.slice(0, 4).forEach((item, index) => {
 });
 
 const testimonialData = DEFAULT_TESTIMONIALS.map((fallback, index) => {
+  if (hasLegacyProfile) return fallback;
   const item = storedContent?.testimonials?.items?.[index];
   if (!item) return fallback;
   return {
@@ -614,7 +632,11 @@ document.addEventListener("keydown", (event) => {
 });
 
 const navLinks = [...document.querySelectorAll(".nav-link")];
-const sections = navLinks.map((link) => document.querySelector(link.getAttribute("href"))).filter(Boolean);
+const sections = navLinks
+  .map((link) => link.getAttribute("href"))
+  .filter((href) => href?.startsWith("#"))
+  .map((href) => document.querySelector(href))
+  .filter(Boolean);
 const scrollProgress = document.querySelector(".scroll-progress i");
 
 function updateScrollState() {
@@ -770,20 +792,29 @@ function closeExpanded() {
   lastCollageTrigger = null;
 }
 
-function openViewer(projectId) {
+function updateProjectUrl(projectId, method = "pushState") {
+  const url = new URL(window.location.href);
+  if (projectId) url.searchParams.set("project", PROJECT_SLUGS[projectId - 1] || String(projectId));
+  else url.searchParams.delete("project");
+  window.history[method]({ project: projectId || null }, "", url);
+}
+
+function openViewer(projectId, updateUrl = true) {
   activeProject = projectId - 1;
   activeImage = 0;
   renderViewer();
   viewer.hidden = false;
   document.body.classList.add("viewer-open");
   viewer.querySelector(".viewer-close")?.focus();
+  if (updateUrl) updateProjectUrl(projectId);
 }
 
-function closeViewer() {
+function closeViewer(updateUrl = true) {
   if (!viewer) return;
   if (viewerExpanded) viewerExpanded.hidden = true;
   viewer.hidden = true;
   document.body.classList.remove("viewer-open");
+  if (updateUrl) updateProjectUrl(null, "replaceState");
 }
 
 function moveViewer(direction) {
@@ -795,6 +826,19 @@ function moveViewer(direction) {
 document.querySelectorAll("[data-lightbox]").forEach((button) => {
   button.addEventListener("click", () => openViewer(Number(button.dataset.lightbox)));
 });
+const PROJECT_SLUGS = ["commercial-poster", "3d-product-visualization", "ai-product-visuals", "ecommerce-campaigns", "ai-assisted-web-system"];
+function syncViewerFromUrl() {
+  const value = new URLSearchParams(window.location.search).get("project");
+  if (!value) {
+    closeViewer(false);
+    return;
+  }
+  const index = PROJECT_SLUGS.indexOf(value);
+  const projectId = index >= 0 ? index + 1 : Number(value);
+  if (projectId >= 1 && projectId <= projectData.length) openViewer(projectId, false);
+}
+window.addEventListener("popstate", syncViewerFromUrl);
+syncViewerFromUrl();
 viewer?.querySelector(".viewer-close")?.addEventListener("click", closeViewer);
 viewer?.querySelector(".viewer-expanded-close")?.addEventListener("click", closeExpanded);
 viewer?.querySelector(".viewer-prev")?.addEventListener("click", () => moveViewer(-1));
@@ -893,6 +937,13 @@ function revealVisibleOrPassedItems() {
 }
 document.addEventListener("scroll", revealVisibleOrPassedItems, { passive: true });
 requestAnimationFrame(revealVisibleOrPassedItems);
+
+const loadThreeHero = () => import("./three-hero.js");
+if ("requestIdleCallback" in window) {
+  window.requestIdleCallback(loadThreeHero, { timeout: 900 });
+} else {
+  window.setTimeout(loadThreeHero, 250);
+}
 
 if (!reducedMotion && window.matchMedia("(pointer: fine)").matches) {
   document.querySelectorAll(".project-card, .service-card").forEach((card) => {
