@@ -24,3 +24,6 @@ Disclosure: AI was used only to extend the pixel-art school background. The camp
 headline, Thai copy, dates, prices, logos, student, product packaging, and promotion
 details come from the original layered Photoshop artwork. The 16:9 version was
 manually rearranged from those original layers after the background extension.
+
+Use [RATIO-ADAPTATION-BRIEF.md](RATIO-ADAPTATION-BRIEF.md) as the reusable request
+template for future multi-ratio campaign adaptations.
