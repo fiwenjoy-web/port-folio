@@ -1,14 +1,23 @@
-# 05 AI-assisted Web System
+# 05 AI-Assisted Web System
 
-Prepare these files in this folder:
+This case study documents the live portfolio system that Weerapong directed and refined through iterative feedback, with AI-assisted design translation and front-end implementation.
 
-1. `01-cover-desktop-hero.webp`
-2. `02-full-page-website.webp`
-3. `03-mobile-version.webp`
-4. `04-dashboard-screen.webp`
-5. `05-ui-components.webp`
-6. `06-color-and-typography.webp`
-7. `07-figma-to-web-workflow.webp`
-8. `08-responsive-screens.webp`
+Included files:
 
-Include both desktop and mobile views. Keep small UI text large enough to inspect.
+1. `01-dark-theme-hero.webp` - live dark-theme desktop hero
+2. `02-colorful-3d-hero.webp` - live colorful desktop hero with Blender/WebGL presentation
+3. `03-dark-theme-mobile.webp` - responsive dark-theme hero
+4. `04-colorful-theme-mobile.webp` - responsive colorful-theme hero
+5. `05-dark-theme-work-grid.webp` - dark-theme portfolio grid
+6. `06-colorful-theme-work-grid.webp` - colorful-theme portfolio grid using shared content
+7. `07-case-study-storytelling.webp` - structured project narrative viewer
+8. `08-production-credit-viewer.webp` - expanded image viewer with transparent production credit
+9. `09-admin-image-publishing.webp` - owner image management and GitHub publishing
+10. `10-admin-content-settings.webp` - bilingual content editor
+11. `11-admin-case-study-builder.webp` - flexible case-study story builder
+
+Role and attribution:
+
+- Weerapong led the art direction, selected references and assets, reviewed every iteration, wrote or approved portfolio content, and made final creative decisions.
+- AI assisted with design translation, front-end implementation, motion, content structure, testing, and publishing workflow development.
+- The screenshots come from the working production code, not presentation-only mockups.

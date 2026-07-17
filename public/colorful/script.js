@@ -29,9 +29,9 @@ const DEFAULT_PROJECTS = [
   },
   {
     title: "AI-ASSISTED WEB SYSTEM",
-    category: "Web & UI Design",
-    description: "Modern web UI design and AI-assisted front-end development, from wireframes to responsive interfaces and workflow automation.",
-    tags: ["UI Design", "Figma", "Web Dev"],
+    category: "UI Design & Front-End System",
+    description: "A working portfolio platform co-created through human-led art direction and AI-assisted implementation, combining two themes, 3D and motion, responsive case studies, owner tools, and GitHub publishing.",
+    tags: ["React", "3D & Motion", "GitHub Publishing"],
     images: ["./assets/blog-uiux.png", "./assets/blog-cinetrade.png"],
   },
 ];
@@ -168,11 +168,40 @@ const DEFAULT_CASE_STUDIES = [
     }
   ),
   createCaseStudy(
-    "A web and UI visual design project exploring how layout, design systems, and AI-assisted workflows can turn ideas into polished digital interfaces.",
-    "Create a clean, responsive, presentation-ready interface that communicates clearly and feels modern.",
-    "This project connects visual design, component thinking, responsive layout, and implementation workflow into a practical web system.",
-    ["Clean interface hierarchy", "Responsive web layout", "Design-to-build workflow"],
-    "This project demonstrates UI layout thinking, web visual design, responsive composition, and AI-assisted implementation workflow."
+    "This live portfolio is a co-created web system built through the owner's art direction, content decisions, and quality review, with AI-assisted design translation and front-end implementation.",
+    "Make the portfolio easy for recruiters to inspect while giving the owner practical tools to update images, text, and case studies, then publish changes without manually editing code.",
+    "One portfolio identity, two visual languages, and one shared content system. The dark theme feels polished and cinematic, while the colorful theme is playful and 3D-led without duplicating the owner's content workflow.",
+    ["Human-led creative direction", "Two expressive themes with shared content", "Clear, inspectable case studies", "Practical owner publishing workflow"],
+    "This project demonstrates how clear human art direction and sustained AI-assisted collaboration can turn iterative feedback into a cohesive, maintainable portfolio product rather than a one-off webpage.",
+    {
+      workflow: [
+        { step: "01", label: "Direction & References", desc: "The owner defines visual goals, provides references and assets, and makes the final creative decisions." },
+        { step: "02", label: "AI-Assisted Implementation", desc: "AI assists with design translation, front-end development, motion, data structure, and implementation options." },
+        { step: "03", label: "Content & Interaction System", desc: "Both themes are connected to shared projects, responsive viewers, owner editing tools, and publishing controls." },
+        { step: "04", label: "Test, Publish & Iterate", desc: "The owner reviews each result, gives practical feedback, and approves changes before GitHub Pages deployment." },
+      ],
+      visualSystem: [
+        { label: "Dual Theme Architecture", desc: "Dark and colorful interfaces express different moods while sharing the same portfolio information." },
+        { label: "3D & Motion", desc: "WebGL, Lottie, hover states, and theme transitions make the presentation feel active without blocking the work." },
+        { label: "Case Study Storytelling", desc: "Projects connect overview, goal, direction, workflow, visual system, outputs, and reflection into one readable story." },
+        { label: "Owner CMS", desc: "A dedicated admin workspace manages images, bilingual content, and flexible case-study sections." },
+        { label: "GitHub Publishing", desc: "Approved image and content updates can create commits and trigger the live GitHub Pages deployment." },
+        { label: "Responsive & Accessible", desc: "Layouts, navigation, image viewers, and motion behavior are tested across desktop and mobile sizes." },
+      ],
+      outputs: [
+        { label: "Dark Theme Portfolio Hero", desc: "The live dark-theme hero combines compact navigation, personal positioning, portrait, and animated theme control." },
+        { label: "Colorful Theme 3D Hero", desc: "A playful alternative hero uses a Blender/WebGL composition, bold typography, and the same core portfolio identity." },
+        { label: "Dark Theme Mobile Experience", desc: "The dark interface reorganizes the hero, navigation, CTA, portrait, and experience badge for a narrow screen." },
+        { label: "Colorful Theme Mobile Experience", desc: "The colorful layout preserves expressive typography, controls, stats, and 3D presentation on mobile." },
+        { label: "Dark Theme Work Grid", desc: "An asymmetric editorial grid presents real campaign, 3D, product, and e-commerce work with clear categories and local covers." },
+        { label: "Colorful Theme Work Grid", desc: "The same project content is adapted into outlined colorful cards without requiring a second content library." },
+        { label: "Case Study Storytelling Viewer", desc: "The responsive viewer turns portfolio images into a structured story with goal, concept, direction, workflow, and outputs." },
+        { label: "Production Credit Image Viewer", desc: "Expanded images include captions and production badges such as source asset, AI-assisted, or 100% Blender for transparent attribution." },
+        { label: "Portfolio Admin — Image Publishing", desc: "The owner workspace groups project images and can publish approved uploads to GitHub for both themes." },
+        { label: "Portfolio Admin — Content Settings", desc: "Bilingual content is organized into searchable sections with local drafts and an explicit publish action." },
+        { label: "Portfolio Admin — Case Study Builder", desc: "A dedicated story builder lets the owner edit bilingual narratives and add or remove flexible sections without covering the public site." },
+      ],
+    }
   ),
 ];
 
@@ -404,7 +433,11 @@ const projectData = DEFAULT_PROJECTS.map((fallback, index) => {
     && english(candidate?.caseStudy?.outputs?.[7]?.label) === "Final Campaign Key Visual";
   const hasLegacyProductSystemProject = index === 2
     && english(candidate?.title) === "AI PRODUCT 3D VISUALS";
-  const stored = hasLegacy3DProject || hasUncreditedAIOutputs || hasLegacyProductSystemProject ? undefined : candidate;
+  const hasLegacyWebSystemProject = index === 4
+    && english(candidate?.title) === "AI-ASSISTED WEB SYSTEM"
+    && english(candidate?.category) === "Web & UI Design"
+    && candidate?.caseStudy?.outputs?.length === 4;
+  const stored = hasLegacy3DProject || hasUncreditedAIOutputs || hasLegacyProductSystemProject || hasLegacyWebSystemProject ? undefined : candidate;
   return {
     title: index === 1 && english(stored?.title) === "3D RUNNING SHOE VISUALIZATION"
       ? fallback.title
@@ -422,6 +455,7 @@ const projectData = DEFAULT_PROJECTS.map((fallback, index) => {
 function getProjectCover(id, project) {
   if (id === 1) return "../portfolio/covers/project-1-hero.webp";
   if (id === 3) return "../portfolio/project-3/01-kn95-3c-final-hero.webp";
+  if (id === 5) return "../portfolio/project-5/01-dark-theme-hero.webp";
   return project.images[0];
 }
 

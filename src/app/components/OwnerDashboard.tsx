@@ -22,7 +22,7 @@ const PROJECT_LABELS: Record<number, { title: string; folder: string; color: str
   2: { title: "3D Product Visualization", folder: "3d-product/", color: "#0066ff" },
   3: { title: "Product Visualization System", folder: "product-visual-system/", color: "#9333ea" },
   4: { title: "E-Commerce Campaigns", folder: "ecommerce-campaigns/", color: "#f59e0b" },
-  5: { title: "AI-Assisted Web System", folder: "web-system/", color: "#10b981" },
+  5: { title: "AI-Assisted Web System", folder: "ai-assisted-web-system/", color: "#10b981" },
 };
 
 type ContentPath = Array<string | number>;

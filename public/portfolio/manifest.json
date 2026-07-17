@@ -32,5 +32,18 @@
     "portfolio/project-3/08-air-purifier-housing-development.webp",
     "portfolio/project-3/09-air-purifier-filter-render.webp",
     "portfolio/project-3/10-air-purifier-material-study.webp"
+  ],
+  "5": [
+    "portfolio/project-5/01-dark-theme-hero.webp",
+    "portfolio/project-5/02-colorful-3d-hero.webp",
+    "portfolio/project-5/03-dark-theme-mobile.webp",
+    "portfolio/project-5/04-colorful-theme-mobile.webp",
+    "portfolio/project-5/05-dark-theme-work-grid.webp",
+    "portfolio/project-5/06-colorful-theme-work-grid.webp",
+    "portfolio/project-5/07-case-study-storytelling.webp",
+    "portfolio/project-5/08-production-credit-viewer.webp",
+    "portfolio/project-5/09-admin-image-publishing.webp",
+    "portfolio/project-5/10-admin-content-settings.webp",
+    "portfolio/project-5/11-admin-case-study-builder.webp"
   ]
 }

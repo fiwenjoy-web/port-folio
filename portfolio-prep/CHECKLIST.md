@@ -61,14 +61,17 @@ Files placed here stay local and are not included in Git commits.
 
 ## 05 AI-assisted Web System
 
-- [ ] 01-cover-desktop-hero.webp
-- [ ] 02-full-page-website.webp
-- [ ] 03-mobile-version.webp
-- [ ] 04-dashboard-screen.webp
-- [ ] 05-ui-components.webp
-- [ ] 06-color-and-typography.webp
-- [ ] 07-figma-to-web-workflow.webp
-- [ ] 08-responsive-screens.webp
+- [x] 01-dark-theme-hero.webp - live dark-theme desktop hero
+- [x] 02-colorful-3d-hero.webp - live colorful 3D desktop hero
+- [x] 03-dark-theme-mobile.webp - responsive dark-theme hero
+- [x] 04-colorful-theme-mobile.webp - responsive colorful-theme hero
+- [x] 05-dark-theme-work-grid.webp - dark-theme portfolio grid
+- [x] 06-colorful-theme-work-grid.webp - colorful-theme portfolio grid
+- [x] 07-case-study-storytelling.webp - structured project story viewer
+- [x] 08-production-credit-viewer.webp - image viewer with production attribution
+- [x] 09-admin-image-publishing.webp - owner image and GitHub publishing tools
+- [x] 10-admin-content-settings.webp - bilingual content management
+- [x] 11-admin-case-study-builder.webp - flexible story builder
 
 ## Profile Photos
 

@@ -741,40 +741,61 @@ export const DEFAULT_CONTENT: SiteContent = {
       },
       {
         title: { en: "AI-ASSISTED WEB SYSTEM", th: "ระบบเว็บด้วยความช่วยเหลือ AI" },
-        category: { en: "Web & UI Design", th: "เว็บและ UI Design" },
+        category: { en: "UI Design & Front-End System", th: "ออกแบบ UI และระบบ Front-End" },
         description: {
-          en: "Modern web UI design and AI-assisted front-end development. From wireframes to polished interfaces, built with design systems and workflow automation in mind.",
-          th: "การออกแบบ Web UI สมัยใหม่และการพัฒนา Front-end ด้วย AI ตั้งแต่ Wireframe จนถึงอินเทอร์เฟซที่สมบูรณ์ สร้างด้วย Design System และระบบอัตโนมัติ",
+          en: "A working portfolio platform co-created through human-led art direction and AI-assisted implementation, combining two visual themes, interactive motion, 3D presentation, responsive case studies, owner editing tools, and GitHub publishing.",
+          th: "แพลตฟอร์มพอร์ตโฟลิโอที่สร้างร่วมกันจากการกำกับงานโดยเจ้าของพอร์ตและการพัฒนาที่มี AI ช่วย รวมสองธีมภาพ โมชั่น การนำเสนอ 3D เคสสตัดดี้แบบ responsive เครื่องมือแก้ไขสำหรับเจ้าของ และระบบเผยแพร่ผ่าน GitHub",
         },
-        tags: ["UI Design", "Figma", "Web Dev"],
+        tags: ["React", "3D & Motion", "GitHub Publishing"],
         caseStudy: createCaseStudy({
           overview: {
-            en: "A web and UI visual design project exploring how layout, design systems, and AI-assisted front-end workflows can turn ideas into polished digital interfaces.",
-            th: "โปรเจกต์ออกแบบภาพสำหรับเว็บและ UI ที่ทดลองการใช้ layout, design system และเวิร์กโฟลว์ front-end ที่มี AI ช่วย เพื่อเปลี่ยนไอเดียให้เป็น interface ที่สมบูรณ์",
+            en: "This live portfolio is a co-created web system built through the owner's art direction, content decisions, and quality review, with AI-assisted design translation and front-end implementation.",
+            th: "พอร์ตโฟลิโอที่ใช้งานจริงนี้เป็นระบบเว็บที่สร้างร่วมกัน โดยเจ้าของพอร์ตกำกับทิศทางภาพ ตัดสินใจด้านเนื้อหา และตรวจคุณภาพ พร้อมใช้ AI ช่วยแปลงงานออกแบบและพัฒนา Front-End",
           },
           goal: {
-            en: "Create a clean, responsive, and presentation-ready interface that communicates clearly and feels modern.",
-            th: "สร้าง interface ที่สะอาด responsive พร้อมนำเสนอ สื่อสารชัด และให้ความรู้สึกทันสมัย",
+            en: "Make the portfolio easy for recruiters to inspect while giving the owner practical tools to update images, text, and case studies, then publish changes without manually editing code.",
+            th: "ทำให้ฝ่ายสรรหาตรวจดูผลงานได้ง่าย พร้อมให้เจ้าของพอร์ตแก้ไขรูป ข้อความ และเคสสตัดดี้ รวมถึงเผยแพร่การเปลี่ยนแปลงได้โดยไม่ต้องแก้โค้ดด้วยตัวเอง",
           },
           concept: {
-            en: "This project connects visual design, component thinking, responsive layout, and implementation workflow into a practical web system.",
-            th: "โปรเจกต์นี้เชื่อมงานออกแบบภาพ การคิดเป็น component, responsive layout และเวิร์กโฟลว์การพัฒนาให้เป็นระบบเว็บที่ใช้งานได้จริง",
+            en: "One portfolio identity, two visual languages, and one shared content system. The dark theme feels polished and cinematic, while the colorful theme is playful and 3D-led without duplicating the owner's content workflow.",
+            th: "ตัวตนพอร์ตหนึ่งชุด ภาษาภาพสองสไตล์ และระบบเนื้อหาร่วมกันหนึ่งระบบ ธีม Dark ให้ความรู้สึกเนี้ยบและมีมิติ ส่วนธีม Colorful สนุกและนำด้วยงาน 3D โดยไม่ต้องจัดการข้อมูลซ้ำสองชุด",
           },
           direction: [
-            { en: "Clean interface hierarchy", th: "ลำดับข้อมูล UI ที่สะอาด" },
-            { en: "Responsive web layout", th: "เลย์เอาต์เว็บแบบ responsive" },
-            { en: "Design-to-build workflow", th: "เวิร์กโฟลว์จาก design สู่การสร้างจริง" },
+            { en: "Human-led creative direction", th: "ทิศทางครีเอทีฟที่เจ้าของพอร์ตเป็นผู้กำกับ" },
+            { en: "Two expressive themes with shared content", th: "สองธีมที่มีบุคลิกต่างกันแต่ใช้เนื้อหาร่วมกัน" },
+            { en: "Clear, inspectable case studies", th: "เคสสตัดดี้ที่ชัดเจนและตรวจดูผลงานได้ง่าย" },
+            { en: "Practical owner publishing workflow", th: "เวิร์กโฟลว์เผยแพร่ที่เจ้าของใช้งานได้จริง" },
+          ],
+          workflow: [
+            { step: "01", label: { en: "Direction & References", th: "กำหนดทิศทางและ Reference" }, desc: { en: "The owner defines visual goals, provides references and assets, and makes the final creative decisions.", th: "เจ้าของพอร์ตกำหนดเป้าหมายภาพ ให้ reference และไฟล์งาน พร้อมตัดสินใจด้านครีเอทีฟในขั้นสุดท้าย" } },
+            { step: "02", label: { en: "AI-Assisted Implementation", th: "พัฒนาระบบโดยมี AI ช่วย" }, desc: { en: "AI assists with design translation, front-end development, motion, data structure, and implementation options.", th: "ใช้ AI ช่วยแปลงงานออกแบบ พัฒนา Front-End โมชั่น โครงสร้างข้อมูล และสำรวจทางเลือกในการทำระบบ" } },
+            { step: "03", label: { en: "Content & Interaction System", th: "ระบบเนื้อหาและ Interaction" }, desc: { en: "Both themes are connected to shared projects, responsive viewers, owner editing tools, and publishing controls.", th: "เชื่อมทั้งสองธีมเข้ากับข้อมูลโปรเจกต์ร่วม ตัวดูภาพแบบ responsive เครื่องมือแก้ไข และระบบเผยแพร่" } },
+            { step: "04", label: { en: "Test, Publish & Iterate", th: "ทดสอบ เผยแพร่ และปรับต่อ" }, desc: { en: "The owner reviews each result, gives practical feedback, and approves changes before GitHub Pages deployment.", th: "เจ้าของพอร์ตตรวจผลงาน ให้ feedback จากการใช้งานจริง และอนุมัติก่อนเผยแพร่ผ่าน GitHub Pages" } },
           ],
           visualSystem: [
-            ...DEFAULT_VISUAL_SYSTEM,
-            {
-              label: { en: "Typography", th: "ตัวอักษร" },
-              desc: { en: "Uses type scale and hierarchy to make interface content easier to scan.", th: "ใช้ขนาดและลำดับตัวอักษรเพื่อให้เนื้อหาใน interface อ่านง่าย" },
-            },
+            { label: { en: "Dual Theme Architecture", th: "สถาปัตยกรรมสองธีม" }, desc: { en: "Dark and colorful interfaces express different moods while sharing the same portfolio information.", th: "อินเทอร์เฟซ Dark และ Colorful สื่ออารมณ์ต่างกันแต่ใช้ข้อมูลพอร์ตชุดเดียวกัน" } },
+            { label: { en: "3D & Motion", th: "3D และโมชั่น" }, desc: { en: "WebGL, Lottie, hover states, and theme transitions make the presentation feel active without blocking the work.", th: "ใช้ WebGL, Lottie, hover state และ transition ตอนเปลี่ยนธีมเพื่อเพิ่มชีวิตให้เว็บโดยไม่บดบังผลงาน" } },
+            { label: { en: "Case Study Storytelling", th: "ระบบเล่าเรื่องเคสสตัดดี้" }, desc: { en: "Projects connect overview, goal, direction, workflow, visual system, outputs, and reflection into one readable story.", th: "แต่ละโปรเจกต์เชื่อมภาพรวม เป้าหมาย ทิศทาง เวิร์กโฟลว์ ระบบภาพ ผลงาน และบทสรุปเป็นเรื่องเดียวที่อ่านง่าย" } },
+            { label: { en: "Owner CMS", th: "ระบบจัดการสำหรับเจ้าของ" }, desc: { en: "A dedicated admin workspace manages images, bilingual content, and flexible case-study sections.", th: "หน้าแอดมินเฉพาะสำหรับจัดการรูป เนื้อหาสองภาษา และหมวดเคสสตัดดี้ที่เพิ่มลดได้" } },
+            { label: { en: "GitHub Publishing", th: "เผยแพร่ผ่าน GitHub" }, desc: { en: "Approved image and content updates can create commits and trigger the live GitHub Pages deployment.", th: "รูปและเนื้อหาที่อนุมัติแล้วสามารถสร้าง commit และสั่ง deploy ขึ้น GitHub Pages ได้" } },
+            { label: { en: "Responsive & Accessible", th: "Responsive และเข้าถึงง่าย" }, desc: { en: "Layouts, navigation, image viewers, and motion behavior are tested across desktop and mobile sizes.", th: "ทดสอบเลย์เอาต์ เมนู ตัวดูภาพ และพฤติกรรมโมชั่นทั้งหน้าจอ Desktop และ Mobile" } },
+          ],
+          outputs: [
+            { label: { en: "Dark Theme Portfolio Hero", th: "Hero พอร์ตธีม Dark" }, desc: { en: "The live dark-theme hero combines a compact navigation system, personal positioning, portrait, and animated theme control.", th: "Hero ธีม Dark ที่ใช้งานจริง รวมเมนูขนาดกะทัดรัด ตัวตนของผู้สมัคร ภาพบุคคล และปุ่มเปลี่ยนธีมแบบมีโมชั่น" } },
+            { label: { en: "Colorful Theme 3D Hero", th: "Hero 3D ธีม Colorful" }, desc: { en: "A playful alternative hero uses a Blender/WebGL composition, bold typography, and the same core portfolio identity.", th: "Hero อีกสไตล์ที่สนุกขึ้น ใช้องค์ประกอบ Blender/WebGL ตัวอักษรเด่น และยังคงตัวตนพอร์ตชุดเดียวกัน" } },
+            { label: { en: "Dark Theme Mobile Experience", th: "ประสบการณ์ Mobile ธีม Dark" }, desc: { en: "The dark interface reorganizes the hero, navigation, CTA, portrait, and experience badge for a narrow screen.", th: "ธีม Dark จัด Hero เมนู CTA ภาพบุคคล และป้ายประสบการณ์ใหม่ให้เหมาะกับหน้าจอแคบ" } },
+            { label: { en: "Colorful Theme Mobile Experience", th: "ประสบการณ์ Mobile ธีม Colorful" }, desc: { en: "The colorful layout preserves the expressive typography, controls, stats, and 3D presentation on mobile.", th: "ธีม Colorful รักษาตัวอักษรที่มีบุคลิก ปุ่มควบคุม สถิติ และการนำเสนอ 3D ไว้บนมือถือ" } },
+            { label: { en: "Dark Theme Work Grid", th: "กริดผลงานธีม Dark" }, desc: { en: "An asymmetric editorial grid presents real campaign, 3D, product, and e-commerce work with clear categories and local covers.", th: "กริดแบบ editorial ที่ไม่สมมาตร ใช้นำเสนองานแคมเปญ 3D สินค้า และอีคอมเมิร์ซจริง พร้อมหมวดและภาพปกจากไฟล์ในระบบ" } },
+            { label: { en: "Colorful Theme Work Grid", th: "กริดผลงานธีม Colorful" }, desc: { en: "The same project content is adapted into outlined colorful cards without requiring a second content library.", th: "ข้อมูลโปรเจกต์ชุดเดียวกันถูกปรับเป็นการ์ดสีสดมีเส้นขอบ โดยไม่ต้องสร้างคลังเนื้อหาอีกชุด" } },
+            { label: { en: "Case Study Storytelling Viewer", th: "ตัวดูเรื่องราวเคสสตัดดี้" }, desc: { en: "The responsive project viewer turns portfolio images into a structured story with goal, concept, direction, workflow, and outputs.", th: "ตัวดูโปรเจกต์แบบ responsive เปลี่ยนชุดภาพให้เป็นเรื่องราวที่มีเป้าหมาย คอนเซปต์ ทิศทาง เวิร์กโฟลว์ และผลงาน" } },
+            { label: { en: "Production Credit Image Viewer", th: "ตัวดูภาพพร้อมเครดิตการผลิต" }, desc: { en: "Expanded images include captions and production badges such as source asset, AI-assisted, or 100% Blender for transparent attribution.", th: "ภาพขยายมีคำอธิบายและป้ายวิธีผลิต เช่น source asset, AI-assisted หรือ 100% Blender เพื่อให้เครดิตอย่างโปร่งใส" } },
+            { label: { en: "Portfolio Admin — Image Publishing", th: "แอดมินพอร์ต — จัดการและเผยแพร่รูป" }, desc: { en: "The owner workspace groups project images and can publish approved uploads to GitHub for both themes.", th: "พื้นที่สำหรับเจ้าของจัดกลุ่มรูปตามโปรเจกต์และเผยแพร่ไฟล์ที่อนุมัติขึ้น GitHub ให้ทั้งสองธีมใช้ร่วมกัน" } },
+            { label: { en: "Portfolio Admin — Content Settings", th: "แอดมินพอร์ต — ตั้งค่าเนื้อหา" }, desc: { en: "Bilingual content is organized into searchable sections with local drafts and an explicit publish action.", th: "เนื้อหาสองภาษาถูกจัดเป็นหมวดที่ค้นหาได้ มี draft ในเครื่อง และปุ่มเผยแพร่ที่ชัดเจน" } },
+            { label: { en: "Portfolio Admin — Case Study Builder", th: "แอดมินพอร์ต — สร้างเคสสตัดดี้" }, desc: { en: "A dedicated story builder lets the owner edit bilingual project narratives and add or remove flexible sections without covering the public site.", th: "หน้าสร้างเรื่องราวแยกต่างหากให้เจ้าของแก้เนื้อหาโปรเจกต์สองภาษาและเพิ่มหรือลดหมวดได้โดยไม่บังหน้าเว็บสาธารณะ" } },
           ],
           reflection: {
-            en: "This project demonstrates UI layout thinking, web visual design, responsive composition, and AI-assisted implementation workflow.",
-            th: "โปรเจกต์นี้โชว์การคิด layout UI งานภาพสำหรับเว็บ องค์ประกอบแบบ responsive และเวิร์กโฟลว์พัฒนาที่ใช้ AI ช่วย",
+            en: "This project demonstrates how clear human art direction and sustained AI-assisted collaboration can turn iterative feedback into a cohesive, maintainable portfolio product rather than a one-off webpage.",
+            th: "โปรเจกต์นี้แสดงให้เห็นว่าการกำกับงานโดยคนอย่างชัดเจนและการทำงานร่วมกับ AI อย่างต่อเนื่อง สามารถเปลี่ยน feedback หลายรอบให้เป็นผลิตภัณฑ์พอร์ตที่เป็นระบบ ดูแลต่อได้ และไม่ใช่เพียงหน้าเว็บครั้งเดียวจบ",
           },
         }),
       },
@@ -893,8 +914,13 @@ function upgradeLegacyServicesContent(content: SiteContent): SiteContent {
   const legacyProductSystemProject = content.portfolio.projects[2];
   const hasLegacyProductSystemProject =
     legacyProductSystemProject?.title.en === "AI PRODUCT 3D VISUALS";
+  const legacyWebSystemProject = content.portfolio.projects[4];
+  const hasLegacyWebSystemProject =
+    legacyWebSystemProject?.title.en === "AI-ASSISTED WEB SYSTEM" &&
+    legacyWebSystemProject?.category.en === "Web & UI Design" &&
+    legacyWebSystemProject.caseStudy.outputs.length === 4;
 
-  if (!hasLegacyServices && !hasLegacyNavigation && !hasLegacyPositioning && !hasLegacy3DProject && !hasRunningShoeTitle && !hasUncreditedAIOutputs && !hasLegacyProductSystemProject) return content;
+  if (!hasLegacyServices && !hasLegacyNavigation && !hasLegacyPositioning && !hasLegacy3DProject && !hasRunningShoeTitle && !hasUncreditedAIOutputs && !hasLegacyProductSystemProject && !hasLegacyWebSystemProject) return content;
 
   const next = structuredClone(content);
   if (hasLegacyNavigation) next.navigation.links[1] = structuredClone(DEFAULT_CONTENT.navigation.links[1]);
@@ -923,6 +949,9 @@ function upgradeLegacyServicesContent(content: SiteContent): SiteContent {
   }
   if (hasLegacyProductSystemProject) {
     next.portfolio.projects[2] = structuredClone(DEFAULT_CONTENT.portfolio.projects[2]);
+  }
+  if (hasLegacyWebSystemProject) {
+    next.portfolio.projects[4] = structuredClone(DEFAULT_CONTENT.portfolio.projects[4]);
   }
   return next;
 }
