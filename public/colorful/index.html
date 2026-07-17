@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="./styles.css?v=20260717-spline" />
+    <link rel="stylesheet" href="./styles.css?v=20260717-pointer3d" />
     <script type="importmap">
       {
         "imports": {
@@ -82,23 +82,12 @@
           </div>
         </div>
 
-        <div class="hero-art" data-three-hero data-hero-3d-mode="spline" aria-label="Interactive 3D portfolio artwork">
+        <div class="hero-art" data-three-hero aria-label="Interactive 3D portfolio artwork">
           <img class="hero-three-poster" src="../models/dstk-poster.webp" alt="3D portfolio composition preview" />
-          <div class="hero-spline-layer" id="hero-spline-layer" aria-hidden="false">
-            <spline-viewer
-              id="hero-spline-viewer"
-              url="https://prod.spline.design/PyzDhpQ9E5f1E3MT/scene.splinecode"
-              aria-label="Interactive Spline 3D demo"
-            ></spline-viewer>
-          </div>
           <canvas id="hero-three-canvas" class="hero-three-canvas" role="img" aria-label="Interactive 3D portfolio composition"></canvas>
-          <span class="hero-three-badge" id="hero-three-badge">SPLINE / INTERACTIVE DEMO</span>
-          <span class="hero-three-loading" id="hero-three-loading">LOADING SPLINE</span>
+          <span class="hero-three-badge">BLENDER / WEBGL</span>
+          <span class="hero-three-loading" id="hero-three-loading">LOADING 3D&nbsp; 0%</span>
           <p class="hero-three-error" id="hero-three-error" hidden>3D preview unavailable</p>
-          <div class="hero-3d-mode-switch" role="group" aria-label="Choose interactive 3D preview">
-            <button class="is-active" type="button" data-hero-3d-mode="spline" aria-pressed="true">SPLINE DEMO</button>
-            <button type="button" data-hero-3d-mode="original" aria-pressed="false">ORIGINAL 3D</button>
-          </div>
           <div class="hero-three-controls" id="hero-three-controls" hidden>
             <button type="button" id="hero-three-toggle" aria-label="Pause automatic rotation" title="Pause automatic rotation">&#8545;</button>
             <button type="button" id="hero-three-reset" aria-label="Reset 3D view" title="Reset 3D view">&#8635;</button>
@@ -348,6 +337,6 @@
         </div>
       </div>
     </div>
-    <script type="module" src="./script.js?v=20260717-spline"></script>
+    <script type="module" src="./script.js?v=20260717-pointer3d"></script>
   </body>
 </html>

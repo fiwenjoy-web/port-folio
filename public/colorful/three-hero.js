@@ -63,6 +63,20 @@ if (host && canvas) {
   let floatingModel = null;
   let motionEnabled = !reducedMotion;
   const motionClock = new THREE.Clock();
+  const pointerCurrent = new THREE.Vector2();
+  const pointerTarget = new THREE.Vector2();
+  const pointerFine = window.matchMedia("(pointer: fine)").matches;
+
+  if (pointerFine && !reducedMotion) {
+    host.addEventListener("pointermove", (event) => {
+      const bounds = host.getBoundingClientRect();
+      pointerTarget.set(
+        ((event.clientX - bounds.left) / bounds.width) * 2 - 1,
+        ((event.clientY - bounds.top) / bounds.height) * 2 - 1,
+      );
+    });
+    host.addEventListener("pointerleave", () => pointerTarget.set(0, 0));
+  }
 
   const updateMotionButton = () => {
     if (!toggleButton) return;
@@ -91,18 +105,24 @@ if (host && canvas) {
   const render = () => {
     requestAnimationFrame(render);
     if (!inView || document.hidden) return;
+    pointerCurrent.lerp(pointerTarget, 0.055);
     if (floatingModel && motionEnabled) {
       const elapsed = motionClock.getElapsedTime();
       floatingModel.position.set(
-        Math.sin(elapsed * 0.62) * 0.085,
-        Math.sin(elapsed * 0.78 + 0.8) * 0.045,
+        Math.sin(elapsed * 0.62) * 0.085 + pointerCurrent.x * 0.055,
+        Math.sin(elapsed * 0.78 + 0.8) * 0.045 - pointerCurrent.y * 0.035,
         Math.cos(elapsed * 0.54) * 0.06,
       );
       floatingModel.rotation.set(
-        Math.sin(elapsed * 0.5) * 0.014,
-        -0.08 + Math.sin(elapsed * 0.46) * 0.05,
-        Math.sin(elapsed * 0.38) * 0.012,
+        Math.sin(elapsed * 0.5) * 0.014 - pointerCurrent.y * 0.045,
+        -0.08 + Math.sin(elapsed * 0.46) * 0.05 + pointerCurrent.x * 0.09,
+        Math.sin(elapsed * 0.38) * 0.012 - pointerCurrent.x * 0.012,
       );
+    } else if (floatingModel) {
+      floatingModel.position.x = THREE.MathUtils.lerp(floatingModel.position.x, pointerCurrent.x * 0.055, 0.08);
+      floatingModel.position.y = THREE.MathUtils.lerp(floatingModel.position.y, -pointerCurrent.y * 0.035, 0.08);
+      floatingModel.rotation.x = THREE.MathUtils.lerp(floatingModel.rotation.x, -pointerCurrent.y * 0.045, 0.08);
+      floatingModel.rotation.y = THREE.MathUtils.lerp(floatingModel.rotation.y, -0.08 + pointerCurrent.x * 0.09, 0.08);
     }
     orbit.update();
     renderer.render(scene, camera);
@@ -156,6 +176,8 @@ if (host && canvas) {
 
   resetButton?.addEventListener("click", () => {
     orbit.reset();
+    pointerCurrent.set(0, 0);
+    pointerTarget.set(0, 0);
     floatingModel?.position.set(0, 0, 0);
     floatingModel?.rotation.set(0, -0.08, 0);
   });
