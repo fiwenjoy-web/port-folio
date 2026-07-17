@@ -682,6 +682,9 @@ const viewer = document.querySelector(".image-viewer");
 const viewerExpanded = viewer?.querySelector(".viewer-expanded");
 const viewerImage = viewerExpanded?.querySelector("img");
 const viewerCount = viewer?.querySelector(".viewer-count");
+const viewerExpandedTitle = viewer?.querySelector(".viewer-expanded-title");
+const viewerExpandedDescription = viewer?.querySelector(".viewer-expanded-description");
+const viewerAIBadge = viewer?.querySelector(".viewer-ai-badge");
 const viewerTotal = viewer?.querySelector(".viewer-total");
 const viewerCollage = viewer?.querySelector(".viewer-collage");
 let activeProject = 0;
@@ -698,6 +701,10 @@ function renderExpanded() {
     viewerImage.onerror = null;
   };
   viewerCount.textContent = `${String(activeImage + 1).padStart(2, "0")} / ${String(project.images.length).padStart(2, "0")}`;
+  const output = project.caseStudy.outputs[activeImage];
+  if (viewerExpandedTitle) viewerExpandedTitle.textContent = output?.label || project.title;
+  if (viewerExpandedDescription) viewerExpandedDescription.textContent = output?.desc || project.description;
+  if (viewerAIBadge) viewerAIBadge.hidden = !output?.label?.toLowerCase().includes("ai-assisted");
 }
 
 function createCollageImage(source, index, project) {
