@@ -35,16 +35,18 @@ Files placed here stay local and are not included in Git commits.
 - [x] 07-packaging-mockup.webp
 - [x] 08-final-key-visual.webp
 
-## 03 AI Product 3D Visuals
+## 03 Product Visualization System
 
-- [ ] 01-cover-final-visual.webp
-- [ ] 02-original-product.webp
-- [ ] 03-ai-prompt-exploration.webp
-- [ ] 04-selected-direction.webp
-- [ ] 05-before-after-retouch.webp
-- [ ] 06-ai-3d-composition.webp
-- [ ] 07-product-banner.webp
-- [ ] 08-ecommerce-adaptation.webp
+- [x] 01-kn95-3c-final-hero.webp - AI-assisted
+- [x] 02-existing-n95-source.webp - existing company asset
+- [x] 03-existing-kn95-source.webp - existing company asset
+- [x] 04-n95-final-angle.webp - AI-assisted
+- [x] 05-n95-final-front.webp - AI-assisted
+- [x] 06-kn95-3c-final-angle.webp - AI-assisted
+- [x] 07-air-purifier-blender-final.webp - 100% Blender
+- [x] 08-air-purifier-housing-development.webp - 100% Blender
+- [x] 09-air-purifier-filter-render.webp - 100% Blender
+- [x] 10-air-purifier-material-study.webp - 100% Blender
 
 ## 04 E-commerce Campaigns
 

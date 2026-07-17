@@ -2308,7 +2308,7 @@ footer {
   margin-bottom: 7px;
 }
 
-.viewer-ai-badge {
+.viewer-provenance-badge {
   background: rgba(45, 216, 227, 0.12);
   border: 1px solid rgba(45, 216, 227, 0.48);
   border-radius: 999px;

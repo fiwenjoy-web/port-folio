@@ -222,6 +222,7 @@ function createCaseStudy(input: {
   concept: BT;
   direction: BT[];
   reflection: BT;
+  workflow?: Array<{ step: string; label: BT; desc: BT }>;
   visualSystem?: Array<{ label: BT; desc: BT }>;
   outputs?: Array<{ label: BT; desc: BT }>;
 }) {
@@ -230,7 +231,7 @@ function createCaseStudy(input: {
     goal: input.goal,
     concept: input.concept,
     direction: input.direction,
-    workflow: CASE_STUDY_WORKFLOW,
+    workflow: input.workflow ?? CASE_STUDY_WORKFLOW,
     visualSystem: input.visualSystem ?? DEFAULT_VISUAL_SYSTEM,
     outputs: input.outputs ?? DEFAULT_OUTPUTS,
     reflection: input.reflection,
@@ -643,52 +644,59 @@ export const DEFAULT_CONTENT: SiteContent = {
         }),
       },
       {
-        title: { en: "AI PRODUCT 3D VISUALS", th: "ภาพสินค้า 3D ด้วย AI" },
-        category: { en: "AI Production", th: "การผลิตด้วย AI" },
+        title: { en: "PRODUCT VISUALIZATION SYSTEM", th: "ระบบภาพสินค้าและโมเดล 3D" },
+        category: { en: "3D & AI-Assisted Production", th: "งาน 3D และ AI-Assisted" },
         description: {
-          en: "AI-assisted visual production pipeline merging generative imagery with 3D renders for cutting-edge product advertising and campaign content.",
-          th: "ไปป์ไลน์การผลิตภาพด้วย AI ที่ผสานภาพ Generative กับการเรนเดอร์ 3D สำหรับโฆษณาสินค้าและเนื้อหาแคมเปญที่ล้ำสมัย",
+          en: "A transparent product visualization case study combining existing source assets, AI-assisted N95 and KN95 presentation, and a 100% Blender air purifier model.",
+          th: "เคสสตัดดี้ระบบภาพสินค้าที่แสดงที่มาอย่างโปร่งใส ตั้งแต่ไฟล์ต้นฉบับเดิม ภาพ N95 และ KN95 ที่ใช้ AI ช่วย ไปจนถึงโมเดลเครื่องฟอกอากาศที่สร้างด้วย Blender 100%",
         },
-        tags: ["AI Generation", "Midjourney", "Photoshop"],
+        tags: ["Blender", "Product Visualization", "AI-Assisted"],
         caseStudy: createCaseStudy({
           overview: {
-            en: "An AI product visual system exploring how AI, 3D mockups, and commercial design can create product-focused advertising visuals for digital platforms.",
-            th: "โปรเจกต์ทดลองระบบภาพสินค้าที่ใช้ AI, 3D Mockup และงานออกแบบเชิงพาณิชย์ เพื่อสร้างภาพโฆษณาสินค้าที่พร้อมใช้บนแพลตฟอร์มดิจิทัล",
+            en: "A product visualization project showing how limited company source assets were developed into clearer mask presentations, alongside a separate air purifier model built and rendered entirely in Blender.",
+            th: "โปรเจกต์ภาพสินค้าที่แสดงการพัฒนาไฟล์ต้นฉบับของบริษัทซึ่งมีข้อจำกัดให้เป็นภาพหน้ากากที่นำเสนอสินค้าได้ชัดเจนขึ้น พร้อมงานเครื่องฟอกอากาศอีกชุดที่ขึ้นโมเดลและเรนเดอร์ด้วย Blender ทั้งหมด",
           },
           goal: {
-            en: "Build a repeatable visual workflow that can move from idea exploration to polished product advertising outputs.",
-            th: "สร้างเวิร์กโฟลว์ภาพที่ทำซ้ำได้ ตั้งแต่การสำรวจไอเดียไปจนถึงภาพโฆษณาสินค้าที่สมบูรณ์",
+            en: "Improve product clarity and consistency while choosing the right production method for each task, with honest attribution for source assets, AI assistance, and original 3D work.",
+            th: "ยกระดับความชัดเจนและความสม่ำเสมอของภาพสินค้า เลือกวิธีผลิตที่เหมาะกับแต่ละงาน และระบุอย่างตรงไปตรงมาว่าส่วนใดเป็นไฟล์เดิม ส่วนใดใช้ AI ช่วย และส่วนใดเป็นงาน 3D ที่สร้างเอง",
           },
           concept: {
-            en: "From simple product assets to polished commercial visuals, this project explores a workflow that connects idea generation, AI-assisted direction, 3D presentation, and final advertising design.",
-            th: "จาก asset สินค้าง่าย ๆ สู่ภาพเชิงพาณิชย์ที่สมบูรณ์ โปรเจกต์นี้ทดลองเวิร์กโฟลว์ที่เชื่อมการคิดไอเดีย การกำหนดทิศทางด้วย AI การนำเสนอแบบ 3D และงานออกแบบโฆษณาสุดท้าย",
+            en: "Use the right tool for each visual problem. AI-assisted production develops the N95 and KN95 references into clean presentation images, while Blender provides complete control over the air purifier model, materials, lighting, and render output.",
+            th: "เลือกเครื่องมือให้ตรงกับโจทย์ภาพ โดยใช้ AI ช่วยพัฒนาไฟล์อ้างอิง N95 และ KN95 ให้เป็นภาพนำเสนอที่สะอาดขึ้น ขณะที่ Blender ใช้ควบคุมงานเครื่องฟอกอากาศครบทั้งโมเดล วัสดุ แสง และภาพเรนเดอร์",
           },
           direction: [
-            { en: "AI-assisted visual direction", th: "ทิศทางภาพที่ใช้ AI ช่วย" },
-            { en: "Product-focused composition", th: "องค์ประกอบที่โฟกัสสินค้า" },
-            { en: "Polished advertising finish", th: "งานจบแบบโฆษณาที่ดูเนี้ยบ" },
+            { en: "Clear source-to-output comparison", th: "เปรียบเทียบไฟล์ต้นทางกับผลลัพธ์อย่างชัดเจน" },
+            { en: "Clean clinical materials and controlled lighting", th: "วัสดุสะอาดแบบผลิตภัณฑ์การแพทย์และแสงที่ควบคุมได้" },
+            { en: "Transparent production attribution", th: "ระบุวิธีผลิตและเครดิตอย่างโปร่งใส" },
+          ],
+          workflow: [
+            { step: "01", label: { en: "Source Audit", th: "ตรวจสอบไฟล์ต้นทาง" }, desc: { en: "Review existing product assets, angles, edge quality, and presentation limitations.", th: "ตรวจไฟล์สินค้าเดิม มุมภาพ คุณภาพขอบ และข้อจำกัดในการนำเสนอ" } },
+            { step: "02", label: { en: "Visual Route", th: "เลือกแนวทางผลิต" }, desc: { en: "Choose AI-assisted visualization or full Blender production according to the product and communication goal.", th: "เลือกใช้ AI-assisted visualization หรือสร้างด้วย Blender ทั้งหมดตามชนิดสินค้าและเป้าหมายการสื่อสาร" } },
+            { step: "03", label: { en: "Production", th: "ผลิตงานภาพ" }, desc: { en: "Develop product form, materials, lighting, angles, and clean presentation-ready outputs.", th: "พัฒนารูปทรงสินค้า วัสดุ แสง มุมมอง และภาพที่พร้อมนำเสนอ" } },
+            { step: "04", label: { en: "Final Presentation", th: "จัดชุดผลงานสุดท้าย" }, desc: { en: "Curate the strongest outputs and label every production method clearly.", th: "คัดผลงานที่แข็งแรงที่สุดและระบุวิธีผลิตของแต่ละภาพให้ชัดเจน" } },
           ],
           visualSystem: [
-            ...DEFAULT_VISUAL_SYSTEM,
-            {
-              label: { en: "AI Prompt Exploration", th: "การทดลอง prompt AI" },
-              desc: { en: "Uses prompts to explore mood, composition, and campaign directions before final design.", th: "ใช้ prompt เพื่อทดลอง mood องค์ประกอบ และทิศทางแคมเปญก่อนออกแบบจริง" },
-            },
-            {
-              label: { en: "Social / E-commerce Adaptation", th: "การปรับใช้กับ Social / E-commerce" },
-              desc: { en: "Adapts the same visual idea into formats suitable for digital platforms.", th: "ปรับไอเดียภาพเดียวกันให้เหมาะกับ format บนแพลตฟอร์มดิจิทัล" },
-            },
+            { label: { en: "Source Asset Audit", th: "การตรวจไฟล์สินค้าต้นทาง" }, desc: { en: "Documents the existing company assets and their visual limitations without claiming them as original work.", th: "บันทึกไฟล์เดิมของบริษัทและข้อจำกัดทางภาพโดยไม่อ้างว่าเป็นผลงานที่สร้างขึ้นเอง" } },
+            { label: { en: "AI-Assisted Mask Visualization", th: "ภาพหน้ากากที่ใช้ AI ช่วย" }, desc: { en: "Develops cleaner N95 and KN95 product angles from the supplied references with explicit AI attribution.", th: "พัฒนามุมสินค้า N95 และ KN95 จากไฟล์อ้างอิงให้สะอาดขึ้น พร้อมระบุการใช้ AI อย่างชัดเจน" } },
+            { label: { en: "100% Blender Product Model", th: "โมเดลสินค้าที่สร้างด้วย Blender 100%" }, desc: { en: "Covers air purifier modeling, perforated housing detail, materials, branding, lighting, and rendering.", th: "ครอบคลุมการขึ้นโมเดลเครื่องฟอกอากาศ รายละเอียดช่องระบาย วัสดุ แบรนด์ การจัดแสง และการเรนเดอร์" } },
+            { label: { en: "Lighting & Material Control", th: "การควบคุมแสงและวัสดุ" }, desc: { en: "Uses neutral clinical lighting and controlled surfaces to keep white products readable.", th: "ใช้แสงโทนสะอาดและพื้นผิวที่ควบคุมได้เพื่อให้สินค้าสีขาวยังเห็นรายละเอียดชัดเจน" } },
+            { label: { en: "Production Attribution", th: "การระบุที่มาของงาน" }, desc: { en: "Separates existing assets, AI-assisted images, and original Blender work throughout the case study.", th: "แยกไฟล์เดิม ภาพที่ใช้ AI ช่วย และงาน Blender ที่สร้างเองตลอดทั้งเคสสตัดดี้" } },
           ],
           outputs: [
-            ...DEFAULT_OUTPUTS,
-            {
-              label: { en: "AI Visual Concept", th: "คอนเซปต์ภาพจาก AI" },
-              desc: { en: "Exploration images used to test visual mood and creative direction.", th: "ภาพทดลองที่ใช้ทดสอบ mood และทิศทางครีเอทีฟ" },
-            },
+            { label: { en: "AI-Assisted KN95 3C Final Hero", th: "ภาพหลัก KN95 3C ที่ใช้ AI ช่วย" }, desc: { en: "A polished three-quarter KN95 3C presentation developed with AI assistance from existing product references; shown as the final hero image.", th: "ภาพนำเสนอ KN95 3C มุมสามส่วนที่พัฒนาด้วย AI จากไฟล์อ้างอิงสินค้าเดิม ใช้เป็นภาพหลักของโปรเจกต์" } },
+            { label: { en: "Existing Company Asset — N95", th: "ไฟล์เดิมของบริษัท — N95" }, desc: { en: "An N95 source asset that existed before my contribution. It is included only to document the starting point and is not presented as my original work.", th: "ไฟล์สินค้า N95 ที่บริษัทมีอยู่ก่อนผมเริ่มทำงาน นำมาแสดงเพื่อบันทึกจุดเริ่มต้นเท่านั้น และไม่ได้อ้างว่าเป็นผลงานที่ผมสร้าง" } },
+            { label: { en: "Existing Company Asset — KN95 3C", th: "ไฟล์เดิมของบริษัท — KN95 3C" }, desc: { en: "A KN95 3C source asset that existed before my contribution, showing the original angle and edge quality available for production.", th: "ไฟล์สินค้า KN95 3C ที่บริษัทมีอยู่ก่อนผมเริ่มทำงาน แสดงมุมภาพและคุณภาพขอบของไฟล์ต้นทางที่มีสำหรับการผลิตงาน" } },
+            { label: { en: "AI-Assisted N95 Angle Study", th: "ภาพมุม N95 ที่ใช้ AI ช่วย" }, desc: { en: "An AI-assisted N95 product angle focused on material texture, mask depth, and a clean commercial presentation.", th: "ภาพมุมสินค้า N95 ที่ใช้ AI ช่วย โดยเน้นพื้นผิววัสดุ ความลึกของหน้ากาก และการนำเสนอเชิงพาณิชย์ที่สะอาด" } },
+            { label: { en: "AI-Assisted N95 Front View", th: "ภาพด้านหน้า N95 ที่ใช้ AI ช่วย" }, desc: { en: "A centered AI-assisted N95 view created to communicate symmetry, construction, and overall product form clearly.", th: "ภาพ N95 มุมตรงที่ใช้ AI ช่วย เพื่อสื่อสารความสมมาตร โครงสร้าง และรูปทรงสินค้าให้ชัดเจน" } },
+            { label: { en: "AI-Assisted KN95 3C Alternate Angle", th: "ภาพมุมเสริม KN95 3C ที่ใช้ AI ช่วย" }, desc: { en: "A second AI-assisted KN95 3C angle that expands the final set while keeping lighting, material, and background consistent.", th: "ภาพมุมเสริม KN95 3C ที่ใช้ AI ช่วย ทำให้ชุดภาพสมบูรณ์ขึ้นโดยรักษาแสง วัสดุ และพื้นหลังให้สม่ำเสมอ" } },
+            { label: { en: "100% Blender — Air Purifier Final Render", th: "Blender 100% — ภาพเรนเดอร์เครื่องฟอกอากาศ" }, desc: { en: "The air purifier was modeled, detailed, branded, lit, and rendered entirely in Blender without AI-generated imagery.", th: "เครื่องฟอกอากาศชิ้นนี้ขึ้นโมเดล ใส่รายละเอียด วางแบรนด์ จัดแสง และเรนเดอร์ด้วย Blender ทั้งหมด โดยไม่ใช้ภาพที่สร้างด้วย AI" } },
+            { label: { en: "100% Blender — Housing Development", th: "Blender 100% — การพัฒนาโครงตัวเครื่อง" }, desc: { en: "A Blender development render testing the cylindrical housing, ventilation pattern, proportions, and brand placement.", th: "ภาพพัฒนาจาก Blender ที่ใช้ทดสอบโครงทรงกระบอก รูปแบบช่องระบาย สัดส่วน และตำแหน่งแบรนด์" } },
+            { label: { en: "100% Blender — Internal Filter Render", th: "Blender 100% — ภาพเรนเดอร์ไส้กรองภายใน" }, desc: { en: "A Blender render revealing the blue internal filter element and its relationship to the outer product housing.", th: "ภาพเรนเดอร์จาก Blender ที่แสดงไส้กรองสีน้ำเงินภายในและความสัมพันธ์กับโครงตัวเครื่องด้านนอก" } },
+            { label: { en: "100% Blender — Filter Material Study", th: "Blender 100% — การทดลองวัสดุไส้กรอง" }, desc: { en: "A Blender material and branding study used to refine the filter surface, color, top housing, and product readability.", th: "ภาพทดลองวัสดุและแบรนด์ใน Blender เพื่อปรับพื้นผิวไส้กรอง สี ส่วนหัวตัวเครื่อง และความชัดเจนของสินค้า" } },
           ],
           reflection: {
-            en: "This project shows AI workflow thinking, product visual direction, 3D-assisted presentation, and final commercial design execution.",
-            th: "โปรเจกต์นี้โชว์การคิดเวิร์กโฟลว์ AI การกำหนดทิศทางภาพสินค้า การนำเสนอที่ใช้ 3D ช่วย และการจบงานออกแบบเชิงพาณิชย์",
+            en: "This project demonstrates practical judgment rather than one fixed technique: improving limited source assets with AI assistance when appropriate, building a complete product in Blender when full control is required, and clearly crediting every production method.",
+            th: "โปรเจกต์นี้แสดงการเลือกใช้วิธีทำงานตามโจทย์จริง ไม่ยึดติดกับเทคนิคเดียว โดยใช้ AI ช่วยเมื่อเหมาะกับการพัฒนาไฟล์ต้นทาง สร้างสินค้าใน Blender เมื่อจำเป็นต้องควบคุมทั้งหมด และระบุวิธีผลิตของทุกภาพอย่างชัดเจน",
           },
         }),
       },
@@ -882,8 +890,11 @@ function upgradeLegacyServicesContent(content: SiteContent): SiteContent {
   const hasUncreditedAIOutputs =
     legacy3DProject?.caseStudy.outputs[5]?.label.en === "Advertising Scene" &&
     legacy3DProject.caseStudy.outputs[7]?.label.en === "Final Campaign Key Visual";
+  const legacyProductSystemProject = content.portfolio.projects[2];
+  const hasLegacyProductSystemProject =
+    legacyProductSystemProject?.title.en === "AI PRODUCT 3D VISUALS";
 
-  if (!hasLegacyServices && !hasLegacyNavigation && !hasLegacyPositioning && !hasLegacy3DProject && !hasRunningShoeTitle && !hasUncreditedAIOutputs) return content;
+  if (!hasLegacyServices && !hasLegacyNavigation && !hasLegacyPositioning && !hasLegacy3DProject && !hasRunningShoeTitle && !hasUncreditedAIOutputs && !hasLegacyProductSystemProject) return content;
 
   const next = structuredClone(content);
   if (hasLegacyNavigation) next.navigation.links[1] = structuredClone(DEFAULT_CONTENT.navigation.links[1]);
@@ -909,6 +920,9 @@ function upgradeLegacyServicesContent(content: SiteContent): SiteContent {
   if (hasUncreditedAIOutputs) {
     next.portfolio.projects[1].description = structuredClone(DEFAULT_CONTENT.portfolio.projects[1].description);
     next.portfolio.projects[1].caseStudy.outputs = structuredClone(DEFAULT_CONTENT.portfolio.projects[1].caseStudy.outputs);
+  }
+  if (hasLegacyProductSystemProject) {
+    next.portfolio.projects[2] = structuredClone(DEFAULT_CONTENT.portfolio.projects[2]);
   }
   return next;
 }

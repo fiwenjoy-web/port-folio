@@ -2,6 +2,7 @@ export const STORAGE_KEY = "wh_portfolio_images";
 
 const PROJECT_COVERS: Record<number, string> = {
   1: "portfolio/covers/project-1-hero.webp",
+  3: "portfolio/project-3/01-kn95-3c-final-hero.webp",
 };
 
 export const DEFAULT_IMAGES: Record<number, string[]> = {

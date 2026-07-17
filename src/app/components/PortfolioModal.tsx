@@ -10,6 +10,14 @@ import type { Project } from "../types";
 const MONO = "'Noto Sans Thai', sans-serif";
 const SANS = "'Noto Sans Thai', sans-serif";
 
+function getOutputProvenance(label = "") {
+  const normalized = label.toLowerCase();
+  if (normalized.includes("ai-assisted")) return "AI-ASSISTED";
+  if (normalized.includes("100% blender")) return "100% BLENDER";
+  if (normalized.includes("existing company asset")) return "SOURCE ASSET";
+  return "";
+}
+
 interface Props {
   project: Project | null;
   onClose: () => void;
@@ -49,7 +57,7 @@ export function PortfolioModal({ project, onClose }: Props) {
   const projectContent = project ? portfolio.projects[project.id - 1] : null;
   const caseStudy = projectContent?.caseStudy;
   const activeOutput = activeImageIndex === null ? null : caseStudy?.outputs[activeImageIndex];
-  const isActiveOutputAIAssisted = activeOutput?.label.en.toLowerCase().includes("ai-assisted") ?? false;
+  const activeOutputProvenance = getOutputProvenance(activeOutput?.label.en);
 
   useEffect(() => {
     setActiveImageIndex(null);
@@ -304,6 +312,7 @@ export function PortfolioModal({ project, onClose }: Props) {
                 <div className="grid gap-5">
                   {project.images.map((img, index) => {
                     const output = caseStudy?.outputs[index];
+                    const provenance = getOutputProvenance(output?.label.en);
                     return (
                       <motion.button
                         type="button"
@@ -331,7 +340,17 @@ export function PortfolioModal({ project, onClose }: Props) {
                         </span>
                         {output && (
                           <span className="block border-t border-white/10 px-4 py-4 md:px-5">
-                            <b className="block text-sm text-white">{t(output.label)}</b>
+                            <span className="flex flex-wrap items-center gap-2">
+                              <b className="text-sm text-white">{t(output.label)}</b>
+                              {provenance && (
+                                <span
+                                  className="rounded-full px-2.5 py-1 text-[9px] font-black tracking-[0.14em]"
+                                  style={{ background: "rgba(0,212,255,0.1)", border: "1px solid rgba(0,212,255,0.3)", color: "#62e6ff" }}
+                                >
+                                  {provenance}
+                                </span>
+                              )}
+                            </span>
                             <small className="mt-1.5 block text-xs leading-relaxed text-white/60">{t(output.desc)}</small>
                           </span>
                         )}
@@ -470,12 +489,12 @@ export function PortfolioModal({ project, onClose }: Props) {
                       <span className="text-[11px] font-bold tracking-[0.18em] text-white/45">
                         {String(activeImageIndex + 1).padStart(2, "0")} / {String(imageCount).padStart(2, "0")}
                       </span>
-                      {isActiveOutputAIAssisted && (
+                      {activeOutputProvenance && (
                         <span
                           className="rounded-full px-2.5 py-1 text-[10px] font-black tracking-[0.14em]"
                           style={{ background: "rgba(0,212,255,0.12)", border: "1px solid rgba(0,212,255,0.38)", color: "#62e6ff" }}
                         >
-                          AI-ASSISTED
+                          {activeOutputProvenance}
                         </span>
                       )}
                     </div>
