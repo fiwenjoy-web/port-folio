@@ -1,14 +1,16 @@
-# 04 E-commerce Campaigns
+# 04 Babygenic E-commerce Visual System
 
-Prepare these files in this folder:
+This case study presents one complete marketplace product story rather than another monthly promotion campaign.
 
-1. `01-cover-campaign-key-visual.webp`
-2. `02-shopee-banner.webp`
-3. `03-lazada-banner.webp`
-4. `04-tiktok-shop-cover.webp`
-5. `05-social-square.webp`
-6. `06-story-vertical.webp`
-7. `07-product-benefit.webp`
-8. `08-campaign-set.webp`
+Published outputs:
 
-Use one campaign system across all platforms so HR can see consistency and adaptation skill.
+1. `01-packaging-label-system.webp`
+2. `02-product-mockup-closeup.webp`
+3. `03-marketplace-product-hero.webp`
+4. `04-product-benefit-overview.webp`
+5. `05-product-detail-benefits.webp`
+6. `06-how-to-use.webp`
+7. `07-pack-options.webp`
+8. `08-ai-assisted-lifestyle-usage-concept.webp`
+
+The sequence moves from label design to product mockup, marketplace recognition, benefits, detailed information, usage, purchase options, and an AI-assisted lifestyle usage concept. Only the lifestyle concept requires the AI-assisted label.
