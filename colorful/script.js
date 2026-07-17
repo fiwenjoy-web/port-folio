@@ -21,10 +21,10 @@ const DEFAULT_PROJECTS = [
     images: ["./assets/blog-cinetrade.png", "./assets/blog-sugee.png"],
   },
   {
-    title: "E-COMMERCE CAMPAIGNS",
-    category: "Campaign Design",
-    description: "End-to-end campaign design for Shopee, Lazada, and TikTok Shop, including banners, covers, product shots, and short-form content.",
-    tags: ["Shopee", "Lazada", "TikTok"],
+    title: "BABYGENIC E-COMMERCE VISUAL SYSTEM",
+    category: "E-commerce Product Communication",
+    description: "A marketplace listing system for Babygenic cleaning spray, connecting packaging design, product mockup, benefit communication, usage, and pack options into a clear mobile shopping journey.",
+    tags: ["Packaging", "Shopee", "Product Communication"],
     images: ["./assets/portfolio-lirante.png", "./assets/blog-uiux.png"],
   },
   {
@@ -152,18 +152,33 @@ const DEFAULT_CASE_STUDIES = [
     }
   ),
   createCaseStudy(
-    "An e-commerce campaign design project built to make product visuals work across marketplace, social media, and short-form commerce touchpoints.",
-    "Make the product clearer, more clickable, and easier to adapt across Shopee, Lazada, TikTok Shop, and social formats.",
-    "The campaign treats one product story as a flexible visual system, then adapts it into banners, covers, social posts, and marketplace-ready graphics.",
-    ["Clear product hierarchy", "Marketplace-ready layout", "Fast digital communication"],
-    "This project highlights campaign adaptation, marketplace design, product communication, and consistency across platforms.",
+    "A complete marketplace image set for Babygenic 500 ml toy and children's equipment cleaning spray, combining packaging label design, product mockup presentation, illustrated brand storytelling, benefit communication, usage guidance, and pack selection.",
+    "Turn detailed product information into a mobile-friendly hierarchy while keeping the brand gentle, playful, and easy for parents to understand at a glance.",
+    "Gentle care in a friendly illustrated world. Soft mint and sky-blue colors, rounded forms, playful characters, and large product renders make practical information approachable without losing commercial clarity.",
+    ["Friendly child-oriented illustration", "Clear mobile information hierarchy", "Consistent mint and sky-blue brand palette", "Product-first marketplace communication"],
+    "This project demonstrates a complete packaging-to-marketplace workflow: label design, product mockup, child-friendly art direction, mobile information hierarchy, and transparent AI attribution for the final lifestyle exploration.",
     {
+      workflow: [
+        { step: "01", label: "Product Audit", desc: "Review product purpose, approved claims, usage steps, pack options, and marketplace requirements." },
+        { step: "02", label: "Information Hierarchy", desc: "Separate recognition, benefits, detailed information, usage, and purchase choices into focused frames." },
+        { step: "03", label: "Visual Production", desc: "Build the illustrated environment, product composition, typography, and reusable information modules." },
+        { step: "04", label: "Marketplace Delivery", desc: "Sequence and export the final square images for a clear mobile product-listing journey." },
+      ],
+      visualSystem: [
+        { label: "Character & Illustration Language", desc: "Friendly animals, plants, clouds, and rounded scenery support the gentle family-oriented brand personality." },
+        { label: "Color Palette", desc: "Mint, sky blue, cream, and soft accent colors keep the set fresh while matching the product label." },
+        { label: "Mobile Information Hierarchy", desc: "Large headlines, concise modules, strong contrast, and generous spacing make each message easy to scan." },
+        { label: "Packaging & Product Modules", desc: "The front/back label, product mockup, benefit cards, usage steps, and pack selectors keep the listing visually consistent." },
+      ],
       outputs: [
-        { label: "Main Poster", desc: "Primary campaign visual for the product story." },
-        { label: "Product Banner", desc: "Horizontal format for marketplace or website placement." },
-        { label: "Shopee / Lazada Visual", desc: "Marketplace adaptation focused on clarity and click-through." },
-        { label: "TikTok Shop Cover", desc: "Vertical or cover-style format for short-form commerce." },
-        { label: "Story Size", desc: "Adapted layout for mobile-first viewing." },
+        { label: "Packaging Label Design", desc: "Front and back Babygenic label artwork establishes the product identity, claims, icon language, and soft child-friendly illustration system." },
+        { label: "Product Mockup Close-up", desc: "A clean bottle mockup shows how the label wraps onto the product and gives the case study a clear product-design starting point." },
+        { label: "Marketplace Product Hero", desc: "A clean blue hero visual introduces the product, purpose, size, and gentle brand tone in one quick marketplace frame." },
+        { label: "Product Benefit Overview", desc: "Four concise benefit modules surround the central product to support fast scanning on a mobile shopping page." },
+        { label: "Detailed Product Information", desc: "A checklist layout expands approved information while preserving a strong product focal point and playful visual identity." },
+        { label: "How-to-use Guide", desc: "A three-step instruction visual combines real usage photographs with large readable guidance." },
+        { label: "Pack Options & Purchase Choice", desc: "One-, two-, and three-bottle options are organized into clear selection cards with stronger emphasis on the featured pack." },
+        { label: "AI-Assisted Lifestyle Usage Concept", desc: "An AI-assisted usage scene explores how the spray can be presented in a warm home context with toys, cleaning action, and soft daylight." },
       ],
     }
   ),
@@ -433,11 +448,17 @@ const projectData = DEFAULT_PROJECTS.map((fallback, index) => {
     && english(candidate?.caseStudy?.outputs?.[7]?.label) === "Final Campaign Key Visual";
   const hasLegacyProductSystemProject = index === 2
     && english(candidate?.title) === "AI PRODUCT 3D VISUALS";
+  const hasLegacyEcommerceProject = index === 3
+    && english(candidate?.title) === "E-COMMERCE CAMPAIGNS";
+  const hasOutdatedBabygenicProject = index === 3
+    && english(candidate?.title) === "BABYGENIC E-COMMERCE VISUAL SYSTEM"
+    && (candidate?.caseStudy?.outputs?.length !== 8
+      || english(candidate.caseStudy.outputs[0]?.label) !== "Packaging Label Design");
   const hasLegacyWebSystemProject = index === 4
     && english(candidate?.title) === "AI-ASSISTED WEB SYSTEM"
     && english(candidate?.category) === "Web & UI Design"
     && candidate?.caseStudy?.outputs?.length === 4;
-  const stored = hasLegacy3DProject || hasUncreditedAIOutputs || hasLegacyProductSystemProject || hasLegacyWebSystemProject ? undefined : candidate;
+  const stored = hasLegacy3DProject || hasUncreditedAIOutputs || hasLegacyProductSystemProject || hasLegacyEcommerceProject || hasOutdatedBabygenicProject || hasLegacyWebSystemProject ? undefined : candidate;
   return {
     title: index === 1 && english(stored?.title) === "3D RUNNING SHOE VISUALIZATION"
       ? fallback.title
@@ -455,6 +476,7 @@ const projectData = DEFAULT_PROJECTS.map((fallback, index) => {
 function getProjectCover(id, project) {
   if (id === 1) return "../portfolio/covers/project-1-hero.webp";
   if (id === 3) return "../portfolio/project-3/01-kn95-3c-final-hero.webp";
+  if (id === 4) return "../portfolio/project-4/03-marketplace-product-hero.webp";
   if (id === 5) return "../portfolio/project-5/01-dark-theme-hero.webp";
   return project.images[0];
 }
