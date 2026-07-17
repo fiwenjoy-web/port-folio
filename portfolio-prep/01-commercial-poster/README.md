@@ -12,13 +12,13 @@ Prepare these files in this folder:
 
 The first image becomes the project cover. Keep the main product and headline near the center.
 
-## AI-assisted ratio adaptations
+## Ratio adaptations
 
 Final editable PSD and WebP files are in `ratio-adaptations/final/`:
 
-1. `01-shopee-4x5-ai-assisted` - portrait feed / portfolio cover
-2. `02-shopee-1x1-ai-assisted` - square social post
-3. `03-shopee-16x9-ai-assisted` - wide campaign banner
+1. `01-shopee-4x5` - portrait feed / portfolio cover
+2. `02-shopee-1x1` - square social post
+3. `03-shopee-16x9` - wide campaign banner
 
 Disclosure: AI was used only to extend the pixel-art school background. The campaign
 headline, Thai copy, dates, prices, logos, student, product packaging, and promotion

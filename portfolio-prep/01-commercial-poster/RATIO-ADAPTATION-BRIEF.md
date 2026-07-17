@@ -52,18 +52,18 @@ Thai disclosure:
 
 - One editable layered PSD for each ratio
 - One optimized WebP for each ratio at quality 88-92
-- Clear filenames containing the ratio and `ai-assisted` when AI was used
+- Clear filenames containing the ratio; disclose AI usage in the description, not the filename
 - A visual check of every WebP after export
 
 Filename pattern:
 
 ```text
-01-project-name-4x5-ai-assisted.psd
-01-project-name-4x5-ai-assisted.webp
-02-project-name-1x1-ai-assisted.psd
-02-project-name-1x1-ai-assisted.webp
-03-project-name-16x9-ai-assisted.psd
-03-project-name-16x9-ai-assisted.webp
+01-project-name-4x5.psd
+01-project-name-4x5.webp
+02-project-name-1x1.psd
+02-project-name-1x1.webp
+03-project-name-16x9.psd
+03-project-name-16x9.webp
 ```
 
 ## Prompt for the next project

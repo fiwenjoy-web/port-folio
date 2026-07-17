@@ -545,6 +545,29 @@ export const DEFAULT_CONTENT: SiteContent = {
             { en: "High-contrast composition", th: "องค์ประกอบภาพ contrast สูง" },
             { en: "Commercial campaign mood", th: "mood แบบงานแคมเปญเชิงพาณิชย์" },
           ],
+          outputs: [
+            {
+              label: { en: "4:5 Campaign Poster", th: "โปสเตอร์แคมเปญ 4:5" },
+              desc: {
+                en: "Portrait feed adaptation with the campaign headline, promotions, student, and product range arranged for quick mobile reading. AI was used only to extend the pixel-art school background.",
+                th: "เลย์เอาต์แนวตั้งสำหรับฟีด จัดหัวแคมเปญ โปรโมชั่น นักเรียน และชุดสินค้าให้อ่านได้เร็วบนมือถือ โดยใช้ AI ช่วยเฉพาะการขยายฉากหลังโรงเรียนแบบพิกเซลอาร์ต",
+              },
+            },
+            {
+              label: { en: "1:1 Social Post", th: "โพสต์โซเชียล 1:1" },
+              desc: {
+                en: "Square social adaptation that keeps the offer and coupon information prominent while giving the product group a strong lower anchor. AI was used only for background extension.",
+                th: "เลย์เอาต์สี่เหลี่ยมสำหรับโซเชียลที่เน้นข้อเสนอและข้อมูลคูปอง พร้อมใช้ชุดสินค้าเป็นฐานภาพที่ชัดเจน โดยใช้ AI ช่วยเฉพาะการขยายฉากหลัง",
+              },
+            },
+            {
+              label: { en: "16:9 Campaign Banner", th: "แบนเนอร์แคมเปญ 16:9" },
+              desc: {
+                en: "Wide campaign banner balancing the main offer on the left with the student, checklist, and product lineup on the right. AI was used only to extend the background canvas.",
+                th: "แบนเนอร์แนวกว้างที่วางข้อเสนอหลักฝั่งซ้ายและสมดุลด้วยนักเรียน เช็กลิสต์ และชุดสินค้าฝั่งขวา โดยใช้ AI ช่วยเฉพาะการขยายพื้นที่ฉากหลัง",
+              },
+            },
+          ],
           reflection: {
             en: "This project highlights commercial composition, typography control, color direction, and the ability to make static visuals feel campaign-ready.",
             th: "โปรเจกต์นี้โชว์ทักษะการจัดองค์ประกอบเชิงพาณิชย์ การควบคุมตัวอักษร ทิศทางสี และการทำให้ภาพนิ่งดูพร้อมใช้ในแคมเปญ",
