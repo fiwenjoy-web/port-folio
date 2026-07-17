@@ -48,6 +48,8 @@ export function PortfolioModal({ project, onClose }: Props) {
   const imageCount = project?.images.length ?? 0;
   const projectContent = project ? portfolio.projects[project.id - 1] : null;
   const caseStudy = projectContent?.caseStudy;
+  const activeOutput = activeImageIndex === null ? null : caseStudy?.outputs[activeImageIndex];
+  const isActiveOutputAIAssisted = activeOutput?.label.en.toLowerCase().includes("ai-assisted") ?? false;
 
   useEffect(() => {
     setActiveImageIndex(null);
@@ -422,7 +424,7 @@ export function PortfolioModal({ project, onClose }: Props) {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.2 }}
-                className="fixed inset-0 z-[70] flex items-center justify-center bg-black/95 p-3 md:p-8"
+                className="fixed inset-0 z-[70] flex items-center justify-center bg-[#03050a] px-3 pb-52 pt-20 md:px-8 md:pb-44 md:pt-24"
                 onClick={() => setActiveImageIndex(null)}
               >
                 <div className="absolute inset-x-0 top-0 z-10 flex items-center justify-between gap-4 p-4 md:p-6">
@@ -477,9 +479,42 @@ export function PortfolioModal({ project, onClose }: Props) {
                   transition={{ duration: 0.22 }}
                   src={project.images[activeImageIndex]}
                   alt={`${project.title} ${activeImageIndex + 1}`}
-                  className="max-h-[82vh] max-w-[94vw] object-contain md:max-w-[88vw]"
+                  className="max-h-[calc(100vh-17rem)] max-w-[94vw] object-contain md:max-h-[calc(100vh-15rem)] md:max-w-[88vw]"
                   onClick={(event) => event.stopPropagation()}
                 />
+
+                {activeOutput && (
+                  <motion.div
+                    key={`caption-${activeImageIndex}`}
+                    initial={{ opacity: 0, y: 12 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.2, delay: 0.05 }}
+                    className="absolute inset-x-3 bottom-3 mx-auto max-w-3xl rounded-lg p-4 text-left md:bottom-6 md:p-5"
+                    style={{
+                      background: "rgba(7,10,16,0.92)",
+                      border: "1px solid rgba(255,255,255,0.14)",
+                      backdropFilter: "blur(14px)",
+                      boxShadow: "0 16px 50px rgba(0,0,0,0.42)",
+                    }}
+                    onClick={(event) => event.stopPropagation()}
+                  >
+                    <div className="mb-2 flex flex-wrap items-center gap-2">
+                      <span className="text-[11px] font-bold tracking-[0.18em] text-white/45">
+                        {String(activeImageIndex + 1).padStart(2, "0")} / {String(imageCount).padStart(2, "0")}
+                      </span>
+                      {isActiveOutputAIAssisted && (
+                        <span
+                          className="rounded-full px-2.5 py-1 text-[10px] font-black tracking-[0.14em]"
+                          style={{ background: "rgba(0,212,255,0.12)", border: "1px solid rgba(0,212,255,0.38)", color: "#62e6ff" }}
+                        >
+                          AI-ASSISTED
+                        </span>
+                      )}
+                    </div>
+                    <h3 className="text-sm font-bold text-white md:text-base">{t(activeOutput.label)}</h3>
+                    <p className="mt-1.5 text-xs leading-relaxed text-white/60 md:text-sm">{t(activeOutput.desc)}</p>
+                  </motion.div>
+                )}
               </motion.div>
             )}
           </AnimatePresence>
