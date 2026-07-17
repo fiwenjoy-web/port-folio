@@ -300,78 +300,45 @@ export function PortfolioModal({ project, onClose }: Props) {
                     </div>
                   </div>
                 )}
-                {/* Main large image */}
-                <button
-                  type="button"
-                  aria-label={`${t(portfolio.viewProjectLabel)}: ${t(project.titleBT)}`}
-                  className="group relative block w-full cursor-zoom-in overflow-hidden rounded-2xl mb-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00d4ff]/70"
-                  style={{ border: "1px solid rgba(255,255,255,0.06)" }}
-                  onClick={() => setActiveImageIndex(0)}
-                >
-                  <img
-                    src={project.images[0]}
-                    alt={`${project.title} main`}
-                    className="w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
-                    style={{ maxHeight: "400px", objectPosition: project.id === 1 ? "center top" : "center" }}
-                  />
-                  <span
-                    className="absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-xl opacity-100 transition-transform duration-200 group-hover:scale-110 md:opacity-0 md:group-hover:opacity-100"
-                    style={{ background: "rgba(5,8,14,0.78)", border: "1px solid rgba(0,212,255,0.4)", color: "#00d4ff", backdropFilter: "blur(8px)" }}
-                  >
-                    <Maximize2 size={18} />
-                  </span>
-                  {caseStudy?.outputs[0] && (
-                    <span className="absolute bottom-4 left-4 max-w-[calc(100%-2rem)] rounded-xl px-4 py-3 text-left"
-                      style={{ background: "rgba(5,8,14,0.78)", border: "1px solid rgba(255,255,255,0.12)", backdropFilter: "blur(8px)" }}>
-                      <b className="block text-sm text-white">{t(caseStudy.outputs[0].label)}</b>
-                      <small className="mt-1 block text-xs leading-relaxed text-white/50">{t(caseStudy.outputs[0].desc)}</small>
-                    </span>
-                  )}
-                </button>
-
-                {/* Sub-image grid */}
-                {project.images.length > 1 && (
-                  <div
-                    className="grid gap-4"
-                    style={{
-                      gridTemplateColumns: `repeat(${Math.min(project.images.length - 1, 3)}, 1fr)`,
-                    }}
-                  >
-                    {project.images.slice(1).map((img, i) => (
+                {/* Vertical output list keeps portrait and landscape work uncropped. */}
+                <div className="grid gap-5">
+                  {project.images.map((img, index) => {
+                    const output = caseStudy?.outputs[index];
+                    return (
                       <motion.button
                         type="button"
-                        key={i}
+                        key={`${img}-${index}`}
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.1 + i * 0.06 }}
-                        aria-label={`${t(portfolio.viewProjectLabel)}: ${t(project.titleBT)} ${i + 2}`}
-                        className="relative rounded-xl overflow-hidden group cursor-zoom-in focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00d4ff]/70"
-                        style={{ border: "1px solid rgba(255,255,255,0.06)" }}
-                        onClick={() => setActiveImageIndex(i + 1)}
+                        transition={{ delay: 0.06 + index * 0.04 }}
+                        aria-label={`${t(portfolio.viewProjectLabel)}: ${t(project.titleBT)} ${index + 1}`}
+                        className="group w-full cursor-zoom-in overflow-hidden rounded-2xl text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00d4ff]/70"
+                        style={{ background: "#050810", border: "1px solid rgba(255,255,255,0.08)" }}
+                        onClick={() => setActiveImageIndex(index)}
                       >
-                        <img
-                          src={img}
-                          alt={`${project.title} ${i + 2}`}
-                          className="w-full h-44 object-cover transition-transform duration-500 group-hover:scale-105"
-                          style={{ objectPosition: project.id === 1 ? "center top" : "center" }}
-                        />
-                        <div
-                          className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center"
-                          style={{ background: "rgba(0,212,255,0.06)" }}
-                        >
-                          <Maximize2 size={20} color="#00d4ff" />
-                        </div>
-                        {caseStudy?.outputs[i + 1] && (
-                          <div className="absolute inset-x-0 bottom-0 p-3 text-left"
-                            style={{ background: "linear-gradient(180deg, transparent, rgba(0,0,0,0.82))" }}>
-                            <b className="block text-xs text-white">{t(caseStudy.outputs[i + 1].label)}</b>
-                            <small className="mt-0.5 line-clamp-2 block text-[11px] leading-snug text-white/50">{t(caseStudy.outputs[i + 1].desc)}</small>
-                          </div>
+                        <span className="relative flex w-full justify-center overflow-hidden">
+                          <img
+                            src={img}
+                            alt={`${project.title} ${index + 1}`}
+                            className="block h-auto max-h-[76vh] w-auto max-w-full object-contain transition-[filter] duration-300 group-hover:brightness-105 md:max-h-[820px]"
+                          />
+                          <span
+                            className="absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-xl transition-transform duration-200 group-hover:scale-110"
+                            style={{ background: "rgba(5,8,14,0.78)", border: "1px solid rgba(0,212,255,0.4)", color: "#00d4ff", backdropFilter: "blur(8px)" }}
+                          >
+                            <Maximize2 size={18} />
+                          </span>
+                        </span>
+                        {output && (
+                          <span className="block border-t border-white/10 px-4 py-4 md:px-5">
+                            <b className="block text-sm text-white">{t(output.label)}</b>
+                            <small className="mt-1.5 block text-xs leading-relaxed text-white/60">{t(output.desc)}</small>
+                          </span>
                         )}
                       </motion.button>
-                    ))}
-                  </div>
-                )}
+                    );
+                  })}
+                </div>
 
                 {caseStudy && (
                   <section className="mt-8 rounded-2xl p-5" style={{ background: "rgba(0,212,255,0.045)", border: "1px solid rgba(0,212,255,0.12)" }}>
