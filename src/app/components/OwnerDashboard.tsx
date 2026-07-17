@@ -377,6 +377,7 @@ export function OwnerDashboard({ open, mode = "drawer", storedImages, publishedI
                   </a>
                 )}
                 <button onClick={handleClose}
+                  aria-label={isPage ? "Return to portfolio" : "Close dashboard"}
                   className="w-9 h-9 flex items-center justify-center rounded-xl transition-all hover:scale-110"
                   style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.6)" }}>
                   <X size={17} />
@@ -414,6 +415,7 @@ export function OwnerDashboard({ open, mode = "drawer", storedImages, publishedI
                   </p>
                   <div className="relative mb-3">
                     <input
+                      aria-label="GitHub access token"
                       type={showPw ? "text" : "password"}
                       value={accessToken}
                       onChange={(e) => { setAccessToken(e.target.value); setAuthError(""); }}
@@ -429,6 +431,7 @@ export function OwnerDashboard({ open, mode = "drawer", storedImages, publishedI
                       }}
                     />
                     <button onClick={() => setShowPw(!showPw)}
+                      aria-label={showPw ? "Hide GitHub token" : "Show GitHub token"}
                       className="absolute right-3 top-1/2 -translate-y-1/2"
                       style={{ color: "rgba(255,255,255,0.3)" }}>
                       {showPw ? <EyeOff size={16} /> : <Eye size={16} />}

@@ -2240,7 +2240,7 @@ footer {
   justify-content: center;
   padding: 66px 82px 190px;
   position: fixed;
-  z-index: 120;
+  z-index: 130;
 }
 
 .viewer-expanded[hidden] {
