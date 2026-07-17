@@ -2162,6 +2162,51 @@ footer {
   min-height: 0;
 }
 
+.viewer-collage.is-comparison {
+  gap: 28px;
+  max-width: 1040px;
+}
+
+.viewer-comparison-section {
+  display: grid;
+  gap: 12px;
+}
+
+.viewer-comparison-section > h3 {
+  color: var(--white);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  margin: 0;
+}
+
+.viewer-comparison-grid,
+.viewer-comparison-more {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.viewer-comparison-item {
+  display: grid;
+  gap: 7px;
+  min-width: 0;
+}
+
+.viewer-comparison-item > span {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+.viewer-collage .viewer-comparison-card img {
+  aspect-ratio: 4 / 3;
+  height: auto;
+  max-height: none;
+  object-fit: contain;
+  width: 100%;
+}
+
 .viewer-collage-thumbs {
   display: grid;
   gap: 18px;
@@ -2688,6 +2733,15 @@ footer {
 
   .viewer-collage-main {
     min-height: 0;
+  }
+
+  .viewer-collage.is-comparison {
+    gap: 22px;
+  }
+
+  .viewer-comparison-grid,
+  .viewer-comparison-more {
+    grid-template-columns: 1fr;
   }
 
   .viewer-collage-thumbs {

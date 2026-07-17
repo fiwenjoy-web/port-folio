@@ -33,6 +33,10 @@ const CASE_STUDY_UI = {
     visualSystem: "Visual System",
     outputs: "06 Final Outputs",
     applications: "Visual applications",
+    comparisons: "Before / after comparisons",
+    before: "Before / Existing asset",
+    after: "After / AI-assisted output",
+    additionalOutputs: "Additional angles & Blender outputs",
     reflection: "07 Reflection",
   },
   th: {
@@ -44,6 +48,10 @@ const CASE_STUDY_UI = {
     visualSystem: "ระบบภาพ",
     outputs: "06 ผลงานสุดท้าย",
     applications: "การนำไปใช้งาน",
+    comparisons: "เปรียบเทียบก่อนและหลัง",
+    before: "ก่อน / ไฟล์ต้นฉบับ",
+    after: "หลัง / ภาพที่พัฒนาด้วย AI",
+    additionalOutputs: "มุมเพิ่มเติมและผลงาน Blender",
     reflection: "07 สิ่งที่ได้เรียนรู้",
   },
 } as const;
@@ -94,6 +102,66 @@ export function PortfolioModal({ project, onClose }: Props) {
       document.body.style.overflow = "";
     };
   }, [project]);
+
+  const renderOutputCard = (index: number, comparisonLabel?: string) => {
+    if (!project) return null;
+    const img = project.images[index];
+    if (!img) return null;
+    const output = caseStudy?.outputs[index];
+    const provenance = getOutputProvenance(output?.label.en);
+
+    return (
+      <div key={`${img}-${index}`} className="grid min-w-0 gap-2">
+        {comparisonLabel && (
+          <p className="px-1 text-[10px] font-black uppercase tracking-[0.16em] text-white/55">
+            {comparisonLabel}
+          </p>
+        )}
+        <motion.button
+          type="button"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.06 + index * 0.04 }}
+          aria-label={`${t(portfolio.viewProjectLabel)}: ${t(project.titleBT)} ${index + 1}`}
+          className="group w-full cursor-zoom-in overflow-hidden rounded-2xl text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00d4ff]/70"
+          style={{ background: "#050810", border: "1px solid rgba(255,255,255,0.08)" }}
+          onClick={() => setActiveImageIndex(index)}
+        >
+          <span className={`relative flex w-full justify-center overflow-hidden ${comparisonLabel ? "aspect-[4/3] items-center" : ""}`}>
+            <img
+              src={img}
+              alt={`${project.title} ${index + 1}`}
+              className={comparisonLabel
+                ? "block h-full w-full object-contain transition-[filter] duration-300 group-hover:brightness-105"
+                : "block h-auto max-h-[76vh] w-auto max-w-full object-contain transition-[filter] duration-300 group-hover:brightness-105 md:max-h-[820px]"}
+            />
+            <span
+              className="absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-xl transition-transform duration-200 group-hover:scale-110"
+              style={{ background: "rgba(5,8,14,0.78)", border: "1px solid rgba(0,212,255,0.4)", color: "#00d4ff", backdropFilter: "blur(8px)" }}
+            >
+              <Maximize2 size={18} />
+            </span>
+          </span>
+          {output && (
+            <span className="block border-t border-white/10 px-4 py-4 md:px-5">
+              <span className="flex flex-wrap items-center gap-2">
+                <b className="text-sm text-white">{t(output.label)}</b>
+                {provenance && (
+                  <span
+                    className="rounded-full px-2.5 py-1 text-[9px] font-black tracking-[0.14em]"
+                    style={{ background: "rgba(0,212,255,0.1)", border: "1px solid rgba(0,212,255,0.3)", color: "#62e6ff" }}
+                  >
+                    {provenance}
+                  </span>
+                )}
+              </span>
+              <small className="mt-1.5 block text-xs leading-relaxed text-white/60">{t(output.desc)}</small>
+            </span>
+          )}
+        </motion.button>
+      </div>
+    );
+  };
 
   return (
     <AnimatePresence>
@@ -308,56 +376,31 @@ export function PortfolioModal({ project, onClose }: Props) {
                     </div>
                   </div>
                 )}
-                {/* Vertical output list keeps portrait and landscape work uncropped. */}
-                <div className="grid gap-5">
-                  {project.images.map((img, index) => {
-                    const output = caseStudy?.outputs[index];
-                    const provenance = getOutputProvenance(output?.label.en);
-                    return (
-                      <motion.button
-                        type="button"
-                        key={`${img}-${index}`}
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.06 + index * 0.04 }}
-                        aria-label={`${t(portfolio.viewProjectLabel)}: ${t(project.titleBT)} ${index + 1}`}
-                        className="group w-full cursor-zoom-in overflow-hidden rounded-2xl text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00d4ff]/70"
-                        style={{ background: "#050810", border: "1px solid rgba(255,255,255,0.08)" }}
-                        onClick={() => setActiveImageIndex(index)}
-                      >
-                        <span className="relative flex w-full justify-center overflow-hidden">
-                          <img
-                            src={img}
-                            alt={`${project.title} ${index + 1}`}
-                            className="block h-auto max-h-[76vh] w-auto max-w-full object-contain transition-[filter] duration-300 group-hover:brightness-105 md:max-h-[820px]"
-                          />
-                          <span
-                            className="absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-xl transition-transform duration-200 group-hover:scale-110"
-                            style={{ background: "rgba(5,8,14,0.78)", border: "1px solid rgba(0,212,255,0.4)", color: "#00d4ff", backdropFilter: "blur(8px)" }}
-                          >
-                            <Maximize2 size={18} />
-                          </span>
-                        </span>
-                        {output && (
-                          <span className="block border-t border-white/10 px-4 py-4 md:px-5">
-                            <span className="flex flex-wrap items-center gap-2">
-                              <b className="text-sm text-white">{t(output.label)}</b>
-                              {provenance && (
-                                <span
-                                  className="rounded-full px-2.5 py-1 text-[9px] font-black tracking-[0.14em]"
-                                  style={{ background: "rgba(0,212,255,0.1)", border: "1px solid rgba(0,212,255,0.3)", color: "#62e6ff" }}
-                                >
-                                  {provenance}
-                                </span>
-                              )}
-                            </span>
-                            <small className="mt-1.5 block text-xs leading-relaxed text-white/60">{t(output.desc)}</small>
-                          </span>
-                        )}
-                      </motion.button>
-                    );
-                  })}
-                </div>
+                {project.id === 3 ? (
+                  <div className="grid gap-8">
+                    <section className="grid gap-4">
+                      <h4 className="text-sm font-bold text-white">{ui.comparisons}</h4>
+                      <div className="grid gap-4 md:grid-cols-2">
+                        {renderOutputCard(1, ui.before)}
+                        {renderOutputCard(3, ui.after)}
+                      </div>
+                      <div className="grid gap-4 md:grid-cols-2">
+                        {renderOutputCard(2, ui.before)}
+                        {renderOutputCard(0, ui.after)}
+                      </div>
+                    </section>
+                    <section className="grid gap-4">
+                      <h4 className="text-sm font-bold text-white">{ui.additionalOutputs}</h4>
+                      <div className="grid gap-5 md:grid-cols-2">
+                        {[4, 5, 6, 7, 8, 9].map((index) => renderOutputCard(index))}
+                      </div>
+                    </section>
+                  </div>
+                ) : (
+                  <div className="grid gap-5">
+                    {project.images.map((_, index) => renderOutputCard(index))}
+                  </div>
+                )}
 
                 {caseStudy && (
                   <section className="mt-8 rounded-2xl p-5" style={{ background: "rgba(0,212,255,0.045)", border: "1px solid rgba(0,212,255,0.12)" }}>
