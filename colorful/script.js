@@ -9,7 +9,7 @@ const DEFAULT_PROJECTS = [
   {
     title: "3D PRODUCT VISUALIZATION",
     category: "3D Render",
-    description: "A 3D product visualization study focused on building a commercial scene around a running shoe in Blender, from product angles and lighting tests to packaging and final advertising renders.",
+    description: "A 3D product visualization study focused on building a commercial scene around a running shoe in Blender. The final three campaign applications use AI-assisted scene generation and finishing.",
     tags: ["Blender", "3D Render", "Product Vis"],
     images: ["./assets/blog-sugee.png", "./assets/blog-cinetrade.png"],
   },
@@ -91,9 +91,9 @@ const DEFAULT_CASE_STUDIES = [
         { label: "Scene Blockout", desc: "A Blender graybox establishes the platform, curved props, backdrop, scale, and camera composition before rendering." },
         { label: "Lighting & Scene Setup", desc: "The production viewport reveals the multi-light rig and object placement used to build depth and controlled highlights." },
         { label: "Isolated Product Render", desc: "A clean isolated view focuses attention on the knit upper, laces, logo lines, and layered cushioning system." },
-        { label: "Advertising Scene", desc: "Neon light trails and wet-floor reflections add speed, energy, and cinematic depth around the product." },
-        { label: "Packaging Mockup", desc: "A coordinated shoe box and patterned tissue extend the blue-teal visual language into the unboxing experience." },
-        { label: "Final Campaign Key Visual", desc: "The final composition combines the shoe, packaging, rim light, and motion trail into one campaign-ready visual." },
+        { label: "AI-Assisted Advertising Scene", desc: "Developed from the original 3D shoe render with AI-assisted scene generation, adding neon trails, wet-floor reflections, and cinematic depth." },
+        { label: "AI-Assisted Packaging Mockup", desc: "An AI-assisted packaging concept built around the original shoe asset, extending the blue-teal visual language into the box and tissue design." },
+        { label: "AI-Assisted Final Key Visual", desc: "The original 3D shoe render was combined with AI-assisted scene development and finishing to create a campaign-ready key visual." },
       ],
     }
   ),
@@ -359,7 +359,10 @@ const projectData = DEFAULT_PROJECTS.map((fallback, index) => {
     && english(candidate?.title) === "3D PRODUCT VISUALIZATION"
     && candidate?.caseStudy?.outputs?.length === 4
     && english(candidate.caseStudy.outputs[0]?.label) === "Cover / Hero Image";
-  const stored = hasLegacy3DProject ? undefined : candidate;
+  const hasUncreditedAIOutputs = index === 1
+    && english(candidate?.caseStudy?.outputs?.[5]?.label) === "Advertising Scene"
+    && english(candidate?.caseStudy?.outputs?.[7]?.label) === "Final Campaign Key Visual";
+  const stored = hasLegacy3DProject || hasUncreditedAIOutputs ? undefined : candidate;
   return {
     title: index === 1 && english(stored?.title) === "3D RUNNING SHOE VISUALIZATION"
       ? fallback.title
