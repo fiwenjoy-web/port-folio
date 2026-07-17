@@ -14,10 +14,10 @@ const DEFAULT_PROJECTS = [
     images: ["./assets/blog-sugee.png", "./assets/blog-cinetrade.png"],
   },
   {
-    title: "AI PRODUCT 3D VISUALS",
-    category: "AI Production",
-    description: "An AI-assisted production pipeline merging generative imagery with 3D renders for product advertising and campaign content.",
-    tags: ["AI Generation", "Midjourney", "Photoshop"],
+    title: "PRODUCT VISUALIZATION SYSTEM",
+    category: "3D & AI-Assisted Production",
+    description: "A transparent product visualization case study combining existing source assets, AI-assisted N95 and KN95 presentation, and a 100% Blender air purifier model.",
+    tags: ["Blender", "Product Visualization", "AI-Assisted"],
     images: ["./assets/blog-cinetrade.png", "./assets/blog-sugee.png"],
   },
   {
@@ -118,16 +118,36 @@ const DEFAULT_CASE_STUDIES = [
     }
   ),
   createCaseStudy(
-    "An AI product visual system exploring how AI, 3D mockups, and commercial design can create product-focused advertising visuals for digital platforms.",
-    "Build a repeatable visual workflow that can move from idea exploration to polished product advertising outputs.",
-    "From simple product assets to polished commercial visuals, this project connects idea generation, AI-assisted direction, 3D presentation, and final advertising design.",
-    ["AI-assisted visual direction", "Product-focused composition", "Polished advertising finish"],
-    "This project shows AI workflow thinking, product visual direction, 3D-assisted presentation, and final commercial design execution.",
+    "A product visualization project showing how limited company source assets were developed into clearer mask presentations, alongside a separate air purifier model built and rendered entirely in Blender.",
+    "Improve product clarity and consistency while choosing the right production method for each task, with honest attribution for source assets, AI assistance, and original 3D work.",
+    "Use the right tool for each visual problem. AI-assisted production develops the N95 and KN95 references into clean presentation images, while Blender provides complete control over the air purifier model, materials, lighting, and render output.",
+    ["Clear source-to-output comparison", "Clean clinical materials and controlled lighting", "Transparent production attribution"],
+    "This project demonstrates practical judgment: improving limited source assets with AI assistance when appropriate, building a complete product in Blender when full control is required, and clearly crediting every production method.",
     {
+      workflow: [
+        { step: "01", label: "Source Audit", desc: "Review existing product assets, angles, edge quality, and presentation limitations." },
+        { step: "02", label: "Visual Route", desc: "Choose AI-assisted visualization or full Blender production according to the product and communication goal." },
+        { step: "03", label: "Production", desc: "Develop product form, materials, lighting, angles, and clean presentation-ready outputs." },
+        { step: "04", label: "Final Presentation", desc: "Curate the strongest outputs and label every production method clearly." },
+      ],
       visualSystem: [
-        ...CASE_STUDY_VISUAL_SYSTEM,
-        { label: "AI Prompt Exploration", desc: "Uses prompts to explore mood, composition, and campaign directions before final design." },
-        { label: "Social / E-commerce Adaptation", desc: "Adapts the same visual idea into formats suitable for digital platforms." },
+        { label: "Source Asset Audit", desc: "Documents existing company assets and their limitations without claiming them as original work." },
+        { label: "AI-Assisted Mask Visualization", desc: "Develops cleaner N95 and KN95 product angles from supplied references with explicit AI attribution." },
+        { label: "100% Blender Product Model", desc: "Covers air purifier modeling, perforated housing detail, materials, branding, lighting, and rendering." },
+        { label: "Lighting & Material Control", desc: "Uses neutral clinical lighting and controlled surfaces to keep white products readable." },
+        { label: "Production Attribution", desc: "Separates source assets, AI-assisted images, and original Blender work throughout the case study." },
+      ],
+      outputs: [
+        { label: "AI-Assisted KN95 3C Final Hero", desc: "A polished three-quarter KN95 3C presentation developed with AI assistance from existing product references." },
+        { label: "Existing Company Asset — N95", desc: "An N95 source asset that existed before my contribution. Included only to document the starting point, not as my original work." },
+        { label: "Existing Company Asset — KN95 3C", desc: "A KN95 3C source asset that existed before my contribution, showing the original angle and edge quality." },
+        { label: "AI-Assisted N95 Angle Study", desc: "An AI-assisted N95 angle focused on material texture, mask depth, and clean commercial presentation." },
+        { label: "AI-Assisted N95 Front View", desc: "A centered AI-assisted N95 view communicating symmetry, construction, and overall product form." },
+        { label: "AI-Assisted KN95 3C Alternate Angle", desc: "A second AI-assisted KN95 3C angle with consistent lighting, material, and background." },
+        { label: "100% Blender — Air Purifier Final Render", desc: "Modeled, detailed, branded, lit, and rendered entirely in Blender without AI-generated imagery." },
+        { label: "100% Blender — Housing Development", desc: "A Blender development render testing the housing, ventilation pattern, proportions, and brand placement." },
+        { label: "100% Blender — Internal Filter Render", desc: "A Blender render revealing the blue internal filter element and its relationship to the outer housing." },
+        { label: "100% Blender — Filter Material Study", desc: "A Blender material and branding study refining the filter surface, color, top housing, and readability." },
       ],
     }
   ),
@@ -382,7 +402,9 @@ const projectData = DEFAULT_PROJECTS.map((fallback, index) => {
   const hasUncreditedAIOutputs = index === 1
     && english(candidate?.caseStudy?.outputs?.[5]?.label) === "Advertising Scene"
     && english(candidate?.caseStudy?.outputs?.[7]?.label) === "Final Campaign Key Visual";
-  const stored = hasLegacy3DProject || hasUncreditedAIOutputs ? undefined : candidate;
+  const hasLegacyProductSystemProject = index === 2
+    && english(candidate?.title) === "AI PRODUCT 3D VISUALS";
+  const stored = hasLegacy3DProject || hasUncreditedAIOutputs || hasLegacyProductSystemProject ? undefined : candidate;
   return {
     title: index === 1 && english(stored?.title) === "3D RUNNING SHOE VISUALIZATION"
       ? fallback.title
@@ -398,7 +420,9 @@ const projectData = DEFAULT_PROJECTS.map((fallback, index) => {
 });
 
 function getProjectCover(id, project) {
-  return id === 1 ? "../portfolio/covers/project-1-hero.webp" : project.images[0];
+  if (id === 1) return "../portfolio/covers/project-1-hero.webp";
+  if (id === 3) return "../portfolio/project-3/01-kn95-3c-final-hero.webp";
+  return project.images[0];
 }
 
 projectData.forEach((project, index) => {
@@ -708,7 +732,7 @@ const viewerImage = viewerExpanded?.querySelector("img");
 const viewerCount = viewer?.querySelector(".viewer-count");
 const viewerExpandedTitle = viewer?.querySelector(".viewer-expanded-title");
 const viewerExpandedDescription = viewer?.querySelector(".viewer-expanded-description");
-const viewerAIBadge = viewer?.querySelector(".viewer-ai-badge");
+const viewerProvenanceBadge = viewer?.querySelector(".viewer-provenance-badge");
 const viewerTotal = viewer?.querySelector(".viewer-total");
 const viewerCollage = viewer?.querySelector(".viewer-collage");
 let activeProject = 0;
@@ -728,7 +752,18 @@ function renderExpanded() {
   const output = project.caseStudy.outputs[activeImage];
   if (viewerExpandedTitle) viewerExpandedTitle.textContent = output?.label || project.title;
   if (viewerExpandedDescription) viewerExpandedDescription.textContent = output?.desc || project.description;
-  if (viewerAIBadge) viewerAIBadge.hidden = !output?.label?.toLowerCase().includes("ai-assisted");
+  if (viewerProvenanceBadge) {
+    const label = output?.label?.toLowerCase() || "";
+    const provenance = label.includes("ai-assisted")
+      ? "AI-ASSISTED"
+      : label.includes("100% blender")
+        ? "100% BLENDER"
+        : label.includes("existing company asset")
+          ? "SOURCE ASSET"
+          : "";
+    viewerProvenanceBadge.textContent = provenance;
+    viewerProvenanceBadge.hidden = !provenance;
+  }
 }
 
 function createCollageImage(source, index, project) {
