@@ -991,7 +991,7 @@ function revealVisibleOrPassedItems() {
 document.addEventListener("scroll", revealVisibleOrPassedItems, { passive: true });
 requestAnimationFrame(revealVisibleOrPassedItems);
 
-const loadThreeHero = () => import("./three-hero.js");
+const loadThreeHero = () => import("./spline-hero.js");
 if ("requestIdleCallback" in window) {
   window.requestIdleCallback(loadThreeHero, { timeout: 900 });
 } else {
