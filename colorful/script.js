@@ -836,18 +836,19 @@ function createCollageImage(source, index, project) {
   return button;
 }
 
-function createComparisonItem(project, index, label) {
+function createComparisonItem(project, index, label, portrait = false) {
   const item = document.createElement("div");
   item.className = "viewer-comparison-item";
   const eyebrow = document.createElement("span");
   eyebrow.textContent = label;
   const image = createCollageImage(project.images[index], index, project);
   image.classList.add("viewer-comparison-card");
+  if (portrait) image.classList.add("is-portrait");
   item.append(eyebrow, image);
   return item;
 }
 
-function createComparisonSection(project, title, beforeIndex, afterIndex) {
+function createComparisonSection(project, title, leftIndex, rightIndex, options = {}) {
   const section = document.createElement("section");
   section.className = "viewer-comparison-section";
   const heading = document.createElement("h3");
@@ -855,8 +856,8 @@ function createComparisonSection(project, title, beforeIndex, afterIndex) {
   const grid = document.createElement("div");
   grid.className = "viewer-comparison-grid";
   grid.append(
-    createComparisonItem(project, beforeIndex, "BEFORE / EXISTING ASSET"),
-    createComparisonItem(project, afterIndex, "AFTER / AI-ASSISTED OUTPUT")
+    createComparisonItem(project, leftIndex, options.leftLabel || "BEFORE / EXISTING ASSET", options.portrait),
+    createComparisonItem(project, rightIndex, options.rightLabel || "AFTER / AI-ASSISTED OUTPUT", options.portrait)
   );
   section.append(heading, grid);
   return section;
@@ -921,23 +922,36 @@ function renderViewer() {
   viewerCollage.classList.toggle("is-comparison", activeProject === 2);
   if (activeProject === 2) {
     viewerCollage.append(
-      createComparisonSection(project, "N95 SOURCE TO FINAL", 1, 3),
+      createComparisonSection(project, "N95 FRONT VIEW — SOURCE TO FINAL", 1, 4),
       createComparisonSection(project, "KN95 SOURCE TO FINAL", 2, 0)
     );
 
     const additional = document.createElement("section");
     additional.className = "viewer-comparison-section";
     const heading = document.createElement("h3");
-    heading.textContent = "ADDITIONAL ANGLES & BLENDER OUTPUTS";
+    heading.textContent = "ADDITIONAL MASK ANGLES";
     const grid = document.createElement("div");
     grid.className = "viewer-comparison-more";
-    [4, 5, 6, 7, 8, 9].forEach((index) => {
+    [3, 5].forEach((index) => {
       const image = createCollageImage(project.images[index], index, project);
       image.classList.add("viewer-comparison-card");
       grid.append(image);
     });
     additional.append(heading, grid);
     viewerCollage.append(additional);
+
+    viewerCollage.append(
+      createComparisonSection(project, "AIR PURIFIER HOUSING — AFTER / BEFORE", 6, 7, {
+        leftLabel: "AFTER / REFINED BLENDER OUTPUT",
+        rightLabel: "BEFORE / DEVELOPMENT RENDER",
+        portrait: true,
+      }),
+      createComparisonSection(project, "AIR PURIFIER FILTER — AFTER / BEFORE", 8, 9, {
+        leftLabel: "AFTER / REFINED BLENDER OUTPUT",
+        rightLabel: "BEFORE / DEVELOPMENT RENDER",
+        portrait: true,
+      })
+    );
     return;
   }
 
