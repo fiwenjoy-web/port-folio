@@ -1,5 +1,9 @@
 export const STORAGE_KEY = "wh_portfolio_images";
 
+const PROJECT_COVERS: Record<number, string> = {
+  1: "portfolio/covers/project-1-hero.webp",
+};
+
 export const DEFAULT_IMAGES: Record<number, string[]> = {
   1: [
     "https://images.unsplash.com/photo-1604161546853-1a097fbc30fb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
@@ -54,4 +58,9 @@ export function getProjectImages(
   }
   if (stored[projectId]?.length) return stored[projectId];
   return DEFAULT_IMAGES[projectId] ?? [];
+}
+
+export function getProjectCover(projectId: number, fallback = "") {
+  const cover = PROJECT_COVERS[projectId];
+  return cover ? `${import.meta.env.BASE_URL}${cover}` : fallback;
 }

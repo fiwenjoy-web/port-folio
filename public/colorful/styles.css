@@ -2526,6 +2526,11 @@ footer {
     min-height: 310px;
   }
 
+  .project-card:nth-child(1) {
+    aspect-ratio: 16 / 9;
+    min-height: 0;
+  }
+
   .project-card > div {
     padding: 22px 16px 16px;
   }

@@ -14,7 +14,7 @@ import { SiteHeader } from "./components/SiteHeader";
 import { MarqueeStrip } from "./components/MarqueeStrip";
 import { PhilosophySection } from "./components/PhilosophySection";
 import { TestimonialsSection } from "./components/TestimonialsSection";
-import { loadStoredImages, getProjectImages } from "./data/projectImages";
+import { loadStoredImages, getProjectCover, getProjectImages } from "./data/projectImages";
 import { loadPublishedImages, type PublishedImages } from "./data/githubPublisher";
 import type { Project } from "./types";
 
@@ -148,7 +148,7 @@ function PortfolioApp() {
       titleBT: project.title,
       categoryBT: project.category,
       description: project.description[lang] ?? project.description.en,
-      coverImage: images[0] ?? "",
+      coverImage: getProjectCover(id, images[0] ?? ""),
       images,
       tags: project.tags,
     };
