@@ -1104,6 +1104,10 @@ p {
   width: 100%;
 }
 
+.project-card [data-project-image="1"] {
+  object-position: center top;
+}
+
 .project-card button:hover img {
   opacity: 1;
   transform: scale(1.04);

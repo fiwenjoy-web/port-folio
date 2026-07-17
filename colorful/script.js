@@ -1,9 +1,9 @@
 const DEFAULT_PROJECTS = [
   {
-    title: "COMMERCIAL POSTER",
-    category: "Graphic Design",
-    description: "Bold commercial poster designs for print and digital media, combining strong typography, vibrant color grading, and AI-enhanced retouching.",
-    tags: ["Photoshop", "Illustrator", "Print Design"],
+    title: "MONTHLY CAMPAIGN COLLECTION",
+    category: "Campaign Design",
+    description: "A curated collection of monthly Shopee and Lazada campaigns from January to June 2026, showing a wide range of seasonal visual directions.",
+    tags: ["Photoshop", "Shopee / Lazada", "Monthly Campaigns"],
     images: ["./assets/blog-uiux.png", "./assets/portfolio-lirante.png"],
   },
   {
@@ -72,14 +72,29 @@ function createCaseStudy(overview, goal, concept, direction, reflection, options
 
 const DEFAULT_CASE_STUDIES = [
   createCaseStudy(
-    "A commercial poster design project focused on turning simple product or brand assets into polished visuals for print and digital communication.",
-    "Create a strong first impression, communicate the offer clearly, and make the visual feel campaign-ready.",
-    "From raw assets to a finished key visual, this project explores hierarchy, typography, retouching, and color grading as a complete commercial design workflow.",
-    ["Bold typography", "High-contrast composition", "Commercial campaign mood"],
-    "This project highlights commercial composition, typography control, color direction, and the ability to make static visuals feel campaign-ready.",
+    "An ongoing collection of monthly marketplace campaigns designed for real promotional periods across Shopee and Lazada.",
+    "Give every campaign a distinct seasonal identity while keeping products, discounts, coupons, and calls to action immediately readable.",
+    "Different month, different visual world. A repeatable workflow supports corporate, festive, pixel-art, tropical, neon, and minimal campaign styles.",
+    ["Seasonal visual range", "Marketplace-ready hierarchy", "Clear product and offer communication"],
+    "This collection demonstrates consistent monthly production and the ability to change style without losing product clarity or commercial purpose.",
     {
+      visualSystem: [
+        { label: "Campaign Framework", desc: "A repeatable structure for headline, offer, product group, coupon, and CTA." },
+        { label: "Seasonal Art Direction", desc: "Each month receives its own palette, atmosphere, props, and visual energy." },
+        { label: "Offer Hierarchy", desc: "Discounts and campaign benefits stay readable across changing styles." },
+        { label: "Product Presentation", desc: "Product groups remain clear, credible, and purchase-focused." },
+      ],
       outputs: [
-        { label: "Social Adaptation", desc: "A square social adaptation of the Shopee Back to School campaign. The 4:5 and 16:9 working variants support the same layout system. AI was used only to extend the pixel-art school background." },
+        { label: "New Year Grand Sale", desc: "A clean New Year campaign balancing a warm family image, product focus, and a clear promotional price." },
+        { label: "February Mid-Month", desc: "A high-energy red campaign using bold type and offer cards for fast marketplace communication." },
+        { label: "Valentine Mid-Month", desc: "A seasonal pink direction combining Valentine motifs, product variety, and coupon-led offers." },
+        { label: "Summer Health Sale", desc: "A long-form tropical campaign built around a pool scene, summer energy, and marketplace pricing." },
+        { label: "Shopee 3.3 Campaign", desc: "Bold orange composition designed to communicate the offer and product range at a glance." },
+        { label: "Songkran Campaign", desc: "A Thai seasonal visual combining water-festival imagery, people, products, and coupon tiers." },
+        { label: "Lazada 5.5 Campaign", desc: "A softer purple retail system balancing headline offers with grounded product presentation." },
+        { label: "Back to School Campaign", desc: "A playful pixel-art campaign. AI was used only to extend the background; copy, logos, student, and product assets come from the original artwork." },
+        { label: "May Payday Campaign", desc: "A neon retail direction using a glowing stage and floating products to create depth and urgency." },
+        { label: "Dr. Hygiene 6.6", desc: "A minimal blue-white campaign with a premium clinical atmosphere and restrained product composition." },
       ],
     }
   ),
@@ -721,6 +736,7 @@ function createCollageImage(source, index, project) {
   const image = document.createElement("img");
   image.src = source;
   image.alt = `${project.title} ${index + 1}`;
+  if (activeProject === 0) image.style.objectPosition = "center top";
   image.addEventListener("error", () => {
     image.src = DEFAULT_PROJECTS[activeProject].images[0];
   }, { once: true });
