@@ -702,7 +702,8 @@ p {
 }
 
 .hero-three-poster,
-.hero-three-canvas {
+.hero-three-canvas,
+.hero-spline-layer {
   height: 100%;
   inset: 0;
   position: absolute;
@@ -734,6 +735,30 @@ p {
 
 .hero-three-canvas.is-ready {
   opacity: 1;
+}
+
+.hero-spline-layer {
+  background: var(--cream);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 600ms ease;
+  z-index: 2;
+}
+
+.hero-spline-layer.is-active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.hero-spline-layer spline-viewer {
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
+.hero-art[data-hero-3d-mode="spline"] .hero-three-canvas {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .hero-three-badge,
@@ -802,6 +827,46 @@ p {
   border-color: var(--cyan);
   color: var(--cyan);
   outline: 0;
+}
+
+.hero-3d-mode-switch {
+  bottom: 14px;
+  display: flex;
+  gap: 4px;
+  left: 14px;
+  padding: 4px;
+  position: absolute;
+  z-index: 6;
+  background: rgba(5, 7, 13, 0.76);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+  backdrop-filter: blur(10px);
+}
+
+.hero-3d-mode-switch button {
+  background: transparent;
+  border: 0;
+  border-radius: 999px;
+  color: rgba(255, 255, 255, 0.58);
+  cursor: pointer;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  padding: 8px 10px;
+  transition: background 180ms ease, color 180ms ease, transform 180ms ease;
+}
+
+.hero-3d-mode-switch button:hover,
+.hero-3d-mode-switch button:focus-visible {
+  color: var(--white);
+  outline: 0;
+}
+
+.hero-3d-mode-switch button.is-active {
+  background: var(--cyan);
+  color: var(--ink);
+  transform: translateY(-1px);
 }
 
 .fuse-orbit {
@@ -2485,6 +2550,16 @@ footer {
 
   .hero-art {
     min-height: 470px;
+  }
+
+  .hero-3d-mode-switch {
+    bottom: 10px;
+    left: 10px;
+  }
+
+  .hero-3d-mode-switch button {
+    font-size: 8px;
+    padding: 7px 8px;
   }
 
   .hero-art::before {
