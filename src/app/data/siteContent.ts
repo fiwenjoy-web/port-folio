@@ -555,8 +555,8 @@ export const DEFAULT_CONTENT: SiteContent = {
         title: { en: "3D PRODUCT VISUALIZATION", th: "การสร้างภาพสินค้า 3D" },
         category: { en: "3D Render", th: "การเรนเดอร์ 3D" },
         description: {
-          en: "A 3D product visualization study focused on building a commercial scene around a running shoe in Blender, from product angles and lighting tests to packaging and final advertising renders.",
-          th: "งานทดลองสร้างภาพสินค้า 3D ที่เน้นการจัดฉากเชิงพาณิชย์โดยใช้รองเท้าวิ่งเป็นสินค้าหลัก ตั้งแต่มุมสินค้าและการทดสอบแสง ไปจนถึงแพ็กเกจและภาพโฆษณาสุดท้าย",
+          en: "A 3D product visualization study focused on building a commercial scene around a running shoe in Blender. The final three campaign applications use AI-assisted scene generation and finishing.",
+          th: "งานทดลองสร้างภาพสินค้า 3D ที่เน้นการจัดฉากเชิงพาณิชย์โดยใช้รองเท้าวิ่งเป็นสินค้าหลักใน Blender โดยภาพประยุกต์สำหรับแคมเปญ 3 ภาพสุดท้ายใช้ AI ช่วยสร้างฉากและเก็บรายละเอียด",
         },
         tags: ["Blender", "3D Render", "Product Vis"],
         caseStudy: createCaseStudy({
@@ -606,16 +606,16 @@ export const DEFAULT_CONTENT: SiteContent = {
               desc: { en: "A clean isolated view focuses attention on the knit upper, laces, logo lines, and layered cushioning system.", th: "ภาพสินค้าแยกพื้นหลังช่วยเน้นผ้าถัก เชือกรองเท้า เส้นโลโก้ และโครงสร้างพื้นรองเท้าแบบหลายชั้น" },
             },
             {
-              label: { en: "Advertising Scene", th: "ฉากภาพโฆษณา" },
-              desc: { en: "Neon light trails and wet-floor reflections add speed, energy, and cinematic depth around the product.", th: "เส้นไฟนีออนและเงาสะท้อนบนพื้นเปียกช่วยเพิ่มความเร็ว พลัง และมิติแบบภาพยนตร์ให้กับสินค้า" },
+              label: { en: "AI-Assisted Advertising Scene", th: "ฉากภาพโฆษณาที่ใช้ AI ช่วย" },
+              desc: { en: "Developed from the original 3D shoe render with AI-assisted scene generation, adding neon trails, wet-floor reflections, and cinematic depth.", th: "ต่อยอดจากภาพเรนเดอร์รองเท้า 3D ต้นฉบับโดยใช้ AI ช่วยสร้างฉาก เพิ่มเส้นไฟนีออน เงาสะท้อนบนพื้นเปียก และมิติแบบภาพยนตร์" },
             },
             {
-              label: { en: "Packaging Mockup", th: "ม็อกอัพแพ็กเกจ" },
-              desc: { en: "A coordinated shoe box and patterned tissue extend the blue-teal visual language into the unboxing experience.", th: "กล่องรองเท้าและกระดาษห่อที่ออกแบบเข้าชุด ขยายภาษาภาพสีน้ำเงินและฟ้าอมเขียวไปสู่ประสบการณ์แกะกล่อง" },
+              label: { en: "AI-Assisted Packaging Mockup", th: "ม็อกอัพแพ็กเกจที่ใช้ AI ช่วย" },
+              desc: { en: "An AI-assisted packaging concept built around the original shoe asset, extending the blue-teal visual language into the box and tissue design.", th: "คอนเซปต์แพ็กเกจที่ใช้ AI ช่วยต่อยอดจากภาพรองเท้าต้นฉบับ ขยายภาษาภาพสีน้ำเงินและฟ้าอมเขียวไปสู่กล่องและกระดาษห่อ" },
             },
             {
-              label: { en: "Final Campaign Key Visual", th: "คีย์วิชวลแคมเปญฉบับสมบูรณ์" },
-              desc: { en: "The final composition combines the shoe, packaging, rim light, and motion trail into one campaign-ready visual.", th: "องค์ประกอบสุดท้ายรวมรองเท้า แพ็กเกจ แสงขอบ และเส้นแสงเคลื่อนไหวเป็นภาพแคมเปญที่พร้อมนำเสนอ" },
+              label: { en: "AI-Assisted Final Key Visual", th: "คีย์วิชวลสุดท้ายที่ใช้ AI ช่วย" },
+              desc: { en: "The original 3D shoe render was combined with AI-assisted scene development and finishing to create a campaign-ready key visual.", th: "นำภาพเรนเดอร์รองเท้า 3D ต้นฉบับมารวมกับการสร้างฉากและเก็บรายละเอียดด้วย AI จนเป็นคีย์วิชวลที่พร้อมใช้ในแคมเปญ" },
             },
           ],
           reflection: {
@@ -861,8 +861,11 @@ function upgradeLegacyServicesContent(content: SiteContent): SiteContent {
     legacy3DProject.caseStudy.outputs.length === 4 &&
     legacy3DProject.caseStudy.outputs[0]?.label.en === "Cover / Hero Image";
   const hasRunningShoeTitle = legacy3DProject?.title.en === "3D RUNNING SHOE VISUALIZATION";
+  const hasUncreditedAIOutputs =
+    legacy3DProject?.caseStudy.outputs[5]?.label.en === "Advertising Scene" &&
+    legacy3DProject.caseStudy.outputs[7]?.label.en === "Final Campaign Key Visual";
 
-  if (!hasLegacyServices && !hasLegacyNavigation && !hasLegacyPositioning && !hasLegacy3DProject && !hasRunningShoeTitle) return content;
+  if (!hasLegacyServices && !hasLegacyNavigation && !hasLegacyPositioning && !hasLegacy3DProject && !hasRunningShoeTitle && !hasUncreditedAIOutputs) return content;
 
   const next = structuredClone(content);
   if (hasLegacyNavigation) next.navigation.links[1] = structuredClone(DEFAULT_CONTENT.navigation.links[1]);
@@ -884,6 +887,10 @@ function upgradeLegacyServicesContent(content: SiteContent): SiteContent {
   if (hasRunningShoeTitle) {
     next.portfolio.projects[1].title = structuredClone(DEFAULT_CONTENT.portfolio.projects[1].title);
     next.portfolio.projects[1].description = structuredClone(DEFAULT_CONTENT.portfolio.projects[1].description);
+  }
+  if (hasUncreditedAIOutputs) {
+    next.portfolio.projects[1].description = structuredClone(DEFAULT_CONTENT.portfolio.projects[1].description);
+    next.portfolio.projects[1].caseStudy.outputs = structuredClone(DEFAULT_CONTENT.portfolio.projects[1].caseStudy.outputs);
   }
   return next;
 }
