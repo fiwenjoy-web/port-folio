@@ -552,30 +552,30 @@ export const DEFAULT_CONTENT: SiteContent = {
         }),
       },
       {
-        title: { en: "3D PRODUCT VISUALIZATION", th: "การสร้างภาพสินค้า 3D" },
+        title: { en: "3D RUNNING SHOE VISUALIZATION", th: "การสร้างภาพรองเท้าวิ่ง 3D" },
         category: { en: "3D Render", th: "การเรนเดอร์ 3D" },
         description: {
-          en: "Hyper-realistic 3D product renders and mockups created for e-commerce and commercial advertising. Blender-based workflow with custom lighting setups.",
-          th: "การเรนเดอร์สินค้า 3D และโมเดลที่สมจริงสูงสำหรับอีคอมเมิร์ซและโฆษณาเชิงพาณิชย์ ขั้นตอนบน Blender พร้อมการตั้งค่าแสงที่กำหนดเอง",
+          en: "A 3D running shoe visual study developed in Blender, moving from scene construction and lighting tests to packaging and campaign-ready advertising renders.",
+          th: "งานทดลองสร้างภาพรองเท้าวิ่ง 3D ด้วย Blender ตั้งแต่การจัดฉากและทดสอบแสง ไปจนถึงงานแพ็กเกจและภาพโฆษณาที่พร้อมใช้ในแคมเปญ",
         },
         tags: ["Blender", "3D Render", "Product Vis"],
         caseStudy: createCaseStudy({
           overview: {
-            en: "A 3D product visualization project exploring how mockups, lighting, and render composition can create premium product presentation.",
-            th: "โปรเจกต์สร้างภาพสินค้า 3D ที่ทดลองการใช้ mockup แสง และองค์ประกอบ render เพื่อทำให้สินค้าดูพรีเมียมและพร้อมนำเสนอ",
+            en: "A 3D running shoe visualization project exploring how product angles, material detail, lighting, and packaging can form one premium campaign system.",
+            th: "โปรเจกต์ภาพรองเท้าวิ่ง 3D ที่ทดลองนำมุมสินค้า รายละเอียดวัสดุ แสง และแพ็กเกจมารวมเป็นระบบภาพแคมเปญแบบพรีเมียม",
           },
           goal: {
-            en: "Present the product with stronger depth, cleaner material detail, and a more advertising-ready scene.",
-            th: "นำเสนอสินค้าให้มีมิติ รายละเอียดวัสดุชัดขึ้น และมีฉากที่พร้อมใช้ในงานโฆษณามากขึ้น",
+            en: "Make the shoe silhouette, mesh texture, cushioning, and blue-teal color accents feel clear, energetic, and ready for athletic advertising.",
+            th: "ทำให้รูปทรงรองเท้า พื้นผิวผ้า ระบบรองรับแรงกระแทก และสีฟ้าอมเขียวดูชัด มีพลัง และพร้อมสำหรับงานโฆษณาแนวกีฬา",
           },
           concept: {
-            en: "The project connects product modeling, lighting design, material polish, and final layout into one 3D presentation workflow.",
-            th: "โปรเจกต์นี้เชื่อมการขึ้นโมเดลสินค้า การจัดแสง การปรับวัสดุ และ layout สุดท้ายให้เป็นเวิร์กโฟลว์การนำเสนอสินค้า 3D",
+            en: "Inspired by speed after dark, sweeping forms, cool rim light, and reflective surfaces create a sense of movement around a carefully controlled product hero.",
+            th: "คอนเซปต์ได้แรงบันดาลใจจากความเร็วในยามค่ำคืน ใช้เส้นโค้ง แสงขอบโทนเย็น และพื้นผิวสะท้อนเพื่อสร้างการเคลื่อนไหวรอบสินค้าหลัก",
           },
           direction: [
-            { en: "Premium product lighting", th: "แสงสินค้าแบบพรีเมียม" },
-            { en: "Clean mockup presentation", th: "การนำเสนอ mockup ที่สะอาด" },
-            { en: "Depth and material detail", th: "มิติและรายละเอียดวัสดุ" },
+            { en: "Athletic night energy", th: "พลังแบบสปอร์ตยามค่ำคืน" },
+            { en: "Blue and teal light language", th: "ภาษาภาพแสงสีน้ำเงินและฟ้าอมเขียว" },
+            { en: "Tactile material detail", th: "รายละเอียดวัสดุที่สัมผัสได้" },
           ],
           visualSystem: [
             ...DEFAULT_VISUAL_SYSTEM,
@@ -584,9 +584,43 @@ export const DEFAULT_CONTENT: SiteContent = {
               desc: { en: "Frames the product as a presentation-ready commercial object.", th: "จัดสินค้าให้เป็นวัตถุเชิงพาณิชย์ที่พร้อมนำเสนอ" },
             },
           ],
+          outputs: [
+            {
+              label: { en: "Campaign Hero Render", th: "ภาพเปิดแคมเปญ" },
+              desc: { en: "Blue rim lighting and sweeping forms frame the running shoe as a premium athletic hero.", th: "แสงขอบสีน้ำเงินและรูปทรงโค้งช่วยยกรองเท้าวิ่งให้เป็นสินค้าหลักในบรรยากาศสปอร์ตพรีเมียม" },
+            },
+            {
+              label: { en: "Product Angle Study", th: "การศึกษามุมสินค้า" },
+              desc: { en: "Front and three-quarter views test the silhouette, proportions, and readability of key product details.", th: "มุมด้านหน้าและมุมสามส่วนใช้ตรวจรูปทรง สัดส่วน และความชัดเจนของรายละเอียดสำคัญบนรองเท้า" },
+            },
+            {
+              label: { en: "Scene Blockout", th: "การวางโครงฉาก" },
+              desc: { en: "A Blender graybox establishes the platform, curved props, backdrop, scale, and camera composition before rendering.", th: "Graybox ใน Blender ใช้กำหนดแท่น รูปทรงโค้ง ฉากหลัง สเกล และมุมกล้องก่อนเริ่มเรนเดอร์" },
+            },
+            {
+              label: { en: "Lighting & Scene Setup", th: "การจัดแสงและฉาก" },
+              desc: { en: "The production viewport reveals the multi-light rig and object placement used to build depth and controlled highlights.", th: "ภาพเบื้องหลังแสดงชุดไฟหลายตำแหน่งและการวางวัตถุที่ใช้สร้างมิติและควบคุมไฮไลต์บนสินค้า" },
+            },
+            {
+              label: { en: "Isolated Product Render", th: "เรนเดอร์สินค้าแยกพื้นหลัง" },
+              desc: { en: "A clean isolated view focuses attention on the knit upper, laces, logo lines, and layered cushioning system.", th: "ภาพสินค้าแยกพื้นหลังช่วยเน้นผ้าถัก เชือกรองเท้า เส้นโลโก้ และโครงสร้างพื้นรองเท้าแบบหลายชั้น" },
+            },
+            {
+              label: { en: "Advertising Scene", th: "ฉากภาพโฆษณา" },
+              desc: { en: "Neon light trails and wet-floor reflections add speed, energy, and cinematic depth around the product.", th: "เส้นไฟนีออนและเงาสะท้อนบนพื้นเปียกช่วยเพิ่มความเร็ว พลัง และมิติแบบภาพยนตร์ให้กับสินค้า" },
+            },
+            {
+              label: { en: "Packaging Mockup", th: "ม็อกอัพแพ็กเกจ" },
+              desc: { en: "A coordinated shoe box and patterned tissue extend the blue-teal visual language into the unboxing experience.", th: "กล่องรองเท้าและกระดาษห่อที่ออกแบบเข้าชุด ขยายภาษาภาพสีน้ำเงินและฟ้าอมเขียวไปสู่ประสบการณ์แกะกล่อง" },
+            },
+            {
+              label: { en: "Final Campaign Key Visual", th: "คีย์วิชวลแคมเปญฉบับสมบูรณ์" },
+              desc: { en: "The final composition combines the shoe, packaging, rim light, and motion trail into one campaign-ready visual.", th: "องค์ประกอบสุดท้ายรวมรองเท้า แพ็กเกจ แสงขอบ และเส้นแสงเคลื่อนไหวเป็นภาพแคมเปญที่พร้อมนำเสนอ" },
+            },
+          ],
           reflection: {
-            en: "This project demonstrates 3D composition, lighting judgment, mockup presentation, and product-focused visual storytelling.",
-            th: "โปรเจกต์นี้โชว์ทักษะการจัดองค์ประกอบ 3D การตัดสินใจเรื่องแสง การนำเสนอ mockup และการเล่าเรื่องภาพแบบโฟกัสสินค้า",
+            en: "This project demonstrates a complete 3D product workflow: scene planning, lighting control, material presentation, packaging adaptation, and final campaign storytelling.",
+            th: "โปรเจกต์นี้แสดงเวิร์กโฟลว์สินค้า 3D ตั้งแต่การวางแผนฉาก การควบคุมแสง การนำเสนอวัสดุ การต่อยอดสู่แพ็กเกจ และการเล่าเรื่องในภาพแคมเปญสุดท้าย",
           },
         }),
       },
@@ -821,8 +855,13 @@ function upgradeLegacyServicesContent(content: SiteContent): SiteContent {
     content.hero.title.en === "Product Designer" ||
     content.testimonials.sectionLabel.en === "TESTIMONIALS" ||
     content.footer.ctaEyebrow.en === "LET'S WORK TOGETHER";
+  const legacy3DProject = content.portfolio.projects[1];
+  const hasLegacy3DProject =
+    legacy3DProject?.title.en === "3D PRODUCT VISUALIZATION" &&
+    legacy3DProject.caseStudy.outputs.length === 4 &&
+    legacy3DProject.caseStudy.outputs[0]?.label.en === "Cover / Hero Image";
 
-  if (!hasLegacyServices && !hasLegacyNavigation && !hasLegacyPositioning) return content;
+  if (!hasLegacyServices && !hasLegacyNavigation && !hasLegacyPositioning && !hasLegacy3DProject) return content;
 
   const next = structuredClone(content);
   if (hasLegacyNavigation) next.navigation.links[1] = structuredClone(DEFAULT_CONTENT.navigation.links[1]);
@@ -837,6 +876,9 @@ function upgradeLegacyServicesContent(content: SiteContent): SiteContent {
     next.footer.ctaEyebrow = structuredClone(DEFAULT_CONTENT.footer.ctaEyebrow);
     next.footer.ctaHeading1 = structuredClone(DEFAULT_CONTENT.footer.ctaHeading1);
     next.footer.ctaHeading2 = structuredClone(DEFAULT_CONTENT.footer.ctaHeading2);
+  }
+  if (hasLegacy3DProject) {
+    next.portfolio.projects[1] = structuredClone(DEFAULT_CONTENT.portfolio.projects[1]);
   }
   return next;
 }
