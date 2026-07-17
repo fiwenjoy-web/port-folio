@@ -374,7 +374,7 @@ fetch(`../portfolio/manifest.json?ts=${Date.now()}`, { cache: "no-store" })
   .then((manifest) => {
     projectData.forEach((project, index) => {
       const id = index + 1;
-      if (storedImages[id]?.length || !Array.isArray(manifest[id]) || !manifest[id].length) return;
+      if (!Array.isArray(manifest[id]) || !manifest[id].length) return;
       project.images = manifest[id]
         .filter((image) => typeof image === "string")
         .map((image) => /^https?:\/\//i.test(image) ? image : `../${image.replace(/^\.?\//, "")}`);
@@ -382,6 +382,7 @@ fetch(`../portfolio/manifest.json?ts=${Date.now()}`, { cache: "no-store" })
         image.src = project.images[0];
       });
     });
+    if (viewer && !viewer.hidden) renderViewer();
   })
   .catch(() => {});
 

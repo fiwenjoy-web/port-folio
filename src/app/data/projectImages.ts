@@ -47,11 +47,11 @@ export function getProjectImages(
   stored: Record<number, string[]>,
   published: Record<number, string[]> = {},
 ): string[] {
-  if (stored[projectId]?.length) return stored[projectId];
   if (published[projectId]?.length) {
     return published[projectId].map((image) => (
       /^https?:\/\//i.test(image) ? image : `${import.meta.env.BASE_URL}${image}`
     ));
   }
+  if (stored[projectId]?.length) return stored[projectId];
   return DEFAULT_IMAGES[projectId] ?? [];
 }
