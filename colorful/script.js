@@ -836,6 +836,32 @@ function createCollageImage(source, index, project) {
   return button;
 }
 
+function createComparisonItem(project, index, label) {
+  const item = document.createElement("div");
+  item.className = "viewer-comparison-item";
+  const eyebrow = document.createElement("span");
+  eyebrow.textContent = label;
+  const image = createCollageImage(project.images[index], index, project);
+  image.classList.add("viewer-comparison-card");
+  item.append(eyebrow, image);
+  return item;
+}
+
+function createComparisonSection(project, title, beforeIndex, afterIndex) {
+  const section = document.createElement("section");
+  section.className = "viewer-comparison-section";
+  const heading = document.createElement("h3");
+  heading.textContent = title;
+  const grid = document.createElement("div");
+  grid.className = "viewer-comparison-grid";
+  grid.append(
+    createComparisonItem(project, beforeIndex, "BEFORE / EXISTING ASSET"),
+    createComparisonItem(project, afterIndex, "AFTER / AI-ASSISTED OUTPUT")
+  );
+  section.append(heading, grid);
+  return section;
+}
+
 function renderViewer() {
   const project = projectData[activeProject];
   if (!project || !viewerCollage) return;
@@ -892,6 +918,29 @@ function renderViewer() {
   }
 
   viewerCollage.replaceChildren();
+  viewerCollage.classList.toggle("is-comparison", activeProject === 2);
+  if (activeProject === 2) {
+    viewerCollage.append(
+      createComparisonSection(project, "N95 SOURCE TO FINAL", 1, 3),
+      createComparisonSection(project, "KN95 SOURCE TO FINAL", 2, 0)
+    );
+
+    const additional = document.createElement("section");
+    additional.className = "viewer-comparison-section";
+    const heading = document.createElement("h3");
+    heading.textContent = "ADDITIONAL ANGLES & BLENDER OUTPUTS";
+    const grid = document.createElement("div");
+    grid.className = "viewer-comparison-more";
+    [4, 5, 6, 7, 8, 9].forEach((index) => {
+      const image = createCollageImage(project.images[index], index, project);
+      image.classList.add("viewer-comparison-card");
+      grid.append(image);
+    });
+    additional.append(heading, grid);
+    viewerCollage.append(additional);
+    return;
+  }
+
   viewerCollage.append(createCollageImage(project.images[0], 0, project));
   if (project.images.length > 1) {
     const thumbs = document.createElement("div");
