@@ -552,11 +552,11 @@ export const DEFAULT_CONTENT: SiteContent = {
         }),
       },
       {
-        title: { en: "3D RUNNING SHOE VISUALIZATION", th: "การสร้างภาพรองเท้าวิ่ง 3D" },
+        title: { en: "3D PRODUCT VISUALIZATION", th: "การสร้างภาพสินค้า 3D" },
         category: { en: "3D Render", th: "การเรนเดอร์ 3D" },
         description: {
-          en: "A 3D running shoe visual study developed in Blender, moving from scene construction and lighting tests to packaging and campaign-ready advertising renders.",
-          th: "งานทดลองสร้างภาพรองเท้าวิ่ง 3D ด้วย Blender ตั้งแต่การจัดฉากและทดสอบแสง ไปจนถึงงานแพ็กเกจและภาพโฆษณาที่พร้อมใช้ในแคมเปญ",
+          en: "A 3D product visualization study focused on building a commercial scene around a running shoe in Blender, from product angles and lighting tests to packaging and final advertising renders.",
+          th: "งานทดลองสร้างภาพสินค้า 3D ที่เน้นการจัดฉากเชิงพาณิชย์โดยใช้รองเท้าวิ่งเป็นสินค้าหลัก ตั้งแต่มุมสินค้าและการทดสอบแสง ไปจนถึงแพ็กเกจและภาพโฆษณาสุดท้าย",
         },
         tags: ["Blender", "3D Render", "Product Vis"],
         caseStudy: createCaseStudy({
@@ -860,8 +860,9 @@ function upgradeLegacyServicesContent(content: SiteContent): SiteContent {
     legacy3DProject?.title.en === "3D PRODUCT VISUALIZATION" &&
     legacy3DProject.caseStudy.outputs.length === 4 &&
     legacy3DProject.caseStudy.outputs[0]?.label.en === "Cover / Hero Image";
+  const hasRunningShoeTitle = legacy3DProject?.title.en === "3D RUNNING SHOE VISUALIZATION";
 
-  if (!hasLegacyServices && !hasLegacyNavigation && !hasLegacyPositioning && !hasLegacy3DProject) return content;
+  if (!hasLegacyServices && !hasLegacyNavigation && !hasLegacyPositioning && !hasLegacy3DProject && !hasRunningShoeTitle) return content;
 
   const next = structuredClone(content);
   if (hasLegacyNavigation) next.navigation.links[1] = structuredClone(DEFAULT_CONTENT.navigation.links[1]);
@@ -879,6 +880,10 @@ function upgradeLegacyServicesContent(content: SiteContent): SiteContent {
   }
   if (hasLegacy3DProject) {
     next.portfolio.projects[1] = structuredClone(DEFAULT_CONTENT.portfolio.projects[1]);
+  }
+  if (hasRunningShoeTitle) {
+    next.portfolio.projects[1].title = structuredClone(DEFAULT_CONTENT.portfolio.projects[1].title);
+    next.portfolio.projects[1].description = structuredClone(DEFAULT_CONTENT.portfolio.projects[1].description);
   }
   return next;
 }
