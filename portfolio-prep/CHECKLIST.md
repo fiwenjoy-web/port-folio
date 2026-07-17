@@ -31,9 +31,9 @@ Files placed here stay local and are not included in Git commits.
 - [ ] 03-clay-or-wireframe.webp
 - [ ] 04-material-lighting.webp
 - [ ] 05-product-closeup.webp
-- [ ] 06-advertising-scene.webp
-- [ ] 07-packaging-mockup.webp
-- [ ] 08-final-key-visual.webp
+- [x] 06-advertising-scene.webp
+- [x] 07-packaging-mockup.webp
+- [x] 08-final-key-visual.webp
 
 ## 03 AI Product 3D Visuals
 
