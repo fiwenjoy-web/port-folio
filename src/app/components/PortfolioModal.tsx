@@ -36,7 +36,10 @@ const CASE_STUDY_UI = {
     comparisons: "Before / after comparisons",
     before: "Before / Existing asset",
     after: "After / AI-assisted output",
-    additionalOutputs: "Additional angles & Blender outputs",
+    additionalOutputs: "Additional mask angles",
+    blenderComparisons: "Blender development comparisons",
+    afterBlender: "After / Refined Blender output",
+    beforeBlender: "Before / Development render",
     reflection: "07 Reflection",
   },
   th: {
@@ -51,7 +54,10 @@ const CASE_STUDY_UI = {
     comparisons: "เปรียบเทียบก่อนและหลัง",
     before: "ก่อน / ไฟล์ต้นฉบับ",
     after: "หลัง / ภาพที่พัฒนาด้วย AI",
-    additionalOutputs: "มุมเพิ่มเติมและผลงาน Blender",
+    additionalOutputs: "มุมหน้ากากเพิ่มเติม",
+    blenderComparisons: "เปรียบเทียบการพัฒนาใน Blender",
+    afterBlender: "หลังทำ / Blender ที่ปรับสมบูรณ์",
+    beforeBlender: "ก่อนทำ / ภาพระหว่างพัฒนา",
     reflection: "07 สิ่งที่ได้เรียนรู้",
   },
 } as const;
@@ -103,7 +109,7 @@ export function PortfolioModal({ project, onClose }: Props) {
     };
   }, [project]);
 
-  const renderOutputCard = (index: number, comparisonLabel?: string) => {
+  const renderOutputCard = (index: number, comparisonLabel?: string, comparisonRatio: "landscape" | "portrait" = "landscape") => {
     if (!project) return null;
     const img = project.images[index];
     if (!img) return null;
@@ -123,11 +129,11 @@ export function PortfolioModal({ project, onClose }: Props) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.06 + index * 0.04 }}
           aria-label={`${t(portfolio.viewProjectLabel)}: ${t(project.titleBT)} ${index + 1}`}
-          className="group w-full cursor-zoom-in overflow-hidden rounded-2xl text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00d4ff]/70"
+          className={`group w-full cursor-zoom-in overflow-hidden rounded-2xl text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00d4ff]/70 ${comparisonLabel ? "h-full" : ""}`}
           style={{ background: "#050810", border: "1px solid rgba(255,255,255,0.08)" }}
           onClick={() => setActiveImageIndex(index)}
         >
-          <span className={`relative flex w-full justify-center overflow-hidden ${comparisonLabel ? "aspect-[4/3] items-center" : ""}`}>
+          <span className={`relative flex w-full justify-center overflow-hidden ${comparisonLabel ? `${comparisonRatio === "portrait" ? "aspect-[4/5]" : "aspect-[4/3]"} items-center` : ""}`}>
             <img
               src={img}
               alt={`${project.title} ${index + 1}`}
@@ -382,7 +388,7 @@ export function PortfolioModal({ project, onClose }: Props) {
                       <h4 className="text-sm font-bold text-white">{ui.comparisons}</h4>
                       <div className="grid gap-4 md:grid-cols-2">
                         {renderOutputCard(1, ui.before)}
-                        {renderOutputCard(3, ui.after)}
+                        {renderOutputCard(4, ui.after)}
                       </div>
                       <div className="grid gap-4 md:grid-cols-2">
                         {renderOutputCard(2, ui.before)}
@@ -392,7 +398,18 @@ export function PortfolioModal({ project, onClose }: Props) {
                     <section className="grid gap-4">
                       <h4 className="text-sm font-bold text-white">{ui.additionalOutputs}</h4>
                       <div className="grid gap-5 md:grid-cols-2">
-                        {[4, 5, 6, 7, 8, 9].map((index) => renderOutputCard(index))}
+                        {[3, 5].map((index) => renderOutputCard(index))}
+                      </div>
+                    </section>
+                    <section className="grid gap-4">
+                      <h4 className="text-sm font-bold text-white">{ui.blenderComparisons}</h4>
+                      <div className="grid gap-4 md:grid-cols-2">
+                        {renderOutputCard(6, ui.afterBlender, "portrait")}
+                        {renderOutputCard(7, ui.beforeBlender, "portrait")}
+                      </div>
+                      <div className="grid gap-4 md:grid-cols-2">
+                        {renderOutputCard(8, ui.afterBlender, "portrait")}
+                        {renderOutputCard(9, ui.beforeBlender, "portrait")}
                       </div>
                     </section>
                   </div>

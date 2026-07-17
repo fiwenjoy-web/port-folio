@@ -2207,6 +2207,10 @@ footer {
   width: 100%;
 }
 
+.viewer-collage .viewer-comparison-card.is-portrait img {
+  aspect-ratio: 4 / 5;
+}
+
 .viewer-collage-thumbs {
   display: grid;
   gap: 18px;
