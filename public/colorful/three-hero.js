@@ -68,14 +68,14 @@ if (host && canvas) {
   const pointerFine = window.matchMedia("(pointer: fine)").matches;
 
   if (pointerFine && !reducedMotion) {
-    host.addEventListener("pointermove", (event) => {
-      const bounds = host.getBoundingClientRect();
+    canvas.addEventListener("pointermove", (event) => {
+      const bounds = canvas.getBoundingClientRect();
       pointerTarget.set(
         ((event.clientX - bounds.left) / bounds.width) * 2 - 1,
         ((event.clientY - bounds.top) / bounds.height) * 2 - 1,
       );
     });
-    host.addEventListener("pointerleave", () => pointerTarget.set(0, 0));
+    canvas.addEventListener("pointerleave", () => pointerTarget.set(0, 0));
   }
 
   const updateMotionButton = () => {
@@ -105,24 +105,26 @@ if (host && canvas) {
   const render = () => {
     requestAnimationFrame(render);
     if (!inView || document.hidden) return;
-    pointerCurrent.lerp(pointerTarget, 0.055);
+    pointerCurrent.lerp(pointerTarget, 0.075);
     if (floatingModel && motionEnabled) {
       const elapsed = motionClock.getElapsedTime();
       floatingModel.position.set(
-        Math.sin(elapsed * 0.62) * 0.085 + pointerCurrent.x * 0.055,
-        Math.sin(elapsed * 0.78 + 0.8) * 0.045 - pointerCurrent.y * 0.035,
-        Math.cos(elapsed * 0.54) * 0.06,
+        Math.sin(elapsed * 0.62) * 0.085 + pointerCurrent.x * 0.18,
+        Math.sin(elapsed * 0.78 + 0.8) * 0.045 - pointerCurrent.y * 0.11,
+        Math.cos(elapsed * 0.54) * 0.06 + Math.abs(pointerCurrent.x) * 0.04,
       );
       floatingModel.rotation.set(
-        Math.sin(elapsed * 0.5) * 0.014 - pointerCurrent.y * 0.045,
-        -0.08 + Math.sin(elapsed * 0.46) * 0.05 + pointerCurrent.x * 0.09,
-        Math.sin(elapsed * 0.38) * 0.012 - pointerCurrent.x * 0.012,
+        Math.sin(elapsed * 0.5) * 0.014 - pointerCurrent.y * 0.1,
+        -0.08 + Math.sin(elapsed * 0.46) * 0.05 + pointerCurrent.x * 0.22,
+        Math.sin(elapsed * 0.38) * 0.012 - pointerCurrent.x * 0.025,
       );
     } else if (floatingModel) {
-      floatingModel.position.x = THREE.MathUtils.lerp(floatingModel.position.x, pointerCurrent.x * 0.055, 0.08);
-      floatingModel.position.y = THREE.MathUtils.lerp(floatingModel.position.y, -pointerCurrent.y * 0.035, 0.08);
-      floatingModel.rotation.x = THREE.MathUtils.lerp(floatingModel.rotation.x, -pointerCurrent.y * 0.045, 0.08);
-      floatingModel.rotation.y = THREE.MathUtils.lerp(floatingModel.rotation.y, -0.08 + pointerCurrent.x * 0.09, 0.08);
+      floatingModel.position.x = THREE.MathUtils.lerp(floatingModel.position.x, pointerCurrent.x * 0.18, 0.08);
+      floatingModel.position.y = THREE.MathUtils.lerp(floatingModel.position.y, -pointerCurrent.y * 0.11, 0.08);
+      floatingModel.position.z = THREE.MathUtils.lerp(floatingModel.position.z, Math.abs(pointerCurrent.x) * 0.04, 0.08);
+      floatingModel.rotation.x = THREE.MathUtils.lerp(floatingModel.rotation.x, -pointerCurrent.y * 0.1, 0.08);
+      floatingModel.rotation.y = THREE.MathUtils.lerp(floatingModel.rotation.y, -0.08 + pointerCurrent.x * 0.22, 0.08);
+      floatingModel.rotation.z = THREE.MathUtils.lerp(floatingModel.rotation.z, -pointerCurrent.x * 0.025, 0.08);
     }
     orbit.update();
     renderer.render(scene, camera);
