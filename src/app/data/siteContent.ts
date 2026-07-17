@@ -547,24 +547,10 @@ export const DEFAULT_CONTENT: SiteContent = {
           ],
           outputs: [
             {
-              label: { en: "4:5 Campaign Poster", th: "โปสเตอร์แคมเปญ 4:5" },
+              label: { en: "Social Adaptation", th: "การปรับใช้บนโซเชียล" },
               desc: {
-                en: "Portrait feed adaptation with the campaign headline, promotions, student, and product range arranged for quick mobile reading. AI was used only to extend the pixel-art school background.",
-                th: "เลย์เอาต์แนวตั้งสำหรับฟีด จัดหัวแคมเปญ โปรโมชั่น นักเรียน และชุดสินค้าให้อ่านได้เร็วบนมือถือ โดยใช้ AI ช่วยเฉพาะการขยายฉากหลังโรงเรียนแบบพิกเซลอาร์ต",
-              },
-            },
-            {
-              label: { en: "1:1 Social Post", th: "โพสต์โซเชียล 1:1" },
-              desc: {
-                en: "Square social adaptation that keeps the offer and coupon information prominent while giving the product group a strong lower anchor. AI was used only for background extension.",
-                th: "เลย์เอาต์สี่เหลี่ยมสำหรับโซเชียลที่เน้นข้อเสนอและข้อมูลคูปอง พร้อมใช้ชุดสินค้าเป็นฐานภาพที่ชัดเจน โดยใช้ AI ช่วยเฉพาะการขยายฉากหลัง",
-              },
-            },
-            {
-              label: { en: "16:9 Campaign Banner", th: "แบนเนอร์แคมเปญ 16:9" },
-              desc: {
-                en: "Wide campaign banner balancing the main offer on the left with the student, checklist, and product lineup on the right. AI was used only to extend the background canvas.",
-                th: "แบนเนอร์แนวกว้างที่วางข้อเสนอหลักฝั่งซ้ายและสมดุลด้วยนักเรียน เช็กลิสต์ และชุดสินค้าฝั่งขวา โดยใช้ AI ช่วยเฉพาะการขยายพื้นที่ฉากหลัง",
+                en: "A square social adaptation of the Shopee Back to School campaign. The 4:5 and 16:9 working variants support the same layout system. AI was used only to extend the pixel-art school background.",
+                th: "ภาพสี่เหลี่ยมสำหรับโซเชียลของแคมเปญ Shopee Back to School โดยมีไฟล์ทำงาน 4:5 และ 16:9 ในระบบเลย์เอาต์เดียวกัน และใช้ AI ช่วยเฉพาะการขยายฉากหลังโรงเรียนแบบพิกเซลอาร์ต",
               },
             },
           ],

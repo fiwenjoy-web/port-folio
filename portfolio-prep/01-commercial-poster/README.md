@@ -20,6 +20,9 @@ Final editable PSD and WebP files are in `ratio-adaptations/final/`:
 2. `02-shopee-1x1` - square social post
 3. `03-shopee-16x9` - wide campaign banner
 
+The portfolio delivery for this set is `07-social-adaptation.webp`, using the square
+version as the representative image. The other ratios remain supporting working files.
+
 Disclosure: AI was used only to extend the pixel-art school background. The campaign
 headline, Thai copy, dates, prices, logos, student, product packaging, and promotion
 details come from the original layered Photoshop artwork. The 16:9 version was
