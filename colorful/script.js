@@ -7,9 +7,9 @@ const DEFAULT_PROJECTS = [
     images: ["./assets/blog-uiux.png", "./assets/portfolio-lirante.png"],
   },
   {
-    title: "3D PRODUCT VISUALIZATION",
+    title: "3D RUNNING SHOE VISUALIZATION",
     category: "3D Render",
-    description: "Detailed 3D product renders and mockups created for e-commerce and commercial advertising with custom modeling and lighting.",
+    description: "A 3D running shoe visual study developed in Blender, moving from scene construction and lighting tests to packaging and campaign-ready advertising renders.",
     tags: ["Blender", "3D Render", "Product Vis"],
     images: ["./assets/blog-sugee.png", "./assets/blog-cinetrade.png"],
   },
@@ -79,11 +79,23 @@ const DEFAULT_CASE_STUDIES = [
     "This project highlights commercial composition, typography control, color direction, and the ability to make static visuals feel campaign-ready."
   ),
   createCaseStudy(
-    "A 3D product visualization project exploring how mockups, lighting, and render composition can create premium product presentation.",
-    "Present the product with stronger depth, cleaner material detail, and a more advertising-ready scene.",
-    "The project connects product modeling, lighting design, material polish, and final layout into one 3D presentation workflow.",
-    ["Premium product lighting", "Clean mockup presentation", "Depth and material detail"],
-    "This project demonstrates 3D composition, lighting judgment, mockup presentation, and product-focused visual storytelling."
+    "A 3D running shoe visualization project exploring how product angles, material detail, lighting, and packaging can form one premium campaign system.",
+    "Make the shoe silhouette, mesh texture, cushioning, and blue-teal color accents feel clear, energetic, and ready for athletic advertising.",
+    "Inspired by speed after dark, sweeping forms, cool rim light, and reflective surfaces create a sense of movement around a carefully controlled product hero.",
+    ["Athletic night energy", "Blue and teal light language", "Tactile material detail"],
+    "This project demonstrates a complete 3D product workflow: scene planning, lighting control, material presentation, packaging adaptation, and final campaign storytelling.",
+    {
+      outputs: [
+        { label: "Campaign Hero Render", desc: "Blue rim lighting and sweeping forms frame the running shoe as a premium athletic hero." },
+        { label: "Product Angle Study", desc: "Front and three-quarter views test the silhouette, proportions, and readability of key product details." },
+        { label: "Scene Blockout", desc: "A Blender graybox establishes the platform, curved props, backdrop, scale, and camera composition before rendering." },
+        { label: "Lighting & Scene Setup", desc: "The production viewport reveals the multi-light rig and object placement used to build depth and controlled highlights." },
+        { label: "Isolated Product Render", desc: "A clean isolated view focuses attention on the knit upper, laces, logo lines, and layered cushioning system." },
+        { label: "Advertising Scene", desc: "Neon light trails and wet-floor reflections add speed, energy, and cinematic depth around the product." },
+        { label: "Packaging Mockup", desc: "A coordinated shoe box and patterned tissue extend the blue-teal visual language into the unboxing experience." },
+        { label: "Final Campaign Key Visual", desc: "The final composition combines the shoe, packaging, rim light, and motion trail into one campaign-ready visual." },
+      ],
+    }
   ),
   createCaseStudy(
     "An AI product visual system exploring how AI, 3D mockups, and commercial design can create product-focused advertising visuals for digital platforms.",
@@ -342,7 +354,12 @@ const storedImages = readStorage("wh_portfolio_images") || {};
 const hasLegacyProfile = english(storedContent?.testimonials?.sectionLabel) === "TESTIMONIALS";
 
 const projectData = DEFAULT_PROJECTS.map((fallback, index) => {
-  const stored = storedContent?.portfolio?.projects?.[index];
+  const candidate = storedContent?.portfolio?.projects?.[index];
+  const hasLegacy3DProject = index === 1
+    && english(candidate?.title) === "3D PRODUCT VISUALIZATION"
+    && candidate?.caseStudy?.outputs?.length === 4
+    && english(candidate.caseStudy.outputs[0]?.label) === "Cover / Hero Image";
+  const stored = hasLegacy3DProject ? undefined : candidate;
   return {
     title: english(stored?.title, fallback.title),
     category: english(stored?.category, fallback.category),
