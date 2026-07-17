@@ -76,7 +76,14 @@ const DEFAULT_CASE_STUDIES = [
     "Create a strong first impression, communicate the offer clearly, and make the visual feel campaign-ready.",
     "From raw assets to a finished key visual, this project explores hierarchy, typography, retouching, and color grading as a complete commercial design workflow.",
     ["Bold typography", "High-contrast composition", "Commercial campaign mood"],
-    "This project highlights commercial composition, typography control, color direction, and the ability to make static visuals feel campaign-ready."
+    "This project highlights commercial composition, typography control, color direction, and the ability to make static visuals feel campaign-ready.",
+    {
+      outputs: [
+        { label: "4:5 Campaign Poster", desc: "Portrait feed adaptation arranged for quick mobile reading. AI was used only to extend the pixel-art school background." },
+        { label: "1:1 Social Post", desc: "Square social adaptation that keeps the offer and coupon information prominent. AI was used only for background extension." },
+        { label: "16:9 Campaign Banner", desc: "Wide banner balancing the main offer with the student, checklist, and product lineup. AI was used only to extend the background canvas." },
+      ],
+    }
   ),
   createCaseStudy(
     "A 3D running shoe visualization project exploring how product angles, material detail, lighting, and packaging can form one premium campaign system.",
