@@ -79,9 +79,7 @@ const DEFAULT_CASE_STUDIES = [
     "This project highlights commercial composition, typography control, color direction, and the ability to make static visuals feel campaign-ready.",
     {
       outputs: [
-        { label: "4:5 Campaign Poster", desc: "Portrait feed adaptation arranged for quick mobile reading. AI was used only to extend the pixel-art school background." },
-        { label: "1:1 Social Post", desc: "Square social adaptation that keeps the offer and coupon information prominent. AI was used only for background extension." },
-        { label: "16:9 Campaign Banner", desc: "Wide banner balancing the main offer with the student, checklist, and product lineup. AI was used only to extend the background canvas." },
+        { label: "Social Adaptation", desc: "A square social adaptation of the Shopee Back to School campaign. The 4:5 and 16:9 working variants support the same layout system. AI was used only to extend the pixel-art school background." },
       ],
     }
   ),
