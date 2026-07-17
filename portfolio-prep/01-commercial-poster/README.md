@@ -1,4 +1,4 @@
-# 01 Commercial Poster
+# 01 Monthly Campaign Collection
 
 Prepare these files in this folder:
 
@@ -22,6 +22,9 @@ Final editable PSD and WebP files are in `ratio-adaptations/final/`:
 
 The portfolio delivery for this set is `07-social-adaptation.webp`, using the square
 version as the representative image. The other ratios remain supporting working files.
+
+The ten-image shortlist for the ongoing monthly work is documented in
+[`monthly-campaign-selection/README.md`](monthly-campaign-selection/README.md).
 
 Disclosure: AI was used only to extend the pixel-art school background. The campaign
 headline, Thai copy, dates, prices, logos, student, product packaging, and promotion

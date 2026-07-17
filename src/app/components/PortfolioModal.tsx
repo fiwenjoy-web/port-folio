@@ -312,7 +312,7 @@ export function PortfolioModal({ project, onClose }: Props) {
                     src={project.images[0]}
                     alt={`${project.title} main`}
                     className="w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
-                    style={{ maxHeight: "400px" }}
+                    style={{ maxHeight: "400px", objectPosition: project.id === 1 ? "center top" : "center" }}
                   />
                   <span
                     className="absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-xl opacity-100 transition-transform duration-200 group-hover:scale-110 md:opacity-0 md:group-hover:opacity-100"
@@ -353,6 +353,7 @@ export function PortfolioModal({ project, onClose }: Props) {
                           src={img}
                           alt={`${project.title} ${i + 2}`}
                           className="w-full h-44 object-cover transition-transform duration-500 group-hover:scale-105"
+                          style={{ objectPosition: project.id === 1 ? "center top" : "center" }}
                         />
                         <div
                           className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center"

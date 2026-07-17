@@ -105,7 +105,8 @@ function ProjectCard({ project, index, className, aspectRatio, onSelect }: {
       onClick={() => onSelect(project)}>
       <div className={`relative ${aspectRatio} overflow-hidden`}>
         <img src={project.coverImage} alt={translatedTitle} loading="lazy" decoding="async"
-          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+          style={{ objectPosition: project.id === 1 ? "center top" : "center" }} />
         <div className="absolute inset-0 transition-opacity duration-300"
           style={{ background: "linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.1) 100%)" }} />
         <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"

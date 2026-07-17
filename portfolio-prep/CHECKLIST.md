@@ -14,7 +14,7 @@ Files placed here stay local and are not included in Git commits.
 - [ ] Check spelling, dates, logos, and contact information
 - [ ] Put the strongest image first when uploading because it becomes the cover
 
-## 01 Commercial Poster
+## 01 Monthly Campaign Collection
 
 - [ ] 01-cover-key-visual.webp
 - [ ] 02-original-assets.webp
