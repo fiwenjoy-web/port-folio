@@ -397,13 +397,17 @@ const projectData = DEFAULT_PROJECTS.map((fallback, index) => {
   };
 });
 
+function getProjectCover(id, project) {
+  return id === 1 ? "../portfolio/covers/project-1-hero.webp" : project.images[0];
+}
+
 projectData.forEach((project, index) => {
   const id = index + 1;
   setText(`[data-project-title="${id}"]`, project.title);
   setText(`[data-project-category="${id}"]`, project.category);
   setText(`[data-project-tags="${id}"]`, project.tags.join(" / "));
   document.querySelectorAll(`[data-project-image="${id}"]`).forEach((image) => {
-    image.src = project.images[0];
+    image.src = getProjectCover(id, project);
     image.alt = `${project.title} project preview`;
     image.loading = "lazy";
     image.decoding = "async";
@@ -423,7 +427,7 @@ fetch(`../portfolio/manifest.json?ts=${Date.now()}`, { cache: "no-store" })
         .filter((image) => typeof image === "string")
         .map((image) => /^https?:\/\//i.test(image) ? image : `../${image.replace(/^\.?\//, "")}`);
       document.querySelectorAll(`[data-project-image="${id}"]`).forEach((image) => {
-        image.src = project.images[0];
+        image.src = getProjectCover(id, project);
       });
     });
     if (viewer && !viewer.hidden) renderViewer();
