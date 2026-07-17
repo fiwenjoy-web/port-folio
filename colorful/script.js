@@ -7,9 +7,9 @@ const DEFAULT_PROJECTS = [
     images: ["./assets/blog-uiux.png", "./assets/portfolio-lirante.png"],
   },
   {
-    title: "3D RUNNING SHOE VISUALIZATION",
+    title: "3D PRODUCT VISUALIZATION",
     category: "3D Render",
-    description: "A 3D running shoe visual study developed in Blender, moving from scene construction and lighting tests to packaging and campaign-ready advertising renders.",
+    description: "A 3D product visualization study focused on building a commercial scene around a running shoe in Blender, from product angles and lighting tests to packaging and final advertising renders.",
     tags: ["Blender", "3D Render", "Product Vis"],
     images: ["./assets/blog-sugee.png", "./assets/blog-cinetrade.png"],
   },
@@ -361,9 +361,13 @@ const projectData = DEFAULT_PROJECTS.map((fallback, index) => {
     && english(candidate.caseStudy.outputs[0]?.label) === "Cover / Hero Image";
   const stored = hasLegacy3DProject ? undefined : candidate;
   return {
-    title: english(stored?.title, fallback.title),
+    title: index === 1 && english(stored?.title) === "3D RUNNING SHOE VISUALIZATION"
+      ? fallback.title
+      : english(stored?.title, fallback.title),
     category: english(stored?.category, fallback.category),
-    description: english(stored?.description, fallback.description),
+    description: index === 1 && english(stored?.title) === "3D RUNNING SHOE VISUALIZATION"
+      ? fallback.description
+      : english(stored?.description, fallback.description),
     tags: stored?.tags?.length ? stored.tags.map((tag) => cleanText(tag)) : fallback.tags,
     images: storedImages[index + 1]?.length ? storedImages[index + 1] : fallback.images,
     caseStudy: normalizeCaseStudy(stored?.caseStudy, DEFAULT_CASE_STUDIES[index]),
