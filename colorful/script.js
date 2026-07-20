@@ -797,8 +797,8 @@ const testimonialData = DEFAULT_TESTIMONIALS.map((fallback, index) => {
   };
 });
 
-const email = cleanText(storedContent?.footer?.email, "Fusenra@gmail.com");
-const phone = cleanText(storedContent?.footer?.phone, "083-480-9368");
+const email = cleanText(storedContent?.footer?.email, "Fusemxd@gmail.com");
+const phone = cleanText(storedContent?.footer?.phone, "0661241409");
 const contactLocation = localized(storedContent?.footer?.location, "Chiangmai, Thailand");
 document.querySelector("#contact-email")?.setAttribute("href", `mailto:${email}`);
 document.querySelectorAll("[data-contact-email], [data-footer-email]").forEach((link) => {
