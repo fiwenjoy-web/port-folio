@@ -19,17 +19,49 @@ interface ContentContextValue {
 }
 
 const ContentContext = createContext<ContentContextValue | null>(null);
+const LANGUAGE_STORAGE_KEY = "fuselab-portfolio-language";
 
 function isAdminRoute() {
   return new URLSearchParams(window.location.search).get("admin") === "1"
     || /\/admin\/?$/.test(window.location.pathname);
 }
 
+function getInitialLanguage(): Lang {
+  try {
+    const urlLanguage = new URLSearchParams(window.location.search).get("lang");
+    if (urlLanguage === "en" || urlLanguage === "th") return urlLanguage;
+    return localStorage.getItem(LANGUAGE_STORAGE_KEY) === "th" ? "th" : "en";
+  } catch {
+    return "en";
+  }
+}
+
 export function ContentProvider({ children }: { children: ReactNode }) {
   const [content, setContent] = useState<SiteContent>(() => (
     isAdminRoute() ? loadStoredContent() : DEFAULT_CONTENT
   ));
-  const [lang, setLang] = useState<Lang>("en");
+  const [lang, setLanguage] = useState<Lang>(getInitialLanguage);
+
+  const setLang = useCallback((nextLanguage: Lang) => {
+    setLanguage(nextLanguage);
+    try {
+      localStorage.setItem(LANGUAGE_STORAGE_KEY, nextLanguage);
+      const url = new URL(window.location.href);
+      url.searchParams.set("lang", nextLanguage);
+      window.history.replaceState(window.history.state, "", url);
+    } catch {
+      // The in-memory language still works when storage or history is unavailable.
+    }
+  }, []);
+
+  useEffect(() => {
+    const handleStorage = (event: StorageEvent) => {
+      if (event.key !== LANGUAGE_STORAGE_KEY) return;
+      if (event.newValue === "en" || event.newValue === "th") setLanguage(event.newValue);
+    };
+    window.addEventListener("storage", handleStorage);
+    return () => window.removeEventListener("storage", handleStorage);
+  }, []);
 
   useEffect(() => {
     if (isAdminRoute()) return;

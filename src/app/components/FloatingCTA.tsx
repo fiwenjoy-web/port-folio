@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "motion/react";
+import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import { Mail, ChevronUp } from "lucide-react";
 import { useContent } from "../context/ContentContext";
 
 export function FloatingCTA() {
-  const { content, t } = useContent();
+  const { content, lang, t } = useContent();
+  const reduceMotion = useReducedMotion();
   const [visible, setVisible] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
 
@@ -36,8 +37,8 @@ export function FloatingCTA() {
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.8 }}
-                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-                aria-label="Scroll to top"
+                onClick={() => window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" })}
+                aria-label={lang === "th" ? "กลับขึ้นด้านบน" : "Scroll to top"}
                 className="w-10 h-10 flex items-center justify-center rounded-full transition-all hover:scale-110"
                 style={{
                   background: "rgba(255,255,255,0.06)",

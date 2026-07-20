@@ -1,9 +1,11 @@
 import { useContent } from "../context/ContentContext";
+import { useReducedMotion } from "motion/react";
 
 const SANS = "'Noto Sans Thai', sans-serif";
 
 export function MarqueeStrip() {
   const { content, t } = useContent();
+  const reduceMotion = useReducedMotion();
   const words = content.marquee.items.map(t);
   // Duplicate for seamless loop
   const loop = [...words, ...words];
@@ -24,7 +26,7 @@ export function MarqueeStrip() {
       <div className="absolute right-0 top-0 bottom-0 w-32 z-10 pointer-events-none"
         style={{ background: "linear-gradient(270deg, #06060a, transparent)" }} />
 
-      <div className="marquee-track flex items-center gap-8 whitespace-nowrap">
+      <div className="marquee-track flex items-center gap-8 whitespace-nowrap" style={{ animation: reduceMotion ? "none" : undefined }}>
         {loop.map((word, i) => (
           <div key={i} className="flex items-center gap-8 shrink-0">
             <span

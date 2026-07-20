@@ -1,10 +1,12 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { DotLottieReact, type DotLottie } from "@lottiefiles/dotlottie-react";
+import { useReducedMotion } from "motion/react";
 import animationUrl from "../../assets/frame-66.lottie";
 import { useContent } from "../context/ContentContext";
 
 export function DotLottieHero() {
   const { content, t } = useContent();
+  const reduceMotion = useReducedMotion();
   const playerRef = useRef<DotLottie | null>(null);
   const cleanupRef = useRef<(() => void) | null>(null);
   const [loadFailed, setLoadFailed] = useState(false);
@@ -24,14 +26,20 @@ export function DotLottieHero() {
 
     const handleLoadError = () => setLoadFailed(true);
     player.addEventListener("loadError", handleLoadError);
+    if (reduceMotion) player.pause();
     cleanupRef.current = () => player.removeEventListener("loadError", handleLoadError);
-  }, []);
+  }, [reduceMotion]);
+
+  useEffect(() => {
+    if (reduceMotion) playerRef.current?.pause();
+  }, [reduceMotion]);
 
   useEffect(() => () => cleanupRef.current?.(), []);
 
   const setHeroHovered = useCallback((hovered: boolean) => {
+    if (reduceMotion) return;
     playerRef.current?.stateMachineSetBooleanInput("hovering_Ellipse_2", hovered);
-  }, []);
+  }, [reduceMotion]);
 
   if (loadFailed) {
     return (

@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { motion, AnimatePresence } from "motion/react";
+import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import { Layers3, ChevronLeft, ChevronRight } from "lucide-react";
 import { useContent } from "../context/ContentContext";
 
@@ -9,6 +9,7 @@ const TESTIMONIAL_ACCENTS = ["#00d4ff", "#818cf8", "#34d399"];
 
 export function TestimonialsSection() {
   const { content, t } = useContent();
+  const reduceMotion = useReducedMotion();
   const { testimonials } = content;
   const [index, setIndex] = useState(0);
   const [dir, setDir] = useState(1);
@@ -20,12 +21,13 @@ export function TestimonialsSection() {
 
   // Auto-advance
   useEffect(() => {
+    if (reduceMotion) return;
     const timer = setInterval(() => {
       setDir(1);
       setIndex((i) => (i + 1) % testimonials.items.length);
     }, 6000);
     return () => clearInterval(timer);
-  }, [testimonials.items.length]);
+  }, [reduceMotion, testimonials.items.length]);
 
   const active = testimonials.items[index];
   const activeAccent = TESTIMONIAL_ACCENTS[index];

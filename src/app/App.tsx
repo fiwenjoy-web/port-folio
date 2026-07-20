@@ -1,5 +1,5 @@
 import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState, type MouseEvent } from "react";
-import { MotionConfig } from "motion/react";
+import { MotionConfig, useReducedMotion } from "motion/react";
 import { Palette } from "lucide-react";
 import { ContentProvider, useContent } from "./context/ContentContext";
 import { HeroFrame66 } from "./components/HeroFrame66";
@@ -37,6 +37,10 @@ const DIVIDER = (
 );
 
 function FloatingThemeSwitch() {
+  const { lang } = useContent();
+  const reduceMotion = useReducedMotion();
+  const switchLabel = lang === "th" ? "ธีมสีสัน" : "COLORFUL THEME";
+  const switchAriaLabel = lang === "th" ? "เปลี่ยนเป็นธีมสีสัน" : "Switch to Colorful Playful theme";
   const [switching, setSwitching] = useState(false);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -51,7 +55,7 @@ function FloatingThemeSwitch() {
     setSwitching(true);
     timerRef.current = setTimeout(() => {
       window.location.assign(destination);
-    }, 1080);
+    }, reduceMotion ? 0 : 1080);
   };
 
   return (
@@ -61,15 +65,15 @@ function FloatingThemeSwitch() {
         <span className="theme-transition-core" />
       </div>
       <a
-        href="./colorful/"
-        aria-label="Switch to Colorful Playful theme"
+        href={`./colorful/?lang=${lang}`}
+        aria-label={switchAriaLabel}
         aria-busy={switching}
         onClick={handleClick}
         className={`theme-toggle-floating${switching ? " is-switching" : ""}`}
       >
         <span className="theme-warp-light" aria-hidden="true" />
         <Palette size={16} aria-hidden="true" />
-        <span className="theme-toggle-label">COLORFUL THEME</span>
+        <span className="theme-toggle-label">{switchLabel}</span>
       </a>
     </>
   );

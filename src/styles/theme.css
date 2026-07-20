@@ -467,8 +467,22 @@
     scroll-behavior: auto;
   }
 
-  .project-scan-overlay {
-    animation: none;
+  .project-scan-overlay,
+  .theme-toggle-floating,
+  .theme-toggle-floating.is-switching,
+  .theme-toggle-floating.is-switching svg,
+  .theme-toggle-floating::after,
+  .theme-warp-light,
+  .theme-transition-wash.is-active::before,
+  .theme-transition-wash.is-active .theme-transition-streaks,
+  .theme-transition-wash.is-active .theme-transition-core {
+    animation: none !important;
+  }
+
+  .theme-toggle-floating,
+  .theme-toggle-floating:hover {
+    transform: none;
+    transition-duration: 0.01ms;
   }
 
 }

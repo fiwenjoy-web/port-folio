@@ -21,6 +21,7 @@ Object.assign(translations, {
   "DARK THEME": "ธีมมืด",
   "VIEW PORTFOLIO": "ดูผลงาน",
   "CONTACT ME": "ติดต่อผม",
+  "Scroll to top": "กลับขึ้นด้านบน",
   "View responsibilities": "ดูรายละเอียดงาน",
   "View details": "ดูรายละเอียด",
   "Hide responsibilities": "ซ่อนรายละเอียดงาน",

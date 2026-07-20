@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { ArrowUpRight, FileDown, Menu, X } from "lucide-react";
 import { useContent } from "../context/ContentContext";
 import { BrandLogo } from "./BrandLogo";
@@ -8,12 +8,13 @@ const KANIT = "'Kanit', 'Noto Sans Thai', sans-serif";
 
 const NAV_TARGETS = ["about", "services", "experience", "contact"];
 
-function NavLink({ label, onClick }: { label: string; onClick: () => void }) {
+function NavLink({ label, active, onClick }: { label: string; active: boolean; onClick: () => void }) {
   return (
     <button
       type="button"
       onClick={onClick}
-      className="relative shrink-0 rounded-full px-4 py-2 text-sm text-white/70 transition-colors duration-200 hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#48c6ec]/60"
+      aria-current={active ? "page" : undefined}
+      className={`relative shrink-0 rounded-full px-4 py-2 text-sm transition-colors duration-200 hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#48c6ec]/60 ${active ? "bg-white/10 text-white" : "text-white/70"}`}
       style={{ fontFamily: KANIT, fontWeight: 400, letterSpacing: 0 }}
     >
       {label}
@@ -56,16 +57,24 @@ interface SiteHeaderProps {
 }
 
 export function SiteHeader({ onLogoClick }: SiteHeaderProps) {
-  const { content, t } = useContent();
+  const { content, lang, t } = useContent();
+  const reduceMotion = useReducedMotion();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("about");
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
       setMenuOpen(false);
+      const visibleSection = ["about", "services", "contact"].reduce((current, id) => {
+        const element = document.getElementById(id);
+        return element && element.getBoundingClientRect().top <= 160 ? id : current;
+      }, "about");
+      setActiveSection(visibleSection);
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -81,8 +90,9 @@ export function SiteHeader({ onLogoClick }: SiteHeaderProps) {
   const scrollTo = (id: string) => {
     setMenuOpen(false);
     const element = document.getElementById(id);
-    if (element) element.scrollIntoView({ behavior: "smooth" });
-    else window.scrollTo({ top: 0, behavior: "smooth" });
+    const behavior = reduceMotion ? "auto" : "smooth";
+    if (element) element.scrollIntoView({ behavior });
+    else window.scrollTo({ top: 0, behavior });
   };
 
   return (
@@ -126,7 +136,12 @@ export function SiteHeader({ onLogoClick }: SiteHeaderProps) {
                   {t(label)} <FileDown size={13} aria-hidden="true" />
                 </a>
               ) : (
-                <NavLink key={NAV_TARGETS[index]} label={t(label)} onClick={() => scrollTo(NAV_TARGETS[index])} />
+                <NavLink
+                  key={NAV_TARGETS[index]}
+                  label={t(label)}
+                  active={activeSection === NAV_TARGETS[index]}
+                  onClick={() => scrollTo(NAV_TARGETS[index])}
+                />
               )
             ))}
           </nav>
@@ -161,7 +176,9 @@ export function SiteHeader({ onLogoClick }: SiteHeaderProps) {
             onClick={() => setMenuOpen((open) => !open)}
             aria-expanded={menuOpen}
             aria-controls="mobile-navigation"
-            aria-label={menuOpen ? "Close navigation" : "Open navigation"}
+            aria-label={menuOpen
+              ? (lang === "th" ? "ปิดเมนู" : "Close navigation")
+              : (lang === "th" ? "เปิดเมนู" : "Open navigation")}
             className="ml-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-white/80 transition-colors hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#48c6ec]/60 md:hidden"
           >
             {menuOpen ? <X size={19} /> : <Menu size={19} />}
@@ -196,7 +213,8 @@ export function SiteHeader({ onLogoClick }: SiteHeaderProps) {
                       key={NAV_TARGETS[index]}
                       type="button"
                       onClick={() => scrollTo(NAV_TARGETS[index])}
-                      className="rounded-xl px-4 py-3 text-left text-sm text-white/70 transition-colors hover:bg-white/8 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#48c6ec]/60"
+                      aria-current={activeSection === NAV_TARGETS[index] ? "page" : undefined}
+                      className={`rounded-xl px-4 py-3 text-left text-sm transition-colors hover:bg-white/8 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#48c6ec]/60 ${activeSection === NAV_TARGETS[index] ? "bg-white/8 text-white" : "text-white/70"}`}
                       style={{ fontFamily: KANIT, letterSpacing: 0 }}
                     >
                       {t(label)}

@@ -159,7 +159,7 @@ function MobileHero() {
   const reduceMotion = useReducedMotion();
 
   const scrollToPortfolio = () => {
-    document.getElementById("portfolio")?.scrollIntoView({ behavior: "smooth" });
+    document.getElementById("portfolio")?.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth" });
   };
 
   return (
