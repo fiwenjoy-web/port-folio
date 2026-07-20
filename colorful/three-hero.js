@@ -5,6 +5,7 @@ import { GLTFLoader } from "../vendor/three/addons/loaders/GLTFLoader.js";
 import { RoomEnvironment } from "../vendor/three/addons/environments/RoomEnvironment.js";
 
 const host = document.querySelector("[data-three-hero]");
+const loadingLabel = document.documentElement.lang === "th" ? "กำลังโหลด 3D" : "LOADING 3D";
 const canvas = document.querySelector("#hero-three-canvas");
 const poster = document.querySelector(".hero-three-poster");
 const loading = document.querySelector("#hero-three-loading");
@@ -145,7 +146,7 @@ if (host && canvas) {
     },
     (event) => {
       if (!loading || event.total <= 0) return;
-      loading.textContent = `LOADING 3D  ${Math.round((event.loaded / event.total) * 100)}%`;
+      loading.textContent = `${loadingLabel}  ${Math.round((event.loaded / event.total) * 100)}%`;
     },
     () => {
       loading?.setAttribute("hidden", "");
