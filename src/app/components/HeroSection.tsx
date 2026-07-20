@@ -179,7 +179,7 @@ export function HeroSection({ onLogoClick }: HeroProps) {
             {t(hero.bio)}
           </p>
           <div className="flex items-center gap-3 shrink-0">
-            <a href="mailto:Fusenra@gmail.com"
+            <a href="mailto:Fusemxd@gmail.com"
               className="group flex items-center gap-2.5 px-6 py-3.5 rounded-full transition-all duration-300 hover:scale-[1.03]"
               style={{
                 background: "linear-gradient(135deg, #00d4ff, #0066ff)",
