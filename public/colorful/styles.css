@@ -1886,7 +1886,8 @@ footer {
 
 .image-viewer {
   align-items: flex-start;
-  background: rgba(17, 12, 35, 0.97);
+  backdrop-filter: blur(14px);
+  background: rgba(33, 26, 54, 0.52);
   display: flex;
   inset: 0;
   justify-content: center;
@@ -1901,10 +1902,10 @@ footer {
 }
 
 .viewer-panel {
-  background: var(--navy);
-  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: var(--cream);
+  border: 2px solid var(--ink);
   border-radius: 8px;
-  box-shadow: 9px 9px 0 var(--purple);
+  box-shadow: 10px 10px 0 var(--purple);
   margin: auto 0;
   max-width: 1000px;
   overflow: hidden;
@@ -1915,9 +1916,9 @@ footer {
 .viewer-nav,
 .viewer-expanded-close {
   align-items: center;
-  background: rgba(255, 255, 255, 0.09);
-  border: 1px solid rgba(255, 255, 255, 0.28);
-  color: var(--white);
+  background: var(--yellow);
+  border: 2px solid var(--ink);
+  color: var(--ink);
   display: flex;
   justify-content: center;
   position: absolute;
@@ -1932,20 +1933,28 @@ footer {
   top: 18px;
   width: 44px;
   z-index: 122;
+  box-shadow: 4px 4px 0 var(--coral);
 }
 
 .viewer-meta {
-  color: var(--white);
+  background: var(--yellow);
+  border-bottom: 2px solid var(--ink);
+  color: var(--ink);
   display: grid;
   gap: 14px;
   padding: 32px 32px 26px;
 }
 
 .viewer-meta > span {
-  color: var(--cyan);
+  background: var(--coral);
+  border: 1px solid var(--ink);
+  border-radius: 999px;
+  color: var(--white);
+  justify-self: start;
   font-size: 9px;
   font-weight: 800;
   letter-spacing: 0.08em;
+  padding: 6px 10px;
   text-transform: uppercase;
 }
 
@@ -1957,7 +1966,7 @@ footer {
 }
 
 .viewer-meta p {
-  color: rgba(255, 255, 255, 0.68);
+  color: rgba(33, 26, 54, 0.74);
   font-family: "Kanit", sans-serif;
   font-size: 12px;
   line-height: 1.65;
@@ -1971,7 +1980,8 @@ footer {
 }
 
 .viewer-meta i {
-  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: var(--white);
+  border: 1px solid var(--ink);
   border-radius: 999px;
   font-size: 8px;
   font-style: normal;
@@ -1989,9 +1999,10 @@ footer {
 .viewer-direction,
 .viewer-system > div,
 .viewer-reflection {
-  background: rgba(255, 255, 255, 0.045);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: var(--white);
+  border: 1px solid var(--ink);
   border-radius: 7px;
+  box-shadow: 4px 4px 0 rgba(33, 26, 54, 0.12);
 }
 
 .viewer-story article {
@@ -2000,8 +2011,8 @@ footer {
 }
 
 .viewer-story .viewer-story-wide {
-  background: rgba(255, 90, 109, 0.08);
-  border-color: rgba(255, 90, 109, 0.25);
+  background: #ffd9dd;
+  border-color: var(--ink);
   grid-column: 1 / -1;
   min-height: auto;
 }
@@ -2011,7 +2022,7 @@ footer {
 .viewer-system > div > span,
 .viewer-output-heading > span,
 .viewer-reflection > span {
-  color: var(--cyan);
+  color: var(--purple);
   display: block;
   font-size: 9px;
   font-weight: 800;
@@ -2021,13 +2032,14 @@ footer {
 
 .viewer-story p,
 .viewer-reflection p {
-  color: rgba(255, 255, 255, 0.65);
+  color: rgba(33, 26, 54, 0.72);
   font-family: "Kanit", sans-serif;
   font-size: 12px;
   line-height: 1.7;
 }
 
 .viewer-direction {
+  background: #fff0a8;
   margin: 0 26px 12px;
   padding: 18px 20px;
 }
@@ -2039,10 +2051,10 @@ footer {
 }
 
 .viewer-direction i {
-  background: rgba(167, 139, 250, 0.12);
-  border: 1px solid rgba(167, 139, 250, 0.3);
+  background: var(--white);
+  border: 1px solid var(--ink);
   border-radius: 999px;
-  color: #d8c9ff;
+  color: var(--ink);
   font-size: 9px;
   font-style: normal;
   font-weight: 700;
@@ -2071,8 +2083,8 @@ footer {
 
 .viewer-system li {
   align-items: flex-start;
-  background: rgba(0, 0, 0, 0.18);
-  border: 1px solid rgba(255, 255, 255, 0.07);
+  background: #f4edff;
+  border: 1px solid rgba(33, 26, 54, 0.22);
   border-radius: 6px;
   display: flex;
   gap: 10px;
@@ -2080,7 +2092,7 @@ footer {
 }
 
 .viewer-system li > b {
-  color: var(--mint);
+  color: var(--purple);
   font-size: 10px;
 }
 
@@ -2091,12 +2103,12 @@ footer {
 }
 
 .viewer-system strong {
-  color: var(--white);
+  color: var(--ink);
   font-size: 10px;
 }
 
 .viewer-system small {
-  color: rgba(255, 255, 255, 0.42);
+  color: rgba(33, 26, 54, 0.62);
   font-family: "Kanit", sans-serif;
   font-size: 10px;
   line-height: 1.5;
@@ -2114,7 +2126,7 @@ footer {
 }
 
 .viewer-output-heading b {
-  color: var(--white);
+  color: var(--ink);
   font-size: 13px;
 }
 
@@ -2127,8 +2139,8 @@ footer {
 }
 
 .viewer-collage button {
-  background: #0e0922;
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: var(--white);
+  border: 1px solid var(--ink);
   border-radius: 7px;
   cursor: zoom-in;
   display: grid;
@@ -2136,6 +2148,7 @@ footer {
   padding: 0;
   position: relative;
   width: 100%;
+  box-shadow: 5px 5px 0 var(--cyan);
 }
 
 .viewer-collage button:focus-visible {
@@ -2173,7 +2186,7 @@ footer {
 }
 
 .viewer-comparison-section > h3 {
-  color: var(--white);
+  color: var(--ink);
   font-size: 12px;
   letter-spacing: 0.08em;
   margin: 0;
@@ -2193,7 +2206,7 @@ footer {
 }
 
 .viewer-comparison-item > span {
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(33, 26, 54, 0.7);
   font-size: 9px;
   font-weight: 800;
   letter-spacing: 0.12em;
@@ -2243,9 +2256,9 @@ footer {
 }
 
 .viewer-caption {
-  background: rgba(5, 3, 14, 0.96);
-  border-top: 1px solid rgba(255, 255, 255, 0.12);
-  color: var(--white);
+  background: var(--white);
+  border-top: 1px solid var(--ink);
+  color: var(--ink);
   display: grid;
   gap: 6px;
   padding: 15px 18px 17px;
@@ -2254,26 +2267,27 @@ footer {
 }
 
 .viewer-caption b {
-  color: var(--white);
+  color: var(--ink);
   font-size: 13px;
 }
 
 .viewer-caption small {
-  color: rgba(255, 255, 255, 0.65);
+  color: rgba(33, 26, 54, 0.68);
   font-family: "Kanit", sans-serif;
   font-size: 12px;
   line-height: 1.6;
 }
 
 .viewer-reflection {
+  background: #c9f7e9;
   margin: 0 26px 28px;
   padding: 20px;
 }
 
 .viewer-footer {
   align-items: center;
-  border-top: 1px solid rgba(255, 255, 255, 0.12);
-  color: rgba(255, 255, 255, 0.45);
+  border-top: 1px solid rgba(33, 26, 54, 0.2);
+  color: rgba(33, 26, 54, 0.55);
   display: flex;
   font-size: 9px;
   font-weight: 700;
@@ -2284,13 +2298,13 @@ footer {
 }
 
 .viewer-footer b {
-  color: var(--cyan);
+  color: var(--purple);
   font-size: inherit;
 }
 
 .viewer-expanded {
   align-items: center;
-  background: #080414;
+  background: #f4edff;
   display: flex;
   inset: 0;
   justify-content: center;
@@ -2304,6 +2318,10 @@ footer {
 }
 
 .viewer-expanded > img {
+  background: var(--white);
+  border: 2px solid var(--ink);
+  border-radius: 7px;
+  box-shadow: 8px 8px 0 var(--cyan);
   max-height: calc(100vh - 270px);
   max-width: calc(100vw - 164px);
   object-fit: contain;
@@ -2325,23 +2343,24 @@ footer {
   top: 50%;
   transform: translateY(-50%);
   width: 52px;
+  box-shadow: 4px 4px 0 var(--purple);
 }
 
 .viewer-prev { left: 20px; }
 .viewer-next { right: 20px; }
 
 .viewer-count {
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(33, 26, 54, 0.7);
   font-size: 11px;
   letter-spacing: 0.16em;
 }
 
 .viewer-expanded-caption {
-  background: rgba(20, 13, 42, 0.94);
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 248, 233, 0.97);
+  border: 2px solid var(--ink);
   border-radius: 8px;
   bottom: 18px;
-  box-shadow: 0 16px 50px rgba(5, 3, 14, 0.5);
+  box-shadow: 7px 7px 0 var(--coral);
   left: 50%;
   max-width: 760px;
   padding: 15px 18px;
@@ -2358,10 +2377,10 @@ footer {
 }
 
 .viewer-provenance-badge {
-  background: rgba(45, 216, 227, 0.12);
-  border: 1px solid rgba(45, 216, 227, 0.48);
+  background: var(--mint);
+  border: 1px solid var(--ink);
   border-radius: 999px;
-  color: var(--cyan);
+  color: var(--ink);
   font-size: 9px;
   font-weight: 900;
   letter-spacing: 0.12em;
@@ -2369,13 +2388,13 @@ footer {
 }
 
 .viewer-expanded-title {
-  color: #fff;
+  color: var(--ink);
   display: block;
   font-size: 15px;
 }
 
 .viewer-expanded-description {
-  color: rgba(255, 255, 255, 0.62);
+  color: rgba(33, 26, 54, 0.68);
   font-size: 12px;
   line-height: 1.55;
   margin: 5px 0 0;
@@ -2792,7 +2811,7 @@ footer {
   }
 
   .viewer-nav {
-    background: rgba(17, 12, 35, 0.75);
+    background: var(--yellow);
     height: 44px;
     width: 44px;
   }
