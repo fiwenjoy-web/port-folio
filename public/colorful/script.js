@@ -664,12 +664,21 @@ const serviceData = DEFAULT_SERVICES.map((fallback, index) => {
   };
 });
 
+const relatedServiceProjects = [3, 2, 4, 5, 1, 5];
+
 serviceData.forEach((service, index) => {
   setText(`[data-service-title="${index}"]`, service.title);
   setText(`[data-service-desc="${index}"]`, service.description);
   setTagList(document.querySelector(`[data-service-tags="${index}"]`), service.tags);
   const cta = document.querySelector(`[data-service-cta="${index}"]`);
-  if (cta) cta.textContent = `${translate("VIEW PORTFOLIO")} ↗`;
+  if (cta) {
+    cta.textContent = `${translate("VIEW PORTFOLIO")} ↗`;
+    cta.setAttribute("aria-label", `${translate("VIEW PORTFOLIO")}: ${service.title}`);
+    cta.addEventListener("click", (event) => {
+      event.preventDefault();
+      openViewer(relatedServiceProjects[index]);
+    });
+  }
 });
 
 const storedProcessTitle = english(storedContent?.services?.processTitle);

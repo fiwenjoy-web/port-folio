@@ -5,6 +5,14 @@ import { useContent } from "../context/ContentContext";
 const SANS = "'Noto Sans Thai', sans-serif";
 const ICONS = [Sparkles, Box, ShoppingBag, Globe, Megaphone, Workflow];
 const COLORS = ["#00d4ff", "#818cf8", "#f59e0b", "#34d399", "#fb7185", "#a78bfa"];
+const RELATED_PROJECT_SLUGS = [
+  "ai-product-visuals",
+  "3d-product-visualization",
+  "ecommerce-campaigns",
+  "ai-assisted-web-system",
+  "commercial-poster",
+  "ai-assisted-web-system",
+];
 
 export function ServicesSection() {
   const { content, t } = useContent();
@@ -88,14 +96,18 @@ export function ServicesSection() {
                   </div>
 
                   {/* Footer */}
-                  <div className="flex items-center justify-between pt-4"
-                    style={{ borderTop: "1px solid rgba(255,255,255,0.05)" }}>
-                    <span className="text-xs font-bold uppercase" style={{ color, letterSpacing: "0.08em" }}>Capability {String(i + 1).padStart(2, "0")}</span>
-                    <div className="w-7 h-7 rounded-lg flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-200 translate-x-1 group-hover:translate-x-0"
+                  <a
+                    href={`${import.meta.env.BASE_URL}?project=${RELATED_PROJECT_SLUGS[i]}`}
+                    aria-label={`${t(services.quoteLabel)}: ${t(svc.title)}`}
+                    className="flex items-center justify-between pt-4 text-xs font-bold uppercase transition-opacity hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-4 focus-visible:ring-offset-[#08080e]"
+                    style={{ borderTop: "1px solid rgba(255,255,255,0.05)", color, letterSpacing: "0.08em" }}
+                  >
+                    <span>{t(services.quoteLabel)}</span>
+                    <div className="w-7 h-7 rounded-lg flex items-center justify-center transition-transform duration-200 group-hover:translate-x-0.5"
                       style={{ background: `${color}20` }}>
                       <ArrowUpRight size={13} color={color} />
                     </div>
-                  </div>
+                  </a>
                 </div>
               </motion.div>
             );
