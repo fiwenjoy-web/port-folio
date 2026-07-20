@@ -349,14 +349,6 @@ themeSwitch?.addEventListener("click", (event) => {
   window.setTimeout(() => window.location.assign(destination), 1080);
 });
 
-function readStorage(key) {
-  try {
-    return JSON.parse(localStorage.getItem(key) || "null");
-  } catch {
-    return null;
-  }
-}
-
 function cleanText(value, fallback = "") {
   if (value === undefined || value === null || value === "") return fallback;
   return String(value)
@@ -422,7 +414,6 @@ function normalizeCaseStudy(value, fallback) {
   };
 }
 
-const localContent = readStorage("wh_site_content");
 let publishedContent = null;
 try {
   const response = await fetch(`../content/site-content.json?ts=${Date.now()}`, { cache: "no-store" });
@@ -433,8 +424,8 @@ try {
 } catch {
   // The checked-in defaults remain available when the published content cannot load.
 }
-const storedContent = publishedContent || localContent;
-const storedImages = readStorage("wh_portfolio_images") || {};
+const storedContent = publishedContent;
+const storedImages = {};
 const hasLegacyProfile = english(storedContent?.testimonials?.sectionLabel) === "TESTIMONIALS";
 
 const projectData = DEFAULT_PROJECTS.map((fallback, index) => {
