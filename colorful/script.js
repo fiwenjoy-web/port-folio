@@ -21,10 +21,10 @@ const DEFAULT_PROJECTS = [
     images: ["./assets/blog-cinetrade.png", "./assets/blog-sugee.png"],
   },
   {
-    title: "BABYGENIC E-COMMERCE VISUAL SYSTEM",
-    category: "E-commerce Product Communication",
-    description: "A marketplace listing system for Babygenic cleaning spray, connecting packaging design, product mockup, benefit communication, usage, and pack options into a clear mobile shopping journey.",
-    tags: ["Packaging", "Shopee", "Product Communication"],
+    title: "3D PRODUCT & E-COMMERCE VISUALS",
+    category: "3D Mockup & Marketplace Communication",
+    description: "A product communication case study combining a Blender-built cleaning spray mockup with marketplace visuals for benefits, usage, pack options, and lifestyle presentation.",
+    tags: ["Blender", "3D Mockup", "E-commerce"],
     images: ["./assets/portfolio-lirante.png", "./assets/blog-uiux.png"],
   },
   {
@@ -152,26 +152,26 @@ const DEFAULT_CASE_STUDIES = [
     }
   ),
   createCaseStudy(
-    "A complete marketplace image set for Babygenic 500 ml toy and children's equipment cleaning spray, combining packaging label design, product mockup presentation, illustrated brand storytelling, benefit communication, usage guidance, and pack selection.",
+    "An end-to-end product visual case study for a children's cleaning spray. It begins with 3D model and material setup in Blender, then develops into product mockups and marketplace communication for benefits, usage, and purchase options.",
     "Turn detailed product information into a mobile-friendly hierarchy while keeping the brand gentle, playful, and easy for parents to understand at a glance.",
     "Gentle care in a friendly illustrated world. Soft mint and sky-blue colors, rounded forms, playful characters, and large product renders make practical information approachable without losing commercial clarity.",
     ["Friendly child-oriented illustration", "Clear mobile information hierarchy", "Consistent mint and sky-blue brand palette", "Product-first marketplace communication"],
-    "This project demonstrates a complete packaging-to-marketplace workflow: label design, product mockup, child-friendly art direction, mobile information hierarchy, and transparent AI attribution for the final lifestyle exploration.",
+    "This project demonstrates a complete 3D-to-marketplace workflow: original Blender model and material setup, product mockup, child-friendly art direction, mobile information hierarchy, and transparent AI attribution for the final lifestyle exploration.",
     {
       workflow: [
-        { step: "01", label: "Product Audit", desc: "Review product purpose, approved claims, usage steps, pack options, and marketplace requirements." },
+        { step: "01", label: "3D Product Setup", desc: "Build the bottle form in Blender, prepare front and back label materials, and test texture mapping on the model." },
         { step: "02", label: "Information Hierarchy", desc: "Separate recognition, benefits, detailed information, usage, and purchase choices into focused frames." },
         { step: "03", label: "Visual Production", desc: "Build the illustrated environment, product composition, typography, and reusable information modules." },
         { step: "04", label: "Marketplace Delivery", desc: "Sequence and export the final square images for a clear mobile product-listing journey." },
       ],
       visualSystem: [
+        { label: "3D Product Model & Materials", desc: "A Blender-built bottle, label planes, texture mapping, and material nodes create a reusable product base for later visuals." },
         { label: "Character & Illustration Language", desc: "Friendly animals, plants, clouds, and rounded scenery support the gentle family-oriented brand personality." },
         { label: "Color Palette", desc: "Mint, sky blue, cream, and soft accent colors keep the set fresh while matching the product label." },
         { label: "Mobile Information Hierarchy", desc: "Large headlines, concise modules, strong contrast, and generous spacing make each message easy to scan." },
-        { label: "Packaging & Product Modules", desc: "The front/back label, product mockup, benefit cards, usage steps, and pack selectors keep the listing visually consistent." },
       ],
       outputs: [
-        { label: "Packaging Label Design", desc: "Front and back Babygenic label artwork establishes the product identity, claims, icon language, and soft child-friendly illustration system." },
+        { label: "100% Blender — Product Model & Material Setup", desc: "A Blender production view documents the original bottle model, front and back label objects, texture mapping, and material-node setup." },
         { label: "Product Mockup Close-up", desc: "A clean bottle mockup shows how the label wraps onto the product and gives the case study a clear product-design starting point." },
         { label: "Marketplace Product Hero", desc: "A clean blue hero visual introduces the product, purpose, size, and gentle brand tone in one quick marketplace frame." },
         { label: "Product Benefit Overview", desc: "Four concise benefit modules surround the central product to support fast scanning on a mobile shopping page." },
@@ -450,15 +450,16 @@ const projectData = DEFAULT_PROJECTS.map((fallback, index) => {
     && english(candidate?.title) === "AI PRODUCT 3D VISUALS";
   const hasLegacyEcommerceProject = index === 3
     && english(candidate?.title) === "E-COMMERCE CAMPAIGNS";
-  const hasOutdatedBabygenicProject = index === 3
-    && english(candidate?.title) === "BABYGENIC E-COMMERCE VISUAL SYSTEM"
-    && (candidate?.caseStudy?.outputs?.length !== 8
-      || english(candidate.caseStudy.outputs[0]?.label) !== "Packaging Label Design");
+  const hasOutdatedEcommerceProject = index === 3
+    && (english(candidate?.title) === "BABYGENIC E-COMMERCE VISUAL SYSTEM"
+      || (english(candidate?.title) === "3D PRODUCT & E-COMMERCE VISUALS"
+        && (candidate?.caseStudy?.outputs?.length !== 8
+          || english(candidate.caseStudy.outputs[0]?.label) !== "100% Blender — Product Model & Material Setup")));
   const hasLegacyWebSystemProject = index === 4
     && english(candidate?.title) === "AI-ASSISTED WEB SYSTEM"
     && english(candidate?.category) === "Web & UI Design"
     && candidate?.caseStudy?.outputs?.length === 4;
-  const stored = hasLegacy3DProject || hasUncreditedAIOutputs || hasLegacyProductSystemProject || hasLegacyEcommerceProject || hasOutdatedBabygenicProject || hasLegacyWebSystemProject ? undefined : candidate;
+  const stored = hasLegacy3DProject || hasUncreditedAIOutputs || hasLegacyProductSystemProject || hasLegacyEcommerceProject || hasOutdatedEcommerceProject || hasLegacyWebSystemProject ? undefined : candidate;
   return {
     title: index === 1 && english(stored?.title) === "3D RUNNING SHOE VISUALIZATION"
       ? fallback.title
