@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { ArrowUpRight, FileDown, Menu, X } from "lucide-react";
+import { AnimatePresence, motion } from "motion/react";
+import { ArrowUpRight, FileDown, Menu, Pause, Play, X } from "lucide-react";
 import { useContent } from "../context/ContentContext";
 import { BrandLogo } from "./BrandLogo";
 
@@ -52,13 +52,37 @@ function LanguageSwitch({ compact = false }: { compact?: boolean }) {
   );
 }
 
+function MotionSwitch({ compact = false }: { compact?: boolean }) {
+  const { lang, reduceMotion, setReduceMotion } = useContent();
+  const stateLabel = reduceMotion
+    ? (lang === "th" ? "โมชั่นปิด" : "MOTION OFF")
+    : (lang === "th" ? "โมชั่นเปิด" : "MOTION ON");
+  const actionLabel = reduceMotion
+    ? (lang === "th" ? "เปิดโมชั่น" : "Turn motion on")
+    : (lang === "th" ? "ลดการเคลื่อนไหว" : "Reduce motion");
+
+  return (
+    <button
+      type="button"
+      onClick={() => setReduceMotion(!reduceMotion)}
+      aria-pressed={reduceMotion}
+      aria-label={actionLabel}
+      title={actionLabel}
+      className={`${compact ? "h-8 gap-2 px-3" : "h-9 w-9"} flex shrink-0 items-center justify-center rounded-full border border-white/10 bg-black/20 text-white/70 transition-colors hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#48c6ec]/60`}
+      style={{ fontFamily: KANIT, letterSpacing: 0 }}
+    >
+      {reduceMotion ? <Play size={14} aria-hidden="true" /> : <Pause size={14} aria-hidden="true" />}
+      {compact ? <span className="text-[11px] font-medium">{stateLabel}</span> : <span className="sr-only">{stateLabel}</span>}
+    </button>
+  );
+}
+
 interface SiteHeaderProps {
   onLogoClick?: () => void;
 }
 
 export function SiteHeader({ onLogoClick }: SiteHeaderProps) {
-  const { content, lang, t } = useContent();
-  const reduceMotion = useReducedMotion();
+  const { content, lang, t, reduceMotion } = useContent();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("about");
@@ -101,7 +125,7 @@ export function SiteHeader({ onLogoClick }: SiteHeaderProps) {
         initial={{ y: -24, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-        className="pointer-events-auto w-full max-w-[860px] md:w-auto"
+        className="pointer-events-auto w-full max-w-[930px] md:w-auto"
       >
         <div
           className="flex w-full items-center gap-1 rounded-full p-2 md:w-auto"
@@ -168,6 +192,10 @@ export function SiteHeader({ onLogoClick }: SiteHeaderProps) {
           </button>
 
           <div className="hidden md:block">
+            <MotionSwitch />
+          </div>
+
+          <div className="hidden md:block">
             <LanguageSwitch />
           </div>
 
@@ -231,7 +259,10 @@ export function SiteHeader({ onLogoClick }: SiteHeaderProps) {
                 >
                   {t(content.navigation.hireLabel)}
                 </button>
-                <LanguageSwitch compact />
+                <div className="flex items-center gap-2">
+                  <MotionSwitch compact />
+                  <LanguageSwitch compact />
+                </div>
               </div>
             </motion.div>
           ) : null}

@@ -1,11 +1,9 @@
 import { useContent } from "../context/ContentContext";
-import { useReducedMotion } from "motion/react";
 
 const SANS = "'Noto Sans Thai', sans-serif";
 
 export function MarqueeStrip() {
-  const { content, t } = useContent();
-  const reduceMotion = useReducedMotion();
+  const { content, t, reduceMotion } = useContent();
   const words = content.marquee.items.map(t);
   // Duplicate for seamless loop
   const loop = [...words, ...words];

@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect, useState, type PointerEvent as ReactPointerEvent } from "react";
-import { motion, useMotionTemplate, useMotionValue, useReducedMotion, useSpring, useTransform } from "motion/react";
+import { motion, useMotionTemplate, useMotionValue, useSpring, useTransform } from "motion/react";
 import { ArrowUpRight, Layers3, Mail } from "lucide-react";
 import { useContent } from "../context/ContentContext";
 import portraitUrl from "../../assets/portrait.webp";
@@ -24,7 +24,7 @@ function useDesktopLayout() {
 }
 
 function DesktopHero() {
-  const reduceMotion = useReducedMotion();
+  const { reduceMotion } = useContent();
   const pointerX = useMotionValue(0);
   const pointerY = useMotionValue(0);
   const lightOpacity = useMotionValue(0);
@@ -155,8 +155,7 @@ function DesktopHeroFallback() {
 }
 
 function MobileHero() {
-  const { content, t } = useContent();
-  const reduceMotion = useReducedMotion();
+  const { content, t, reduceMotion } = useContent();
 
   const scrollToPortfolio = () => {
     document.getElementById("portfolio")?.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth" });

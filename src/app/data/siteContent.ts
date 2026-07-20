@@ -818,27 +818,27 @@ export const DEFAULT_CONTENT: SiteContent = {
     ],
   },
   testimonials: {
-    sectionLabel: { en: "PROFESSIONAL PROFILE", th: "โปรไฟล์การทำงาน" },
-    heading1: { en: "How I bring", th: "จุดแข็งใน" },
-    heading2: { en: "value", th: "การทำงาน" },
+    sectionLabel: { en: "WORKING STRENGTHS", th: "จุดแข็งในการทำงาน" },
+    heading1: { en: "What I bring to", th: "สิ่งที่ผมนำมา" },
+    heading2: { en: "the team", th: "สู่ทีม" },
     items: [
       {
-        quote: { en: "Connects commercial design judgment with AI-assisted exploration to turn broad ideas into focused visual directions.", th: "เชื่อมการตัดสินใจด้านงานออกแบบเชิงพาณิชย์กับการสำรวจด้วย AI เพื่อเปลี่ยนไอเดียกว้าง ๆ ให้เป็นทิศทางภาพที่ชัดเจน" },
+        quote: { en: "Turns briefs and broad ideas into clear commercial directions with strong hierarchy, product focus, and practical platform goals.", th: "เปลี่ยนบรีฟและไอเดียกว้าง ๆ ให้เป็นทิศทางงานเชิงพาณิชย์ที่ชัดเจน มีลำดับข้อมูล โฟกัสสินค้า และตอบโจทย์แพลตฟอร์มจริง" },
         name: "Visual Direction",
-        role: { en: "Project strength", th: "จุดแข็งของการทำงาน" },
+        role: { en: "Direction & art judgment", th: "ทิศทางและการตัดสินใจด้านภาพ" },
         initials: "VD",
       },
       {
-        quote: { en: "Builds repeatable workflows across design, mockup, 3D, and file organization so production stays fast and consistent.", th: "สร้างเวิร์กโฟลว์ที่ทำซ้ำได้ทั้งงานออกแบบ ม็อกอัพ 3D และการจัดไฟล์ เพื่อให้งานผลิตรวดเร็วและสม่ำเสมอ" },
-        name: "Production Workflow",
-        role: { en: "Project strength", th: "จุดแข็งของการทำงาน" },
-        initials: "PW",
+        quote: { en: "Combines Photoshop, Blender, Figma, and AI-assisted workflows to choose the right production method for each visual problem.", th: "ผสาน Photoshop, Blender, Figma และเวิร์กโฟลว์ที่ใช้ AI ช่วย เพื่อเลือกวิธีผลิตที่เหมาะกับโจทย์ภาพแต่ละแบบ" },
+        name: "Hybrid Production",
+        role: { en: "Design / 3D / AI workflow", th: "ออกแบบ / 3D / เวิร์กโฟลว์ AI" },
+        initials: "HP",
       },
       {
-        quote: { en: "Adapts one visual system into campaign, social, e-commerce, presentation, and short-form formats without losing consistency.", th: "ปรับระบบภาพเดียวให้ใช้ได้กับแคมเปญ โซเชียล อีคอมเมิร์ซ งานนำเสนอ และวิดีโอสั้น โดยยังคงความสม่ำเสมอ" },
-        name: "Platform Adaptation",
-        role: { en: "Project strength", th: "จุดแข็งของการทำงาน" },
-        initials: "PA",
+        quote: { en: "Adapts one visual system into marketplace banners, social content, presentations, and short-form formats without losing consistency.", th: "ปรับระบบภาพเดียวให้เป็นแบนเนอร์มาร์เก็ตเพลส คอนเทนต์โซเชียล งานนำเสนอ และสื่อวิดีโอสั้น โดยยังคงความสม่ำเสมอ" },
+        name: "Multi-platform Delivery",
+        role: { en: "Campaign & content adaptation", th: "การปรับงานแคมเปญและคอนเทนต์" },
+        initials: "MD",
       },
     ],
   },
@@ -918,6 +918,9 @@ function upgradeLegacyServicesContent(content: SiteContent): SiteContent {
     content.hero.title.en === "Product Designer" ||
     content.testimonials.sectionLabel.en === "TESTIMONIALS" ||
     content.footer.ctaEyebrow.en === "LET'S WORK TOGETHER";
+  const hasLegacyStrengths =
+    content.testimonials.sectionLabel.en === "PROFESSIONAL PROFILE" ||
+    content.testimonials.heading1.en === "How I bring";
   const legacy3DProject = content.portfolio.projects[1];
   const hasLegacy3DProject =
     legacy3DProject?.title.en === "3D PRODUCT VISUALIZATION" &&
@@ -944,7 +947,7 @@ function upgradeLegacyServicesContent(content: SiteContent): SiteContent {
     legacyWebSystemProject?.category.en === "Web & UI Design" &&
     legacyWebSystemProject.caseStudy.outputs.length === 4;
 
-  if (!hasLegacyServices && !hasLegacyNavigation && !hasLegacyPositioning && !hasLegacy3DProject && !hasRunningShoeTitle && !hasUncreditedAIOutputs && !hasLegacyProductSystemProject && !hasLegacyEcommerceProject && !hasOutdatedEcommerceProject && !hasLegacyWebSystemProject) return content;
+  if (!hasLegacyServices && !hasLegacyNavigation && !hasLegacyPositioning && !hasLegacyStrengths && !hasLegacy3DProject && !hasRunningShoeTitle && !hasUncreditedAIOutputs && !hasLegacyProductSystemProject && !hasLegacyEcommerceProject && !hasOutdatedEcommerceProject && !hasLegacyWebSystemProject) return content;
 
   const next = structuredClone(content);
   if (hasLegacyNavigation) next.navigation.links[1] = structuredClone(DEFAULT_CONTENT.navigation.links[1]);
@@ -960,6 +963,7 @@ function upgradeLegacyServicesContent(content: SiteContent): SiteContent {
     next.footer.ctaHeading1 = structuredClone(DEFAULT_CONTENT.footer.ctaHeading1);
     next.footer.ctaHeading2 = structuredClone(DEFAULT_CONTENT.footer.ctaHeading2);
   }
+  if (hasLegacyStrengths) next.testimonials = structuredClone(DEFAULT_CONTENT.testimonials);
   if (hasLegacy3DProject) {
     next.portfolio.projects[1] = structuredClone(DEFAULT_CONTENT.portfolio.projects[1]);
   }

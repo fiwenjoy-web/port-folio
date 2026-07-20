@@ -1,5 +1,5 @@
 import { type PointerEvent as ReactPointerEvent } from "react";
-import { motion, useMotionTemplate, useMotionValue, useReducedMotion, useSpring, useTransform } from "motion/react";
+import { motion, useMotionTemplate, useMotionValue, useSpring, useTransform } from "motion/react";
 import { ArrowUpRight } from "lucide-react";
 import { useContent } from "../context/ContentContext";
 import type { Project } from "../types";
@@ -58,9 +58,8 @@ export function PortfolioSection({ projects, onSelectProject }: Props) {
 function ProjectCard({ project, index, className, aspectRatio, onSelect }: {
   project: Project; index: number; className: string; aspectRatio: string; onSelect: (p: Project) => void;
 }) {
-  const { content, t } = useContent();
+  const { content, t, reduceMotion } = useContent();
   const translatedTitle = t(project.titleBT ?? { en: project.title, th: project.title });
-  const reduceMotion = useReducedMotion();
   const pointerX = useMotionValue(0);
   const pointerY = useMotionValue(0);
   const glareOpacity = useMotionValue(0);

@@ -13,6 +13,8 @@ interface ContentContextValue {
   content: SiteContent;
   lang: Lang;
   setLang: (l: Lang) => void;
+  reduceMotion: boolean;
+  setReduceMotion: (reduced: boolean) => void;
   t: (field: BT) => string;
   updateContent: (updater: (draft: SiteContent) => SiteContent) => void;
   resetContent: () => void;
@@ -20,6 +22,7 @@ interface ContentContextValue {
 
 const ContentContext = createContext<ContentContextValue | null>(null);
 const LANGUAGE_STORAGE_KEY = "fuselab-portfolio-language";
+const MOTION_STORAGE_KEY = "fuselab-portfolio-motion";
 
 function isAdminRoute() {
   return new URLSearchParams(window.location.search).get("admin") === "1"
@@ -36,11 +39,20 @@ function getInitialLanguage(): Lang {
   }
 }
 
+function getInitialMotionPreference() {
+  try {
+    return localStorage.getItem(MOTION_STORAGE_KEY) === "reduced";
+  } catch {
+    return false;
+  }
+}
+
 export function ContentProvider({ children }: { children: ReactNode }) {
   const [content, setContent] = useState<SiteContent>(() => (
     isAdminRoute() ? loadStoredContent() : DEFAULT_CONTENT
   ));
   const [lang, setLanguage] = useState<Lang>(getInitialLanguage);
+  const [reduceMotion, setReduceMotionState] = useState(getInitialMotionPreference);
 
   const setLang = useCallback((nextLanguage: Lang) => {
     setLanguage(nextLanguage);
@@ -54,14 +66,32 @@ export function ContentProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
+  const setReduceMotion = useCallback((reduced: boolean) => {
+    setReduceMotionState(reduced);
+    document.documentElement.dataset.motion = reduced ? "reduced" : "full";
+    try {
+      localStorage.setItem(MOTION_STORAGE_KEY, reduced ? "reduced" : "full");
+    } catch {
+      // The current page can still switch motion without storage.
+    }
+  }, []);
+
   useEffect(() => {
     const handleStorage = (event: StorageEvent) => {
-      if (event.key !== LANGUAGE_STORAGE_KEY) return;
-      if (event.newValue === "en" || event.newValue === "th") setLanguage(event.newValue);
+      if (event.key === LANGUAGE_STORAGE_KEY && (event.newValue === "en" || event.newValue === "th")) {
+        setLanguage(event.newValue);
+      }
+      if (event.key === MOTION_STORAGE_KEY) {
+        setReduceMotionState(event.newValue === "reduced");
+      }
     };
     window.addEventListener("storage", handleStorage);
     return () => window.removeEventListener("storage", handleStorage);
   }, []);
+
+  useEffect(() => {
+    document.documentElement.dataset.motion = reduceMotion ? "reduced" : "full";
+  }, [reduceMotion]);
 
   useEffect(() => {
     if (isAdminRoute()) return;
@@ -115,7 +145,7 @@ export function ContentProvider({ children }: { children: ReactNode }) {
   }, []);
 
   return (
-    <ContentContext.Provider value={{ content, lang, setLang, t, updateContent, resetContent }}>
+    <ContentContext.Provider value={{ content, lang, setLang, reduceMotion, setReduceMotion, t, updateContent, resetContent }}>
       {children}
     </ContentContext.Provider>
   );

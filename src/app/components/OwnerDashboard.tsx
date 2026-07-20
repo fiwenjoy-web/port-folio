@@ -47,7 +47,7 @@ const CMS_SECTION_META: Array<{ id: ContentSectionId; label: string; color: stri
   { id: "experience", label: "Experience", color: "#0066ff" },
   { id: "services", label: "Services", color: "#f59e0b" },
   { id: "portfolio", label: "Portfolio", color: "#f97316" },
-  { id: "testimonials", label: "Testimonials", color: "#34d399" },
+  { id: "testimonials", label: "Working Strengths", color: "#34d399" },
   { id: "footer", label: "Footer & Contact", color: "#10b981" },
 ];
 

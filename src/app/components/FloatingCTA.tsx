@@ -1,11 +1,10 @@
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence, useReducedMotion } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 import { Mail, ChevronUp } from "lucide-react";
 import { useContent } from "../context/ContentContext";
 
 export function FloatingCTA() {
-  const { content, lang, t } = useContent();
-  const reduceMotion = useReducedMotion();
+  const { content, lang, t, reduceMotion } = useContent();
   const [visible, setVisible] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
 

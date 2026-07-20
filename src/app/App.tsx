@@ -1,5 +1,5 @@
-import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState, type MouseEvent } from "react";
-import { MotionConfig, useReducedMotion } from "motion/react";
+import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState, type MouseEvent, type ReactNode } from "react";
+import { MotionConfig } from "motion/react";
 import { Palette } from "lucide-react";
 import { ContentProvider, useContent } from "./context/ContentContext";
 import { HeroFrame66 } from "./components/HeroFrame66";
@@ -37,8 +37,7 @@ const DIVIDER = (
 );
 
 function FloatingThemeSwitch() {
-  const { lang } = useContent();
-  const reduceMotion = useReducedMotion();
+  const { lang, reduceMotion } = useContent();
   const switchLabel = lang === "th" ? "ธีมสีสัน" : "COLORFUL THEME";
   const switchAriaLabel = lang === "th" ? "เปลี่ยนเป็นธีมสีสัน" : "Switch to Colorful Playful theme";
   const [switching, setSwitching] = useState(false);
@@ -233,10 +232,15 @@ function PortfolioApp() {
 
 export default function App() {
   return (
-    <MotionConfig reducedMotion="user">
-      <ContentProvider>
+    <ContentProvider>
+      <MotionRoot>
         <PortfolioApp />
-      </ContentProvider>
-    </MotionConfig>
+      </MotionRoot>
+    </ContentProvider>
   );
+}
+
+function MotionRoot({ children }: { children: ReactNode }) {
+  const { reduceMotion } = useContent();
+  return <MotionConfig reducedMotion={reduceMotion ? "always" : "never"}>{children}</MotionConfig>;
 }
