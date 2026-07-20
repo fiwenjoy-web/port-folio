@@ -5,3 +5,8 @@ dist/
 *.log
 check-*.png
 test-results/
+coverage/
+*.tsbuildinfo
+.DS_Store
+Thumbs.db
+desktop.ini
