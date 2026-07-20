@@ -350,10 +350,28 @@ const DEFAULT_TESTIMONIALS = [
   },
 ];
 
+const DEFAULT_PHILOSOPHY = {
+  sectionLabel: "PHILOSOPHY",
+  heading1: "How I",
+  heading2: "approach work",
+  intro: "A blend of commercial instinct and technical craft. I treat every project as a partnership — obsessing over the details that turn good visuals into results.",
+  principles: [
+    { title: "Concept First", description: "Every visual starts with a strong idea. Aesthetics follow strategy, never the other way around." },
+    { title: "AI-Accelerated", description: "Blending human craft with AI workflows to deliver faster without sacrificing quality." },
+    { title: "Detail Obsessed", description: "From lighting to pixel-level finishing — the small things make commercial work shine." },
+    { title: "Results Driven", description: "Design that performs. Visuals built to convert, engage, and elevate the brand." },
+  ],
+};
+
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 const themeSwitch = document.querySelector("[data-theme-switch]");
 const themeTransition = document.querySelector(".theme-transition-wash");
+if (themeSwitch) {
+  const destination = new URL(themeSwitch.href);
+  destination.searchParams.set("lang", currentLanguage);
+  themeSwitch.href = destination;
+}
 themeSwitch?.addEventListener("click", (event) => {
   if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || themeSwitch.classList.contains("is-switching")) return;
   event.preventDefault();
@@ -361,7 +379,7 @@ themeSwitch?.addEventListener("click", (event) => {
   themeSwitch.classList.add("is-switching");
   themeSwitch.setAttribute("aria-busy", "true");
   themeTransition?.classList.add("is-active");
-  window.setTimeout(() => window.location.assign(destination), 1080);
+  window.setTimeout(() => window.location.assign(destination), reducedMotion ? 0 : 1080);
 });
 
 function cleanText(value, fallback = "") {
@@ -625,6 +643,15 @@ fetch(`../portfolio/manifest.json?ts=${Date.now()}`, { cache: "no-store" })
   setText("#portfolio-heading-1", localized(storedContent?.portfolio?.heading1, "WORK &"));
   setText("#portfolio-heading-2", localized(storedContent?.portfolio?.heading2, "DESIGN"));
   setText("#portfolio-subtitle", localized(storedContent?.portfolio?.subtitle, "A selection of recent commercial and creative projects."));
+  setText("#philosophy-label", localized(storedContent?.philosophy?.sectionLabel, translate(DEFAULT_PHILOSOPHY.sectionLabel)));
+  setText("#philosophy-heading-1", localized(storedContent?.philosophy?.heading1, translate(DEFAULT_PHILOSOPHY.heading1)));
+  setText("#philosophy-heading-2", localized(storedContent?.philosophy?.heading2, translate(DEFAULT_PHILOSOPHY.heading2)));
+  setText("#philosophy-intro", localized(storedContent?.philosophy?.intro, translate(DEFAULT_PHILOSOPHY.intro)));
+  DEFAULT_PHILOSOPHY.principles.forEach((fallback, index) => {
+    const principle = storedContent?.philosophy?.principles?.[index];
+    setText(`[data-philosophy-title="${index}"]`, localized(principle?.title, translate(fallback.title)));
+    setText(`[data-philosophy-desc="${index}"]`, localized(principle?.description, translate(fallback.description)));
+  });
   const hasLegacyServices =
     english(storedContent?.services?.sectionLabel) === "WHAT I OFFER" ||
     english(storedContent?.services?.heading1) === "SERVICES &" ||
@@ -837,6 +864,10 @@ setText(".footer-inner > span:first-child", translate("FUSELAB / CREATIVE DESIGN
 
 const mobileNavToggle = document.querySelector(".nav-menu-toggle");
 const mobileNavPanel = document.querySelector(".mobile-nav-panel");
+const siteHeader = document.querySelector(".site-header");
+const floatingActions = document.querySelector("[data-floating-actions]");
+const floatingScrollTop = document.querySelector("[data-scroll-top]");
+const floatingContact = document.querySelector("[data-floating-contact]");
 
 function setMobileNavigation(open) {
   if (!mobileNavToggle || !mobileNavPanel) return;
@@ -877,9 +908,22 @@ function updateScrollState() {
   });
   const max = document.documentElement.scrollHeight - window.innerHeight;
   scrollProgress?.style.setProperty("transform", `scaleX(${max > 0 ? window.scrollY / max : 0})`);
+  siteHeader?.classList.toggle("is-scrolled", window.scrollY > 50);
+  floatingActions?.classList.toggle("is-visible", window.scrollY > 300);
+  if (floatingScrollTop) floatingScrollTop.hidden = window.scrollY <= 800;
 }
 document.addEventListener("scroll", updateScrollState, { passive: true });
 updateScrollState();
+
+floatingScrollTop?.addEventListener("click", () => {
+  window.scrollTo({ top: 0, behavior: reducedMotion ? "auto" : "smooth" });
+});
+floatingScrollTop?.setAttribute("aria-label", translate("Scroll to top"));
+if (floatingContact) {
+  floatingContact.href = `mailto:${email}`;
+  floatingContact.textContent = translate("CONTACT ME");
+  floatingContact.setAttribute("aria-label", translate("CONTACT ME"));
+}
 
 const viewer = document.querySelector(".image-viewer");
 const viewerExpanded = viewer?.querySelector(".viewer-expanded");
@@ -1253,7 +1297,7 @@ renderTestimonial();
 startTestimonialTimer();
 
 const revealItems = document.querySelectorAll(
-  ".section-heading, .project-card, .service-card, .service-process, .proficiency-list article, .tools-grid > span, .focus-strip, .experience-list > article, .glance-grid > article, .testimonial-stage, .contact-details > *",
+  ".section-heading, .project-card, .philosophy-card, .service-card, .service-process, .proficiency-list article, .tools-grid > span, .focus-strip, .experience-list > article, .glance-grid > article, .testimonial-stage, .contact-details > *",
 );
 revealItems.forEach((item, index) => {
   item.classList.add("reveal");

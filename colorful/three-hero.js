@@ -96,7 +96,7 @@ if (host && canvas) {
     requestAnimationFrame(render);
     if (!inView || document.hidden) return;
     pointerCurrent.lerp(pointerTarget, 0.075);
-    if (floatingModel) {
+    if (floatingModel && !reducedMotion) {
       const elapsed = motionClock.getElapsedTime();
       floatingModel.position.set(
         Math.sin(elapsed * 0.62) * 0.12 + pointerCurrent.x * 0.18,

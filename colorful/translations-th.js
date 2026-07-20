@@ -359,6 +359,7 @@ export default {
   "DOWNLOAD RESUME": "ดาวน์โหลดเรซูเม่",
   "DARK THEME": "ธีมมืด",
   "CONTACT ME": "ติดต่อผม",
+  "Scroll to top": "กลับขึ้นด้านบน",
   "View responsibilities": "ดูรายละเอียดงาน",
   "View details": "ดูรายละเอียด",
   "Hide responsibilities": "ซ่อนรายละเอียดงาน",

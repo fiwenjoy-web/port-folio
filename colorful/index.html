@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Kanit:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="./styles.css?v=20260720-language-switch" />
+    <link rel="stylesheet" href="./styles.css?v=20260720-theme-parity" />
     <script type="importmap">
       {
         "imports": {
@@ -31,6 +31,10 @@
       </svg>
       <span class="theme-float-label">DARK THEME</span>
     </a>
+    <div class="floating-actions" data-floating-actions>
+      <button class="floating-scroll-top" type="button" data-scroll-top aria-label="Scroll to top" hidden>&uarr;</button>
+      <a class="floating-contact" href="mailto:Fusemxd@gmail.com" data-floating-contact>CONTACT ME</a>
+    </div>
     <header class="site-header">
       <nav class="nav-shell" aria-label="Primary navigation">
         <a class="brand" href="#home" aria-label="Fuse colorful portfolio home">
@@ -62,7 +66,12 @@
           <a href="../resume/" target="_blank" rel="noreferrer" data-nav-label="2">Resume</a>
           <a href="#contact" data-nav-label="3">Contact</a>
         </nav>
-        <a class="mobile-nav-hire" href="#contact" data-nav-hire>Contact me</a>
+        <div class="mobile-nav-actions">
+          <a class="mobile-nav-hire" href="#contact" data-nav-hire>Contact me</a>
+          <button class="language-toggle mobile-nav-language" type="button" data-language-toggle aria-label="Switch language to Thai">
+            <span data-language-option="en">EN</span><i>/</i><span data-language-option="th">TH</span>
+          </button>
+        </div>
       </div>
     </header>
 
@@ -147,6 +156,20 @@
             </button>
             <div><span data-project-category="5">UI Design &amp; Front-End System</span><h3 data-project-title="5">AI-Assisted Web System</h3><p data-project-tags="5">React / 3D &amp; Motion / GitHub Publishing</p></div>
           </article>
+        </div>
+      </section>
+
+      <section class="philosophy section-shell" id="philosophy" aria-labelledby="philosophy-title">
+        <div class="section-heading philosophy-heading">
+          <p class="section-kicker purple" id="philosophy-label">PHILOSOPHY</p>
+          <h2 id="philosophy-title"><span id="philosophy-heading-1">HOW I</span><br /><span id="philosophy-heading-2">APPROACH WORK</span></h2>
+          <p class="section-description" id="philosophy-intro">A blend of commercial instinct and technical craft. I treat every project as a partnership, focusing on the details that turn good visuals into results.</p>
+        </div>
+        <div class="philosophy-grid">
+          <article class="philosophy-card philosophy-coral"><span>01</span><h3 data-philosophy-title="0">Concept First</h3><p data-philosophy-desc="0">Every visual starts with a strong idea. Aesthetics follow strategy, never the other way around.</p></article>
+          <article class="philosophy-card philosophy-purple"><span>02</span><h3 data-philosophy-title="1">AI-Accelerated</h3><p data-philosophy-desc="1">Blending human craft with AI workflows to deliver faster without sacrificing quality.</p></article>
+          <article class="philosophy-card philosophy-cyan"><span>03</span><h3 data-philosophy-title="2">Detail Obsessed</h3><p data-philosophy-desc="2">From lighting to pixel-level finishing, the small things make commercial work shine.</p></article>
+          <article class="philosophy-card philosophy-green"><span>04</span><h3 data-philosophy-title="3">Results Driven</h3><p data-philosophy-desc="3">Design that performs. Visuals built to engage, communicate clearly, and elevate the brand.</p></article>
         </div>
       </section>
 
@@ -339,6 +362,6 @@
         </div>
       </div>
     </div>
-    <script type="module" src="./script.js?v=20260720-language-switch"></script>
+    <script type="module" src="./script.js?v=20260720-theme-parity"></script>
   </body>
 </html>
