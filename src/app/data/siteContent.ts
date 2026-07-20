@@ -701,17 +701,17 @@ export const DEFAULT_CONTENT: SiteContent = {
         }),
       },
       {
-        title: { en: "BABYGENIC E-COMMERCE VISUAL SYSTEM", th: "ระบบภาพขายสินค้า Babygenic" },
-        category: { en: "E-commerce Product Communication", th: "การสื่อสารสินค้าบนอีคอมเมิร์ซ" },
+        title: { en: "3D PRODUCT & E-COMMERCE VISUALS", th: "งานภาพสินค้า 3D และอีคอมเมิร์ซ" },
+        category: { en: "3D Mockup & Marketplace Communication", th: "ม็อกอัพ 3D และการสื่อสารบน Marketplace" },
         description: {
-          en: "A marketplace visual system for Babygenic cleaning spray, connecting packaging design, product mockup, benefit communication, usage, and pack options into a clear mobile shopping journey.",
-          th: "ระบบภาพขายสินค้าสำหรับสเปรย์ทำความสะอาด Babygenic ที่เชื่อมงานออกแบบฉลาก ม็อกอัพสินค้า การสื่อสารจุดเด่น วิธีใช้ และตัวเลือกแพ็กให้เป็นเส้นทางการดูสินค้าที่เข้าใจง่ายบนมือถือ",
+          en: "A product communication case study combining a Blender-built cleaning spray mockup with marketplace visuals for benefits, usage, pack options, and lifestyle presentation.",
+          th: "เคสงานสื่อสารสินค้าที่ผสานม็อกอัพสเปรย์ซึ่งสร้างใน Blender กับภาพสำหรับ Marketplace ทั้งจุดเด่น วิธีใช้ ตัวเลือกแพ็ก และภาพนำเสนอการใช้งาน",
         },
-        tags: ["Packaging", "Shopee", "Product Communication"],
+        tags: ["Blender", "3D Mockup", "E-commerce"],
         caseStudy: createCaseStudy({
           overview: {
-            en: "A complete product journey for Babygenic 500 ml toy and children's equipment cleaning spray, beginning with the front-and-back packaging label and product mockup before expanding into marketplace storytelling, benefits, usage guidance, and pack selection.",
-            th: "เส้นทางการนำเสนอสินค้า Babygenic ขนาด 500 มล. ที่เริ่มจากงานฉลากหน้า-หลังและม็อกอัพสินค้า ก่อนขยายเป็นชุดภาพหน้าร้านที่เล่าเรื่องแบรนด์ จุดเด่น วิธีใช้งาน และตัวเลือกแพ็กสินค้า",
+            en: "An end-to-end product visual case study for a children's cleaning spray. It begins with 3D model and material setup in Blender, then develops into product mockups and marketplace communication for benefits, usage, and purchase options.",
+            th: "เคสงานภาพสินค้าแบบครบกระบวนการสำหรับสเปรย์ทำความสะอาดของใช้เด็ก เริ่มจากการสร้างโมเดลและ material ใน Blender ก่อนพัฒนาเป็นม็อกอัพและภาพสื่อสารบน Marketplace ทั้งจุดเด่น วิธีใช้ และตัวเลือกซื้อ",
           },
           goal: {
             en: "Turn detailed product information into a mobile-friendly hierarchy while keeping the brand gentle, playful, and easy for parents to understand at a glance.",
@@ -728,19 +728,19 @@ export const DEFAULT_CONTENT: SiteContent = {
             { en: "Product-first marketplace communication", th: "การสื่อสารบน marketplace ที่ให้สินค้าเป็นจุดเด่น" },
           ],
           workflow: [
-            { step: "01", label: { en: "Product Audit", th: "ตรวจข้อมูลสินค้า" }, desc: { en: "Review product purpose, approved claims, usage steps, pack options, and marketplace requirements.", th: "ตรวจวัตถุประสงค์ของสินค้า ข้อมูลที่อนุมัติ วิธีใช้ ตัวเลือกแพ็ก และข้อกำหนดของ marketplace" } },
+            { step: "01", label: { en: "3D Product Setup", th: "สร้างสินค้า 3D" }, desc: { en: "Build the bottle form in Blender, prepare front and back label materials, and test texture mapping on the model.", th: "สร้างรูปทรงขวดใน Blender เตรียม material ฉลากหน้าและหลัง และทดสอบการวาง texture บนโมเดล" } },
             { step: "02", label: { en: "Information Hierarchy", th: "จัดลำดับข้อมูล" }, desc: { en: "Separate recognition, benefits, detailed information, usage, and purchase choices into focused frames.", th: "แยกการจดจำสินค้า จุดเด่น รายละเอียด วิธีใช้ และตัวเลือกซื้อออกเป็นภาพที่มีหน้าที่ชัดเจน" } },
             { step: "03", label: { en: "Visual Production", th: "ผลิตงานภาพ" }, desc: { en: "Build the illustrated environment, product composition, typography, and reusable information modules.", th: "สร้างฉากภาพประกอบ องค์ประกอบสินค้า ตัวอักษร และโมดูลข้อมูลที่นำกลับมาใช้ซ้ำได้" } },
             { step: "04", label: { en: "Marketplace Delivery", th: "จัดส่งงานสำหรับ marketplace" }, desc: { en: "Sequence and export the final square images for a clear mobile product-listing journey.", th: "เรียงลำดับและส่งออกภาพสี่เหลี่ยมสำหรับหน้าสินค้าที่อ่านต่อเนื่องได้บนมือถือ" } },
           ],
           visualSystem: [
+            { label: { en: "3D Product Model & Materials", th: "โมเดลและ Material สินค้า 3D" }, desc: { en: "A Blender-built bottle, label planes, texture mapping, and material nodes create a reusable product base for later visuals.", th: "โมเดลขวด ระนาบฉลาก การวาง texture และ material nodes ใน Blender สร้างฐานสินค้าที่นำไปใช้ต่อกับภาพหลายรูปแบบได้" } },
             { label: { en: "Character & Illustration Language", th: "ภาษาภาพประกอบและตัวละคร" }, desc: { en: "Friendly animals, plants, clouds, and rounded scenery support the gentle family-oriented brand personality.", th: "ตัวละครสัตว์ ต้นไม้ เมฆ และฉากรูปทรงโค้งช่วยสร้างบุคลิกแบรนด์ที่อ่อนโยนและเป็นมิตรกับครอบครัว" } },
             { label: { en: "Color Palette", th: "ชุดสี" }, desc: { en: "Mint, sky blue, cream, and soft accent colors keep the set fresh while matching the product label.", th: "สีมิ้นต์ ฟ้าอ่อน ครีม และสีเน้นแบบนุ่มช่วยให้งานดูสดใสและเชื่อมกับฉลากสินค้า" } },
             { label: { en: "Mobile Information Hierarchy", th: "ลำดับข้อมูลบนมือถือ" }, desc: { en: "Large headlines, concise modules, strong contrast, and generous spacing make each message easy to scan.", th: "หัวข้อขนาดใหญ่ โมดูลข้อความสั้น คอนทราสต์ชัด และพื้นที่ว่างช่วยให้แต่ละข้อความอ่านได้รวดเร็ว" } },
-            { label: { en: "Packaging & Product Modules", th: "ระบบฉลากและโมดูลสินค้า" }, desc: { en: "The front-and-back label, product mockup, benefit cards, usage steps, and pack selectors keep the product journey visually consistent.", th: "ฉลากหน้า-หลัง ม็อกอัพสินค้า การ์ดจุดเด่น ขั้นตอนใช้งาน และตัวเลือกแพ็กช่วยให้เส้นทางการนำเสนอสินค้ามีความสม่ำเสมอ" } },
           ],
           outputs: [
-            { label: { en: "Packaging Label Design", th: "ออกแบบฉลากหน้า-หลัง" }, desc: { en: "Front and back Babygenic label artwork establishes the product identity, approved information, icon language, and soft child-friendly illustration system.", th: "งานฉลากหน้าและหลังของ Babygenic วางระบบตัวตนสินค้า ข้อมูลที่ใช้บนฉลาก ภาษาไอคอน และภาพประกอบที่อ่อนโยนเป็นมิตรกับเด็ก" } },
+            { label: { en: "100% Blender — Product Model & Material Setup", th: "100% Blender — โมเดลและ Material สินค้า" }, desc: { en: "A Blender production view documents the original bottle model, front and back label objects, texture mapping, and material-node setup.", th: "ภาพกระบวนการใน Blender แสดงโมเดลขวด ออบเจ็กต์ฉลากหน้าและหลัง การวาง texture และการตั้ง material nodes ที่สร้างขึ้นสำหรับงานนี้" } },
             { label: { en: "Product Mockup Close-up", th: "ม็อกอัพสินค้าแบบใกล้" }, desc: { en: "A clean bottle mockup shows how the label wraps onto the product and gives the case study a clear product-design starting point.", th: "ม็อกอัพขวดแสดงการนำฉลากไปใช้บนตัวสินค้า และทำให้เคสเริ่มจากงานออกแบบผลิตภัณฑ์ที่ชัดเจน" } },
             { label: { en: "Marketplace Product Hero", th: "ภาพเปิดหน้าสินค้า" }, desc: { en: "A clean blue hero visual introduces the product, purpose, size, and gentle brand tone in one quick marketplace frame.", th: "ภาพเปิดพื้นฟ้าสื่อชื่อสินค้า วัตถุประสงค์ ขนาด และบุคลิกอ่อนโยนของแบรนด์ได้ในเฟรมเดียว" } },
             { label: { en: "Product Benefit Overview", th: "ภาพรวมจุดเด่นสินค้า" }, desc: { en: "Four concise benefit modules surround the central product to support fast scanning on a mobile shopping page.", th: "จัดจุดเด่นสี่ส่วนรอบภาพสินค้าหลัก เพื่อให้ผู้ชมกวาดอ่านได้รวดเร็วบนหน้าร้านมือถือ" } },
@@ -750,8 +750,8 @@ export const DEFAULT_CONTENT: SiteContent = {
             { label: { en: "AI-Assisted Lifestyle Usage Concept", th: "คอนเซปต์ภาพการใช้งานที่ใช้ AI ช่วย" }, desc: { en: "An AI-assisted usage scene explores how the spray can be presented in a warm home context with toys, cleaning action, and soft daylight.", th: "ภาพคอนเซปต์การใช้งานที่ใช้ AI ช่วย ทดลองนำสินค้าไปเล่าในบริบทบ้านที่อบอุ่น มีของเล่น การทำความสะอาด และแสงธรรมชาติ" } },
           ],
           reflection: {
-            en: "This project demonstrates a complete packaging-to-marketplace workflow: label design, product mockup, child-friendly art direction, mobile information hierarchy, and transparent AI attribution for the final lifestyle exploration.",
-            th: "โปรเจกต์นี้แสดงเวิร์กโฟลว์ตั้งแต่งานฉลากไปจนถึงหน้าร้านออนไลน์ ทั้งม็อกอัพสินค้า การกำกับภาพที่เป็นมิตรกับครอบครัว ลำดับข้อมูลบนมือถือ และการระบุอย่างชัดเจนว่าภาพ lifestyle ตอนท้ายใช้ AI ช่วย",
+            en: "This project demonstrates a complete 3D-to-marketplace workflow: original Blender model and material setup, product mockup, child-friendly art direction, mobile information hierarchy, and transparent AI attribution for the final lifestyle exploration.",
+            th: "โปรเจกต์นี้แสดงเวิร์กโฟลว์ตั้งแต่งาน 3D ไปจนถึงหน้าร้านออนไลน์ ทั้งโมเดลและ material ที่สร้างใน Blender ม็อกอัพสินค้า การกำกับภาพ ลำดับข้อมูลบนมือถือ และการระบุชัดเจนว่าภาพ lifestyle ตอนท้ายใช้ AI ช่วย",
           },
         }),
       },
@@ -933,17 +933,18 @@ function upgradeLegacyServicesContent(content: SiteContent): SiteContent {
   const legacyEcommerceProject = content.portfolio.projects[3];
   const hasLegacyEcommerceProject =
     legacyEcommerceProject?.title.en === "E-COMMERCE CAMPAIGNS";
-  const hasOutdatedBabygenicProject =
-    legacyEcommerceProject?.title.en === "BABYGENIC E-COMMERCE VISUAL SYSTEM" &&
-    (legacyEcommerceProject.caseStudy.outputs.length !== 8 ||
-      legacyEcommerceProject.caseStudy.outputs[0]?.label.en !== "Packaging Label Design");
+  const hasOutdatedEcommerceProject =
+    legacyEcommerceProject?.title.en === "BABYGENIC E-COMMERCE VISUAL SYSTEM" ||
+    (legacyEcommerceProject?.title.en === "3D PRODUCT & E-COMMERCE VISUALS" &&
+      (legacyEcommerceProject.caseStudy.outputs.length !== 8 ||
+        legacyEcommerceProject.caseStudy.outputs[0]?.label.en !== "100% Blender — Product Model & Material Setup"));
   const legacyWebSystemProject = content.portfolio.projects[4];
   const hasLegacyWebSystemProject =
     legacyWebSystemProject?.title.en === "AI-ASSISTED WEB SYSTEM" &&
     legacyWebSystemProject?.category.en === "Web & UI Design" &&
     legacyWebSystemProject.caseStudy.outputs.length === 4;
 
-  if (!hasLegacyServices && !hasLegacyNavigation && !hasLegacyPositioning && !hasLegacy3DProject && !hasRunningShoeTitle && !hasUncreditedAIOutputs && !hasLegacyProductSystemProject && !hasLegacyEcommerceProject && !hasOutdatedBabygenicProject && !hasLegacyWebSystemProject) return content;
+  if (!hasLegacyServices && !hasLegacyNavigation && !hasLegacyPositioning && !hasLegacy3DProject && !hasRunningShoeTitle && !hasUncreditedAIOutputs && !hasLegacyProductSystemProject && !hasLegacyEcommerceProject && !hasOutdatedEcommerceProject && !hasLegacyWebSystemProject) return content;
 
   const next = structuredClone(content);
   if (hasLegacyNavigation) next.navigation.links[1] = structuredClone(DEFAULT_CONTENT.navigation.links[1]);
@@ -973,7 +974,7 @@ function upgradeLegacyServicesContent(content: SiteContent): SiteContent {
   if (hasLegacyProductSystemProject) {
     next.portfolio.projects[2] = structuredClone(DEFAULT_CONTENT.portfolio.projects[2]);
   }
-  if (hasLegacyEcommerceProject || hasOutdatedBabygenicProject) {
+  if (hasLegacyEcommerceProject || hasOutdatedEcommerceProject) {
     next.portfolio.projects[3] = structuredClone(DEFAULT_CONTENT.portfolio.projects[3]);
   }
   if (hasLegacyWebSystemProject) {
