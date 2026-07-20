@@ -188,7 +188,8 @@ p {
   gap: 8px;
 }
 
-.language-toggle {
+.language-toggle,
+.motion-toggle {
   align-items: center;
   background: var(--white);
   border: 1px solid var(--ink);
@@ -201,6 +202,31 @@ p {
   justify-content: center;
   padding: 0 10px;
   transition: box-shadow 180ms ease, transform 180ms ease;
+}
+
+.motion-toggle {
+  gap: 6px;
+  padding: 0 9px;
+}
+
+.motion-toggle > span {
+  background: var(--mint);
+  border: 1px solid var(--ink);
+  border-radius: 50%;
+  box-shadow: 0 0 0 3px rgba(99, 222, 183, 0.18);
+  height: 7px;
+  width: 7px;
+}
+
+.motion-toggle b {
+  font-size: 8px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+html[data-motion="reduced"] .motion-toggle > span {
+  background: var(--coral);
+  box-shadow: none;
 }
 
 .language-toggle i {
@@ -220,6 +246,11 @@ html[data-language="th"] .language-toggle [data-language-option="th"] {
 
 .language-toggle:hover {
   box-shadow: 3px 3px 0 var(--cyan);
+  transform: translate(-1px, -1px);
+}
+
+.motion-toggle:hover {
+  box-shadow: 3px 3px 0 var(--mint);
   transform: translate(-1px, -1px);
 }
 
@@ -259,6 +290,7 @@ html[data-language="th"] .language-toggle [data-language-option="th"] {
 .nav-portfolio-button:focus-visible,
 .nav-hire-button:focus-visible,
 .language-toggle:focus-visible,
+.motion-toggle:focus-visible,
 .nav-menu-toggle:focus-visible,
 .mobile-nav-panel a:focus-visible {
   outline: 2px solid var(--purple);
@@ -346,6 +378,11 @@ html[data-language="th"] .language-toggle [data-language-option="th"] {
 }
 
 .mobile-nav-language {
+  display: none;
+  flex: 0 0 auto;
+}
+
+.mobile-nav-motion {
   display: none;
   flex: 0 0 auto;
 }
@@ -2772,7 +2809,15 @@ footer {
     display: none;
   }
 
+  .nav-actions > .motion-toggle {
+    display: none;
+  }
+
   .mobile-nav-language {
+    display: inline-flex;
+  }
+
+  .mobile-nav-motion {
     display: inline-flex;
   }
 
@@ -3194,55 +3239,57 @@ footer {
   .viewer-next { right: 10px; }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  .ticker div,
-  .philosophy-marquee-track,
-  .availability span,
-  .mobile-nav-panel:not([hidden]),
-  .testimonial-stage blockquote,
-  .viewer-panel,
-  .theme-float-switch,
-  .theme-float-switch.is-switching,
-  .theme-float-switch.is-switching svg,
-  .theme-float-switch::after,
-  .theme-warp-light,
-  .theme-transition-wash.is-active::before,
-  .theme-transition-wash.is-active .theme-transition-streaks,
-  .theme-transition-wash.is-active .theme-transition-core { animation: none !important; }
+html[data-motion="reduced"] { scroll-behavior: auto; }
 
-  .philosophy-marquee-track {
-    transform: none !important;
-  }
+html[data-motion="reduced"] .ticker div,
+html[data-motion="reduced"] .philosophy-marquee-track,
+html[data-motion="reduced"] .availability span,
+html[data-motion="reduced"] .mobile-nav-panel:not([hidden]),
+html[data-motion="reduced"] .testimonial-stage blockquote,
+html[data-motion="reduced"] .viewer-panel,
+html[data-motion="reduced"] .theme-float-switch,
+html[data-motion="reduced"] .theme-float-switch.is-switching,
+html[data-motion="reduced"] .theme-float-switch.is-switching svg,
+html[data-motion="reduced"] .theme-float-switch::after,
+html[data-motion="reduced"] .theme-warp-light,
+html[data-motion="reduced"] .theme-transition-wash.is-active::before,
+html[data-motion="reduced"] .theme-transition-wash.is-active .theme-transition-streaks,
+html[data-motion="reduced"] .theme-transition-wash.is-active .theme-transition-core {
+  animation: none !important;
+}
 
-  .philosophy-marquee-track span {
-    font-size: clamp(24px, 5vw, 56px);
-  }
+html[data-motion="reduced"] .philosophy-marquee-track {
+  transform: none !important;
+}
 
-  .philosophy-marquee-track span:nth-child(2) {
-    display: none;
-  }
+html[data-motion="reduced"] .philosophy-marquee-track span {
+  font-size: clamp(24px, 5vw, 56px);
+}
 
-  .reveal,
-  .tools-grid > span,
-  .focus-strip span,
-  .project-card,
-  .service-card,
-  .philosophy-card,
-  .floating-actions,
-  .floating-scroll-top,
-  .floating-contact,
-  .nav-shell,
-  .theme-float-switch { transition-duration: 0.01ms !important; }
+html[data-motion="reduced"] .philosophy-marquee-track span:nth-child(2) {
+  display: none;
+}
 
-  .project-card,
-  .service-card,
-  .philosophy-card,
-  .theme-float-switch,
-  .theme-float-switch:hover {
-    transform: none !important;
-  }
+html[data-motion="reduced"] .reveal,
+html[data-motion="reduced"] .tools-grid > span,
+html[data-motion="reduced"] .focus-strip span,
+html[data-motion="reduced"] .project-card,
+html[data-motion="reduced"] .service-card,
+html[data-motion="reduced"] .philosophy-card,
+html[data-motion="reduced"] .floating-actions,
+html[data-motion="reduced"] .floating-scroll-top,
+html[data-motion="reduced"] .floating-contact,
+html[data-motion="reduced"] .nav-shell,
+html[data-motion="reduced"] .theme-float-switch {
+  transition-duration: 0.01ms !important;
+}
 
+html[data-motion="reduced"] .project-card,
+html[data-motion="reduced"] .service-card,
+html[data-motion="reduced"] .philosophy-card,
+html[data-motion="reduced"] .theme-float-switch,
+html[data-motion="reduced"] .theme-float-switch:hover {
+  transform: none !important;
 }
 @supports (content-visibility: auto) {
   .work,

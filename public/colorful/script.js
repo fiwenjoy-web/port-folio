@@ -1,6 +1,7 @@
 import TH_TRANSLATIONS from "./translations-th.js?v=20260720-language-switch";
 
 const LANGUAGE_STORAGE_KEY = "fuselab-portfolio-language";
+const MOTION_STORAGE_KEY = "fuselab-portfolio-motion";
 let currentLanguage = "en";
 try {
   const urlLanguage = new URLSearchParams(window.location.search).get("lang");
@@ -363,7 +364,44 @@ const DEFAULT_PHILOSOPHY = {
   ],
 };
 
-const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+let reducedMotion = document.documentElement.dataset.motion === "reduced";
+
+function renderMotionControls() {
+  document.querySelectorAll("[data-motion-toggle]").forEach((button) => {
+    button.setAttribute("aria-pressed", String(reducedMotion));
+    button.setAttribute("aria-label", reducedMotion
+      ? (currentLanguage === "th" ? "เปิดโมชั่น" : "Turn motion on")
+      : (currentLanguage === "th" ? "ลดการเคลื่อนไหว" : "Reduce motion"));
+    button.setAttribute("title", reducedMotion
+      ? (currentLanguage === "th" ? "เปิดโมชั่น" : "Turn motion on")
+      : (currentLanguage === "th" ? "ลดการเคลื่อนไหว" : "Reduce motion"));
+    const label = button.querySelector("[data-motion-label]");
+    if (label) label.textContent = reducedMotion
+      ? (currentLanguage === "th" ? "โมชั่นปิด" : "MOTION OFF")
+      : (currentLanguage === "th" ? "โมชั่นเปิด" : "MOTION ON");
+  });
+}
+
+document.querySelectorAll("[data-motion-toggle]").forEach((button) => {
+  button.addEventListener("click", () => {
+    reducedMotion = !reducedMotion;
+    document.documentElement.dataset.motion = reducedMotion ? "reduced" : "full";
+    try {
+      localStorage.setItem(MOTION_STORAGE_KEY, reducedMotion ? "reduced" : "full");
+    } catch {
+      // The current page can still switch motion without storage.
+    }
+    renderMotionControls();
+    window.dispatchEvent(new CustomEvent("portfolio:motion-change", { detail: { reduced: reducedMotion } }));
+    window.clearInterval(testimonialTimer);
+    if (reducedMotion) {
+      document.querySelectorAll(".reveal").forEach((item) => item.classList.add("is-visible"));
+    } else {
+      startTestimonialTimer();
+    }
+  });
+});
+renderMotionControls();
 
 const themeSwitch = document.querySelector("[data-theme-switch]");
 const themeTransition = document.querySelector(".theme-transition-wash");
@@ -1326,7 +1364,7 @@ function revealVisibleOrPassedItems() {
 document.addEventListener("scroll", revealVisibleOrPassedItems, { passive: true });
 requestAnimationFrame(revealVisibleOrPassedItems);
 
-const loadThreeHero = () => import("./three-hero.js?v=20260717-pointer3d-v3");
+const loadThreeHero = () => import("./three-hero.js?v=20260720-motion-control");
 if ("requestIdleCallback" in window) {
   window.requestIdleCallback(loadThreeHero, { timeout: 900 });
 } else {

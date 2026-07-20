@@ -5,11 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#fff8e9" />
     <title>WEERAPONG HAMATHULIN | COLORFUL PORTFOLIO</title>
+    <script>
+      try {
+        document.documentElement.dataset.motion = localStorage.getItem("fuselab-portfolio-motion") === "reduced" ? "reduced" : "full";
+      } catch {
+        document.documentElement.dataset.motion = "full";
+      }
+    </script>
     <link rel="icon" href="./assets/logo.png" type="image/png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Kanit:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="./styles.css?v=20260720-philosophy-marquee" />
+    <link rel="stylesheet" href="./styles.css?v=20260720-motion-control" />
     <script type="importmap">
       {
         "imports": {
@@ -48,6 +55,7 @@
           <a class="nav-link" href="#contact" data-nav-label="3">Contact</a>
         </div>
         <div class="nav-actions">
+          <button class="motion-toggle" type="button" data-motion-toggle aria-pressed="false"><span aria-hidden="true"></span><b data-motion-label>MOTION ON</b></button>
           <button class="language-toggle" type="button" data-language-toggle aria-label="เปลี่ยนภาษาเป็นภาษาไทย">
             <span data-language-option="en">EN</span><i>/</i><span data-language-option="th">TH</span>
           </button>
@@ -68,6 +76,7 @@
         </nav>
         <div class="mobile-nav-actions">
           <a class="mobile-nav-hire" href="#contact" data-nav-hire>Contact me</a>
+          <button class="motion-toggle mobile-nav-motion" type="button" data-motion-toggle aria-pressed="false"><span aria-hidden="true"></span><b data-motion-label>MOTION ON</b></button>
           <button class="language-toggle mobile-nav-language" type="button" data-language-toggle aria-label="Switch language to Thai">
             <span data-language-option="en">EN</span><i>/</i><span data-language-option="th">TH</span>
           </button>
@@ -368,6 +377,6 @@
         </div>
       </div>
     </div>
-    <script type="module" src="./script.js?v=20260720-theme-parity"></script>
+    <script type="module" src="./script.js?v=20260720-motion-control"></script>
   </body>
 </html>

@@ -14,7 +14,7 @@ const controlsPanel = document.querySelector("#hero-three-controls");
 const resetButton = document.querySelector("#hero-three-reset");
 
 if (host && canvas) {
-  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let reducedMotion = document.documentElement.dataset.motion === "reduced";
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(0xfff8e9);
   scene.fog = new THREE.FogExp2(0xfff8e9, 0.035);
@@ -66,8 +66,9 @@ if (host && canvas) {
   const pointerTarget = new THREE.Vector2();
   const pointerFine = window.matchMedia("(pointer: fine)").matches;
 
-  if (pointerFine && !reducedMotion) {
+  if (pointerFine) {
     canvas.addEventListener("pointermove", (event) => {
+      if (reducedMotion) return;
       const bounds = canvas.getBoundingClientRect();
       pointerTarget.set(
         ((event.clientX - bounds.left) / bounds.width) * 2 - 1,
@@ -76,6 +77,11 @@ if (host && canvas) {
     });
     canvas.addEventListener("pointerleave", () => pointerTarget.set(0, 0));
   }
+
+  window.addEventListener("portfolio:motion-change", (event) => {
+    reducedMotion = Boolean(event.detail?.reduced);
+    if (reducedMotion) pointerTarget.set(0, 0);
+  });
 
   const resize = () => {
     const width = Math.max(host.clientWidth, 1);
@@ -99,14 +105,14 @@ if (host && canvas) {
     if (floatingModel && !reducedMotion) {
       const elapsed = motionClock.getElapsedTime();
       floatingModel.position.set(
-        Math.sin(elapsed * 0.62) * 0.12 + pointerCurrent.x * 0.18,
-        Math.sin(elapsed * 0.78 + 0.8) * 0.075 - pointerCurrent.y * 0.11,
-        Math.cos(elapsed * 0.54) * 0.08 + Math.abs(pointerCurrent.x) * 0.04,
+        Math.sin(elapsed * 0.62) * 0.18 + pointerCurrent.x * 0.18,
+        Math.sin(elapsed * 0.78 + 0.8) * 0.1 - pointerCurrent.y * 0.11,
+        Math.cos(elapsed * 0.54) * 0.1 + Math.abs(pointerCurrent.x) * 0.04,
       );
       floatingModel.rotation.set(
-        Math.sin(elapsed * 0.5) * 0.025 - pointerCurrent.y * 0.1,
-        -0.08 + Math.sin(elapsed * 0.46) * 0.08 + pointerCurrent.x * 0.22,
-        Math.sin(elapsed * 0.38) * 0.018 - pointerCurrent.x * 0.025,
+        Math.sin(elapsed * 0.5) * 0.04 - pointerCurrent.y * 0.1,
+        -0.08 + Math.sin(elapsed * 0.46) * 0.11 + pointerCurrent.x * 0.22,
+        Math.sin(elapsed * 0.38) * 0.025 - pointerCurrent.x * 0.025,
       );
     }
     orbit.update();
