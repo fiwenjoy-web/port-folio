@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "build": "vite build",
-    "dev": "vite"
+    "dev": "vite",
+    "generate:colorful-i18n": "node --experimental-strip-types scripts/generate-colorful-translations.mjs"
   },
   "dependencies": {
     "@emotion/react": "11.14.0",

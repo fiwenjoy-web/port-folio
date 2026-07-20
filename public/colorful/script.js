@@ -1,3 +1,18 @@
+import TH_TRANSLATIONS from "./translations-th.js?v=20260720-language-switch";
+
+const LANGUAGE_STORAGE_KEY = "fuselab-portfolio-language";
+let currentLanguage = "en";
+try {
+  const urlLanguage = new URLSearchParams(window.location.search).get("lang");
+  currentLanguage = urlLanguage === "th" || urlLanguage === "en"
+    ? urlLanguage
+    : localStorage.getItem(LANGUAGE_STORAGE_KEY) === "th" ? "th" : "en";
+} catch {
+  // Keep English when storage is unavailable.
+}
+document.documentElement.lang = currentLanguage;
+document.documentElement.dataset.language = currentLanguage;
+
 const DEFAULT_PROJECTS = [
   {
     title: "MONTHLY CAMPAIGN COLLECTION",
@@ -362,6 +377,38 @@ function english(value, fallback = "") {
   return cleanText(value?.en ?? value, fallback);
 }
 
+function localized(value, fallback = "") {
+  const hasLocalizedValue = value && typeof value === "object";
+  const preferred = hasLocalizedValue
+    ? value[currentLanguage] ?? value.en ?? value.th
+    : value;
+  const text = cleanText(preferred, fallback);
+  return currentLanguage === "th" && (!hasLocalizedValue || !value.th)
+    ? cleanText(TH_TRANSLATIONS[text], text)
+    : text;
+}
+
+function translate(value) {
+  const text = cleanText(value);
+  return currentLanguage === "th" ? cleanText(TH_TRANSLATIONS[text], text) : text;
+}
+
+document.querySelectorAll("[data-language-toggle]").forEach((button) => {
+  const nextLanguage = currentLanguage === "en" ? "th" : "en";
+  button.setAttribute("aria-label", nextLanguage === "th" ? "เปลี่ยนภาษาเป็นภาษาไทย" : "Switch language to English");
+  button.setAttribute("title", nextLanguage === "th" ? "ภาษาไทย" : "English");
+  button.addEventListener("click", () => {
+    try {
+      localStorage.setItem(LANGUAGE_STORAGE_KEY, nextLanguage);
+    } catch {
+      // Reload with the current language if storage is unavailable.
+    }
+    const url = new URL(window.location.href);
+    url.searchParams.set("lang", nextLanguage);
+    window.location.assign(url);
+  });
+});
+
 function setText(selector, value) {
   const element = document.querySelector(selector);
   if (element && value !== undefined && value !== null) element.textContent = cleanText(value);
@@ -385,32 +432,33 @@ function setTagList(element, tags) {
 }
 
 function normalizeCaseStudy(value, fallback) {
-  const direction = Array.isArray(value?.direction)
-    ? value.direction.map((item) => english(item)).filter(Boolean)
-    : fallback.direction;
-  const workflow = Array.isArray(value?.workflow)
-    ? value.workflow.map((item, index) => ({
+  const directionSource = Array.isArray(value?.direction) ? value.direction : fallback.direction;
+  const workflowSource = Array.isArray(value?.workflow) ? value.workflow : fallback.workflow;
+  const visualSystemSource = Array.isArray(value?.visualSystem) ? value.visualSystem : fallback.visualSystem;
+  const outputSource = Array.isArray(value?.outputs) ? value.outputs : fallback.outputs;
+  const direction = directionSource.map((item) => localized(item)).filter(Boolean);
+  const workflow = workflowSource
+    .map((item, index) => ({
         step: cleanText(item?.step, String(index + 1).padStart(2, "0")),
-        label: english(item?.label, `Step ${index + 1}`),
-        desc: english(item?.desc),
-      }))
-    : fallback.workflow;
-  const visualSystem = Array.isArray(value?.visualSystem)
-    ? value.visualSystem.map((item) => ({ label: english(item?.label), desc: english(item?.desc) }))
-    : fallback.visualSystem;
-  const outputs = Array.isArray(value?.outputs)
-    ? value.outputs.map((item) => ({ label: english(item?.label), desc: english(item?.desc) }))
-    : fallback.outputs;
+        label: localized(item?.label, `Step ${index + 1}`),
+        desc: localized(item?.desc),
+      }));
+  const visualSystem = visualSystemSource.map((item) => ({ label: localized(item?.label), desc: localized(item?.desc) }));
+  const outputs = outputSource.map((item) => ({
+    label: localized(item?.label),
+    desc: localized(item?.desc),
+    sourceLabel: english(item?.label),
+  }));
 
   return {
-    overview: english(value?.overview, fallback.overview),
-    goal: english(value?.goal, fallback.goal),
-    concept: english(value?.concept, fallback.concept),
+    overview: localized(value?.overview, fallback.overview),
+    goal: localized(value?.goal, fallback.goal),
+    concept: localized(value?.concept, fallback.concept),
     direction,
     workflow,
     visualSystem,
     outputs,
-    reflection: english(value?.reflection, fallback.reflection),
+    reflection: localized(value?.reflection, fallback.reflection),
   };
 }
 
@@ -453,12 +501,12 @@ const projectData = DEFAULT_PROJECTS.map((fallback, index) => {
   const stored = hasLegacy3DProject || hasUncreditedAIOutputs || hasLegacyProductSystemProject || hasLegacyEcommerceProject || hasOutdatedEcommerceProject || hasLegacyWebSystemProject ? undefined : candidate;
   return {
     title: index === 1 && english(stored?.title) === "3D RUNNING SHOE VISUALIZATION"
-      ? fallback.title
-      : english(stored?.title, fallback.title),
-    category: english(stored?.category, fallback.category),
+      ? localized(fallback.title)
+      : localized(stored?.title, fallback.title),
+    category: localized(stored?.category, fallback.category),
     description: index === 1 && english(stored?.title) === "3D RUNNING SHOE VISUALIZATION"
-      ? fallback.description
-      : english(stored?.description, fallback.description),
+      ? localized(fallback.description)
+      : localized(stored?.description, fallback.description),
     tags: stored?.tags?.length ? stored.tags.map((tag) => cleanText(tag)) : fallback.tags,
     images: storedImages[index + 1]?.length ? storedImages[index + 1] : fallback.images,
     caseStudy: normalizeCaseStudy(stored?.caseStudy, DEFAULT_CASE_STUDIES[index]),
@@ -487,6 +535,10 @@ projectData.forEach((project, index) => {
       image.src = DEFAULT_PROJECTS[index].images[0];
     }, { once: true });
   });
+  document.querySelector(`[data-lightbox="${id}"]`)?.setAttribute(
+    "aria-label",
+    currentLanguage === "th" ? `เปิดโปรเจกต์ ${project.title}` : `Open ${project.title} project`,
+  );
 });
 
 fetch(`../portfolio/manifest.json?ts=${Date.now()}`, { cache: "no-store" })
@@ -506,35 +558,55 @@ fetch(`../portfolio/manifest.json?ts=${Date.now()}`, { cache: "no-store" })
   })
   .catch(() => {});
 
-if (storedContent) {
-  storedContent.navigation?.links?.slice(0, 4).forEach((label, index) => {
+{
+  storedContent?.navigation?.links?.slice(0, 4).forEach((label, index) => {
     document.querySelectorAll(`[data-nav-label="${index}"]`).forEach((element) => {
-      element.textContent = english(label);
+      element.textContent = localized(label);
+    });
+  });
+  const defaultNavigation = ["About", "Capabilities", "Resume", "Contact"];
+  defaultNavigation.forEach((label, index) => {
+    if (storedContent?.navigation?.links?.[index]) return;
+    document.querySelectorAll(`[data-nav-label="${index}"]`).forEach((element) => {
+      element.textContent = translate(label);
     });
   });
   document.querySelectorAll("[data-nav-portfolio]").forEach((element) => {
-    const label = english(storedContent.navigation?.portfolioLabel, "Portfolio");
+    const label = localized(storedContent?.navigation?.portfolioLabel, "Portfolio");
     element.firstChild.textContent = `${label} `;
   });
   document.querySelectorAll("[data-nav-hire]").forEach((element) => {
-    const label = english(storedContent.navigation?.hireLabel, "Contact me");
-    element.textContent = label === "Hire me" ? "Contact me" : label;
+    const label = localized(storedContent?.navigation?.hireLabel, "Contact me");
+    element.textContent = english(storedContent?.navigation?.hireLabel) === "Hire me" ? translate("Contact me") : label;
   });
 
-  setText("#hero-status", english(storedContent.hero?.navStatus, "SEEKING FULL-TIME POSITION"));
-  setText("#hero-name", cleanText(storedContent.hero?.name, "WEERAPONG HAMATHULIN"));
-  setText("#hero-role", english(storedContent.hero?.role, "CREATIVE DESIGNER / AI VISUAL PRODUCTION"));
-  setText("#hero-bio", english(storedContent.hero?.bio, "Creative designer specializing in AI-assisted visual production, commercial content, and modern digital media workflows."));
-  setButtonText("#hero-primary", english(storedContent.hero?.ctaSecondary, "VIEW WORK"));
-  setButtonText("#hero-secondary", "DOWNLOAD RESUME");
+  setText("#hero-status", localized(storedContent?.hero?.navStatus, "SEEKING FULL-TIME POSITION"));
+  setText("#hero-name", cleanText(storedContent?.hero?.name, "WEERAPONG HAMATHULIN"));
+  setText("#hero-role", localized(storedContent?.hero?.role, "CREATIVE DESIGNER / AI VISUAL PRODUCTION"));
+  setText("#hero-bio", localized(storedContent?.hero?.bio, "Creative designer specializing in AI-assisted visual production, commercial content, and modern digital media workflows."));
+  setButtonText("#hero-primary", localized(storedContent?.hero?.ctaSecondary, "VIEW WORK"));
+  setButtonText("#hero-secondary", translate("DOWNLOAD RESUME"));
 
-  storedContent.hero?.stats?.slice(0, 3).forEach((stat, index) => {
+  const heroStats = storedContent?.hero?.stats?.slice(0, 3) || [
+    { value: "3+", label: "Years Experience" },
+    { value: "5", label: "Creative Disciplines" },
+    { value: "AI", label: "Visual Production" },
+  ];
+  heroStats.forEach((stat, index) => {
     const isLegacyCount = index === 1 && stat.value === "50+";
     setText(`[data-hero-stat-value="${index}"]`, isLegacyCount ? "5" : stat.value);
-    setText(`[data-hero-stat-label="${index}"]`, isLegacyCount ? "Creative Disciplines" : english(stat.label));
+    setText(`[data-hero-stat-label="${index}"]`, isLegacyCount ? translate("Creative Disciplines") : localized(stat.label));
   });
+  const heroTitle = document.querySelector("#hero-title");
+  if (heroTitle) {
+    const accent = document.createElement("span");
+    accent.textContent = translate("Designer");
+    heroTitle.replaceChildren(document.createTextNode(translate("Creative")), document.createElement("br"), accent);
+  }
 
-  const marqueeItems = storedContent.marquee?.items?.map((item) => english(item)).filter(Boolean) || [];
+  const marqueeItems = storedContent?.marquee?.items?.map((item) => localized(item)).filter(Boolean) || [
+    "AI VISUAL PRODUCTION", "3D RENDERING", "MOTION DESIGN", "BRAND IDENTITY", "E-COMMERCE",
+  ].map(translate);
   if (marqueeItems.length) {
     document.querySelectorAll("[data-marquee]").forEach((element) => {
       element.replaceChildren();
@@ -549,36 +621,36 @@ if (storedContent) {
     });
   }
 
-  setText("#portfolio-label", english(storedContent.portfolio?.sectionLabel, "PORTFOLIO"));
-  setText("#portfolio-heading-1", english(storedContent.portfolio?.heading1, "WORK &"));
-  setText("#portfolio-heading-2", english(storedContent.portfolio?.heading2, "DESIGN"));
-  setText("#portfolio-subtitle", english(storedContent.portfolio?.subtitle, "A selection of recent commercial and creative projects."));
+  setText("#portfolio-label", localized(storedContent?.portfolio?.sectionLabel, "PORTFOLIO"));
+  setText("#portfolio-heading-1", localized(storedContent?.portfolio?.heading1, "WORK &"));
+  setText("#portfolio-heading-2", localized(storedContent?.portfolio?.heading2, "DESIGN"));
+  setText("#portfolio-subtitle", localized(storedContent?.portfolio?.subtitle, "A selection of recent commercial and creative projects."));
   const hasLegacyServices =
-    english(storedContent.services?.sectionLabel) === "WHAT I OFFER" ||
-    english(storedContent.services?.heading1) === "SERVICES &" ||
-    english(storedContent.services?.heading2) === "PRICING";
-  setText("#services-label", hasLegacyServices ? "WHAT I CAN DO" : english(storedContent.services?.sectionLabel, "WHAT I CAN DO"));
-  setText("#services-heading-1", hasLegacyServices ? "CREATIVE" : english(storedContent.services?.heading1, "CREATIVE"));
-  setText("#services-heading-2", hasLegacyServices ? "CAPABILITIES" : english(storedContent.services?.heading2, "CAPABILITIES"));
+    english(storedContent?.services?.sectionLabel) === "WHAT I OFFER" ||
+    english(storedContent?.services?.heading1) === "SERVICES &" ||
+    english(storedContent?.services?.heading2) === "PRICING";
+  setText("#services-label", hasLegacyServices ? translate("WHAT I CAN DO") : localized(storedContent?.services?.sectionLabel, "WHAT I CAN DO"));
+  setText("#services-heading-1", hasLegacyServices ? translate("CREATIVE") : localized(storedContent?.services?.heading1, "CREATIVE"));
+  setText("#services-heading-2", hasLegacyServices ? translate("CAPABILITIES") : localized(storedContent?.services?.heading2, "CAPABILITIES"));
   setText("#services-description", hasLegacyServices
-    ? "A focused set of creative skills combining visual design, AI-assisted production, product presentation, and digital media workflows."
-    : english(storedContent.services?.description, "A focused set of creative skills combining visual design, AI-assisted production, product presentation, and digital media workflows."));
-  setText("#skills-label", english(storedContent.skills?.sectionLabel, "EXPERTISE"));
-  setText("#skills-heading-1", english(storedContent.skills?.heading1, "SKILLS &"));
-  setText("#skills-heading-2", english(storedContent.skills?.heading2, "TOOLS"));
-  setText("#tools-title", english(storedContent.skills?.toolsTitle, "TOOLS & SOFTWARE"));
-  setText("#proficiency-title", english(storedContent.skills?.proficiencyTitle, "PROFICIENCY"));
-  setText("#focus-title", english(storedContent.skills?.focusTitle, "CREATIVE FOCUS"));
-  setText("#experience-label", english(storedContent.experience?.sectionLabel, "BACKGROUND"));
-  setText("#experience-heading-1", english(storedContent.experience?.heading1, "EXPERIENCE &"));
-  setText("#experience-heading-2", english(storedContent.experience?.heading2, "EDUCATION"));
-  setText("#testimonials-label", hasLegacyProfile ? "PROFESSIONAL PROFILE" : english(storedContent.testimonials?.sectionLabel, "PROFESSIONAL PROFILE"));
-  setText("#testimonials-heading-1", hasLegacyProfile ? "HOW I BRING" : english(storedContent.testimonials?.heading1, "HOW I BRING"));
-  setText("#testimonials-heading-2", hasLegacyProfile ? "VALUE" : english(storedContent.testimonials?.heading2, "VALUE"));
-  const legacyFooter = english(storedContent.footer?.ctaEyebrow) === "LET'S WORK TOGETHER";
-  setText("#contact-eyebrow", legacyFooter ? "OPEN TO FULL-TIME OPPORTUNITIES" : english(storedContent.footer?.ctaEyebrow, "OPEN TO FULL-TIME OPPORTUNITIES"));
-  setText("#contact-heading-1", legacyFooter ? "LET'S BUILD" : english(storedContent.footer?.ctaHeading1, "LET'S BUILD"));
-  setText("#contact-heading-2", legacyFooter ? "MEANINGFUL VISUALS" : english(storedContent.footer?.ctaHeading2, "MEANINGFUL VISUALS"));
+    ? translate("A focused set of creative skills combining visual design, AI-assisted production, product presentation, and digital media workflows.")
+    : localized(storedContent?.services?.description, "A focused set of creative skills combining visual design, AI-assisted production, product presentation, and digital media workflows."));
+  setText("#skills-label", localized(storedContent?.skills?.sectionLabel, "EXPERTISE"));
+  setText("#skills-heading-1", localized(storedContent?.skills?.heading1, "SKILLS &"));
+  setText("#skills-heading-2", localized(storedContent?.skills?.heading2, "TOOLS"));
+  setText("#tools-title", localized(storedContent?.skills?.toolsTitle, "TOOLS & SOFTWARE"));
+  setText("#proficiency-title", localized(storedContent?.skills?.proficiencyTitle, "PROFICIENCY"));
+  setText("#focus-title", localized(storedContent?.skills?.focusTitle, "CREATIVE FOCUS"));
+  setText("#experience-label", localized(storedContent?.experience?.sectionLabel, "BACKGROUND"));
+  setText("#experience-heading-1", localized(storedContent?.experience?.heading1, "EXPERIENCE &"));
+  setText("#experience-heading-2", localized(storedContent?.experience?.heading2, "EDUCATION"));
+  setText("#testimonials-label", hasLegacyProfile ? translate("PROFESSIONAL PROFILE") : localized(storedContent?.testimonials?.sectionLabel, "PROFESSIONAL PROFILE"));
+  setText("#testimonials-heading-1", hasLegacyProfile ? translate("HOW I BRING") : localized(storedContent?.testimonials?.heading1, "HOW I BRING"));
+  setText("#testimonials-heading-2", hasLegacyProfile ? translate("VALUE") : localized(storedContent?.testimonials?.heading2, "VALUE"));
+  const legacyFooter = english(storedContent?.footer?.ctaEyebrow) === "LET'S WORK TOGETHER";
+  setText("#contact-eyebrow", legacyFooter ? translate("OPEN TO FULL-TIME OPPORTUNITIES") : localized(storedContent?.footer?.ctaEyebrow, "OPEN TO FULL-TIME OPPORTUNITIES"));
+  setText("#contact-heading-1", legacyFooter ? translate("LET'S BUILD") : localized(storedContent?.footer?.ctaHeading1, "LET'S BUILD"));
+  setText("#contact-heading-2", legacyFooter ? translate("MEANINGFUL VISUALS") : localized(storedContent?.footer?.ctaHeading2, "MEANINGFUL VISUALS"));
 }
 
 const serviceData = DEFAULT_SERVICES.map((fallback, index) => {
@@ -586,8 +658,8 @@ const serviceData = DEFAULT_SERVICES.map((fallback, index) => {
   const storedTitle = english(stored?.title);
   const useStored = storedTitle && !LEGACY_SERVICE_TITLES.has(storedTitle);
   return {
-    title: useStored ? storedTitle : fallback.title,
-    description: useStored ? english(stored?.desc, fallback.description) : fallback.description,
+    title: useStored ? localized(stored?.title) : localized(fallback.title),
+    description: useStored ? localized(stored?.desc, fallback.description) : localized(fallback.description),
     tags: useStored && storedContent?.services?.tags?.[index]?.length ? storedContent.services.tags[index] : fallback.tags,
   };
 });
@@ -596,6 +668,8 @@ serviceData.forEach((service, index) => {
   setText(`[data-service-title="${index}"]`, service.title);
   setText(`[data-service-desc="${index}"]`, service.description);
   setTagList(document.querySelector(`[data-service-tags="${index}"]`), service.tags);
+  const cta = document.querySelector(`[data-service-cta="${index}"]`);
+  if (cta) cta.textContent = `${translate("VIEW PORTFOLIO")} ↗`;
 });
 
 const storedProcessTitle = english(storedContent?.services?.processTitle);
@@ -605,12 +679,12 @@ const hasLegacyProcess =
 const processData = DEFAULT_PROCESS.map((fallback, index) => {
   const stored = storedContent?.services?.steps?.[index];
   return {
-    label: hasLegacyProcess ? fallback.label : english(stored?.label, fallback.label),
-    description: hasLegacyProcess ? fallback.description : english(stored?.desc, fallback.description),
+    label: hasLegacyProcess ? localized(fallback.label) : localized(stored?.label, fallback.label),
+    description: hasLegacyProcess ? localized(fallback.description) : localized(stored?.desc, fallback.description),
   };
 });
-setText("#process-title", hasLegacyProcess ? "CREATIVE WORKFLOW" : english(storedContent?.services?.processTitle, "CREATIVE WORKFLOW"));
-setText("#process-heading", hasLegacyProcess ? "How I build visuals" : english(storedContent?.services?.workflowHeading, "How I build visuals"));
+setText("#process-title", hasLegacyProcess ? translate("CREATIVE WORKFLOW") : localized(storedContent?.services?.processTitle, "CREATIVE WORKFLOW"));
+setText("#process-heading", hasLegacyProcess ? translate("How I build visuals") : localized(storedContent?.services?.workflowHeading, "How I build visuals"));
 processData.forEach((step, index) => {
   setText(`[data-process-label="${index}"]`, step.label);
   setText(`[data-process-desc="${index}"]`, step.description);
@@ -625,7 +699,7 @@ const proficiency = storedContent?.skills?.proficiencyItems || [
 proficiency.slice(0, 4).forEach((item, index) => {
   const percentage = Math.max(0, Math.min(100, Number(item.percentage) || 0));
   const row = document.querySelector(`[data-proficiency="${index}"]`)?.closest("article");
-  setText(`[data-proficiency-label="${index}"]`, english(item.label));
+  setText(`[data-proficiency-label="${index}"]`, localized(item.label));
   setText(`[data-proficiency="${index}"]`, `${percentage}%`);
   row?.style.setProperty("--level", `${percentage}%`);
 });
@@ -653,26 +727,31 @@ tools.forEach((tool, index) => {
   }
 });
 
-const focusItems = storedContent?.skills?.focusItems?.map((item) => english(item)).filter(Boolean) || DEFAULT_FOCUS;
+const focusItems = storedContent?.skills?.focusItems?.map((item) => localized(item)).filter(Boolean) || DEFAULT_FOCUS.map(localized);
 focusItems.slice(0, 5).forEach((item, index) => setText(`[data-focus="${index}"]`, item));
 
 const storedExperience = [
   ...(storedContent?.experience?.jobs || []).map((job) => ({
     period: cleanText(job.period),
     title: cleanText(job.company),
-    description: english(job.role),
-    bullets: job.bullets?.map((bullet) => english(bullet)).filter(Boolean) || [],
+    description: localized(job.role),
+    bullets: job.bullets?.map((bullet) => localized(bullet)).filter(Boolean) || [],
   })),
   ...(storedContent?.experience?.education || []).map((education) => ({
     period: cleanText(education.period),
     title: cleanText(education.school),
-    description: english(education.degree),
-    bullets: [english(education.degree)].filter(Boolean),
+    description: localized(education.degree),
+    bullets: [localized(education.degree)].filter(Boolean),
   })),
 ];
 const experienceData = DEFAULT_EXPERIENCE.map((fallback, index) => {
   const stored = storedExperience[index];
-  if (!stored) return fallback;
+  if (!stored) return {
+    ...fallback,
+    period: translate(fallback.period),
+    description: translate(fallback.description),
+    bullets: fallback.bullets.map(translate),
+  };
   return {
     period: stored.period || fallback.period,
     title: stored.title || fallback.title,
@@ -693,28 +772,34 @@ experienceData.slice(0, 3).forEach((entry, index) => {
 });
 
 const glance = storedContent?.experience?.glanceItems?.length
-  ? storedContent.experience.glanceItems.map((item) => ({ label: english(item.label), value: english(item.value) }))
-  : DEFAULT_GLANCE;
+  ? storedContent.experience.glanceItems.map((item) => ({ label: localized(item.label), value: localized(item.value) }))
+  : DEFAULT_GLANCE.map((item) => ({ label: translate(item.label), value: translate(item.value) }));
 glance.slice(0, 4).forEach((item, index) => {
   setText(`[data-glance-label="${index}"]`, item.label);
   setText(`[data-glance-value="${index}"]`, item.value);
 });
 
 const testimonialData = DEFAULT_TESTIMONIALS.map((fallback, index) => {
-  if (hasLegacyProfile) return fallback;
+  const localizedFallback = {
+    ...fallback,
+    quote: translate(fallback.quote),
+    name: translate(fallback.name),
+    role: translate(fallback.role),
+  };
+  if (hasLegacyProfile) return localizedFallback;
   const item = storedContent?.testimonials?.items?.[index];
-  if (!item) return fallback;
+  if (!item) return localizedFallback;
   return {
-    quote: english(item.quote, fallback.quote),
+    quote: localized(item.quote, fallback.quote),
     name: cleanText(item.name, fallback.name),
-    role: english(item.role, fallback.role),
+    role: localized(item.role, fallback.role),
     initials: cleanText(item.initials, fallback.initials),
   };
 });
 
 const email = cleanText(storedContent?.footer?.email, "Fusenra@gmail.com");
 const phone = cleanText(storedContent?.footer?.phone, "083-480-9368");
-const contactLocation = english(storedContent?.footer?.location, "Chiangmai, Thailand");
+const contactLocation = localized(storedContent?.footer?.location, "Chiangmai, Thailand");
 document.querySelector("#contact-email")?.setAttribute("href", `mailto:${email}`);
 document.querySelectorAll("[data-contact-email], [data-footer-email]").forEach((link) => {
   link.href = `mailto:${email}`;
@@ -727,6 +812,19 @@ document.querySelectorAll("[data-contact-phone], [data-footer-phone]").forEach((
   value.textContent = phone;
 });
 setText("[data-contact-location]", contactLocation);
+const contactButton = document.querySelector("#contact-email");
+if (contactButton) contactButton.textContent = `${translate("CONTACT ME")} ↗`;
+const contactLabels = ["EMAIL", "PHONE", "LOCATION"];
+document.querySelectorAll(".contact-details > * > span").forEach((label, index) => {
+  label.textContent = translate(contactLabels[index]);
+});
+setText(".theme-float-label", translate("DARK THEME"));
+themeSwitch?.setAttribute("aria-label", translate("Switch to Dark theme"));
+setText("#hero-three-error", translate("3D preview unavailable"));
+setText("#hero-three-loading", `${translate("LOADING 3D")}  0%`);
+document.querySelector("#hero-three-reset")?.setAttribute("aria-label", translate("Reset 3D view"));
+document.querySelector("#hero-three-reset")?.setAttribute("title", translate("Reset 3D view"));
+setText(".footer-inner > span:first-child", translate("FUSELAB / CREATIVE DESIGNER"));
 
 const mobileNavToggle = document.querySelector(".nav-menu-toggle");
 const mobileNavPanel = document.querySelector(".mobile-nav-panel");
@@ -735,7 +833,7 @@ function setMobileNavigation(open) {
   if (!mobileNavToggle || !mobileNavPanel) return;
   mobileNavToggle.classList.toggle("is-open", open);
   mobileNavToggle.setAttribute("aria-expanded", String(open));
-  mobileNavToggle.setAttribute("aria-label", open ? "Close navigation" : "Open navigation");
+  mobileNavToggle.setAttribute("aria-label", translate(open ? "Close navigation" : "Open navigation"));
   mobileNavPanel.hidden = !open;
 }
 
@@ -787,11 +885,29 @@ let activeProject = 0;
 let activeImage = 0;
 let lastCollageTrigger = null;
 
+setText(".viewer-story article:nth-child(1) > span", `01 ${translate("PROJECT OVERVIEW")}`);
+setText(".viewer-story article:nth-child(2) > span", `02 ${translate("PROBLEM / GOAL")}`);
+setText(".viewer-story-wide > span", `03 ${translate("CONCEPT")}`);
+setText(".viewer-direction > span", translate("CREATIVE DIRECTION"));
+setText(".viewer-system > div:nth-child(1) > span", `04 ${translate("WORKFLOW")}`);
+setText(".viewer-system > div:nth-child(2) > span", `05 ${translate("VISUAL SYSTEM")}`);
+setText(".viewer-output-heading > span", `06 ${translate("FINAL OUTPUTS")}`);
+setText(".viewer-output-heading > b", translate("VISUAL APPLICATIONS"));
+setText(".viewer-reflection > span", `07 ${translate("REFLECTION")}`);
+setText(".viewer-footer > b", translate("CLICK ANY IMAGE TO EXPAND"));
+viewer?.setAttribute("aria-label", currentLanguage === "th" ? "หน้าดูรูปผลงาน" : "Project image viewer");
+viewer?.querySelector(".viewer-close")?.setAttribute("aria-label", translate("Close image viewer"));
+viewerExpanded?.querySelector(".viewer-expanded-close")?.setAttribute("aria-label", translate("Close expanded image"));
+viewerExpanded?.querySelector(".viewer-prev")?.setAttribute("aria-label", translate("Previous image"));
+viewerExpanded?.querySelector(".viewer-next")?.setAttribute("aria-label", translate("Next image"));
+
 function renderExpanded() {
   const project = projectData[activeProject];
   if (!project || !viewerImage || !viewerCount) return;
   viewerImage.src = project.images[activeImage];
-  viewerImage.alt = `${project.title} ${activeImage + 1}`;
+  viewerImage.alt = currentLanguage === "th"
+    ? `${project.title} รูปที่ ${activeImage + 1}`
+    : `${project.title} ${activeImage + 1}`;
   viewerImage.onerror = () => {
     viewerImage.src = DEFAULT_PROJECTS[activeProject].images[0];
     viewerImage.onerror = null;
@@ -801,13 +917,13 @@ function renderExpanded() {
   if (viewerExpandedTitle) viewerExpandedTitle.textContent = output?.label || project.title;
   if (viewerExpandedDescription) viewerExpandedDescription.textContent = output?.desc || project.description;
   if (viewerProvenanceBadge) {
-    const label = output?.label?.toLowerCase() || "";
+    const label = output?.sourceLabel?.toLowerCase() || output?.label?.toLowerCase() || "";
     const provenance = label.includes("ai-assisted")
-      ? "AI-ASSISTED"
+      ? translate("AI-ASSISTED")
       : label.includes("100% blender")
-        ? "100% BLENDER"
+        ? translate("100% BLENDER")
         : label.includes("existing company asset")
-          ? "SOURCE ASSET"
+          ? translate("SOURCE ASSET")
           : "";
     viewerProvenanceBadge.textContent = provenance;
     viewerProvenanceBadge.hidden = !provenance;
@@ -818,11 +934,13 @@ function createCollageImage(source, index, project) {
   const button = document.createElement("button");
   button.type = "button";
   button.className = index === 0 ? "viewer-collage-main" : "viewer-collage-thumb";
-  button.setAttribute("aria-label", `Expand ${project.title} image ${index + 1}`);
+  button.setAttribute("aria-label", currentLanguage === "th"
+    ? `ขยาย ${project.title} รูปที่ ${index + 1}`
+    : `Expand ${project.title} image ${index + 1}`);
 
   const image = document.createElement("img");
   image.src = source;
-  image.alt = `${project.title} ${index + 1}`;
+  image.alt = currentLanguage === "th" ? `${project.title} รูปที่ ${index + 1}` : `${project.title} ${index + 1}`;
   if (activeProject === 0) image.style.objectPosition = "center top";
   image.addEventListener("error", () => {
     image.src = DEFAULT_PROJECTS[activeProject].images[0];
@@ -866,12 +984,12 @@ function createComparisonSection(project, title, leftIndex, rightIndex, options 
   const section = document.createElement("section");
   section.className = "viewer-comparison-section";
   const heading = document.createElement("h3");
-  heading.textContent = title;
+  heading.textContent = translate(title);
   const grid = document.createElement("div");
   grid.className = "viewer-comparison-grid";
   grid.append(
-    createComparisonItem(project, leftIndex, options.leftLabel || "BEFORE / EXISTING ASSET", options.portrait),
-    createComparisonItem(project, rightIndex, options.rightLabel || "AFTER / AI-ASSISTED OUTPUT", options.portrait)
+    createComparisonItem(project, leftIndex, translate(options.leftLabel || "BEFORE / EXISTING ASSET"), options.portrait),
+    createComparisonItem(project, rightIndex, translate(options.rightLabel || "AFTER / AI-ASSISTED OUTPUT"), options.portrait)
   );
   section.append(heading, grid);
   return section;
@@ -888,7 +1006,7 @@ function renderViewer() {
   setText("[data-viewer-concept]", project.caseStudy.concept);
   setText("[data-viewer-reflection]", project.caseStudy.reflection);
   setTagList(document.querySelector("[data-viewer-tags]"), project.tags);
-  if (viewerTotal) viewerTotal.textContent = `${String(project.images.length).padStart(2, "0")} IMAGES`;
+  if (viewerTotal) viewerTotal.textContent = `${String(project.images.length).padStart(2, "0")} ${translate("IMAGES")}`;
 
   const direction = document.querySelector("[data-viewer-direction]");
   if (direction) {
@@ -943,7 +1061,7 @@ function renderViewer() {
     const additional = document.createElement("section");
     additional.className = "viewer-comparison-section";
     const heading = document.createElement("h3");
-    heading.textContent = "ADDITIONAL MASK ANGLES";
+    heading.textContent = translate("ADDITIONAL MASK ANGLES");
     const grid = document.createElement("div");
     grid.className = "viewer-comparison-more";
     [3, 5].forEach((index) => {
@@ -1063,11 +1181,23 @@ document.addEventListener("keydown", (event) => {
 });
 
 document.querySelectorAll(".experience-toggle").forEach((button) => {
+  const index = [...document.querySelectorAll(".experience-toggle")].indexOf(button);
+  const expandedLabel = index === 2 ? "View details" : "View responsibilities";
+  const collapsedLabel = index === 2 ? "Hide details" : "Hide responsibilities";
+  const updateLabel = (expanded) => {
+    const marker = button.querySelector("b");
+    button.replaceChildren(document.createTextNode(`${translate(expanded ? collapsedLabel : expandedLabel)} `));
+    if (marker) {
+      marker.textContent = expanded ? "-" : "+";
+      button.append(marker);
+    }
+  };
+  updateLabel(false);
   button.addEventListener("click", () => {
     const article = button.closest("article");
     const expanded = button.getAttribute("aria-expanded") === "true";
     button.setAttribute("aria-expanded", String(!expanded));
-    button.querySelector("b").textContent = expanded ? "+" : "-";
+    updateLabel(!expanded);
     article.classList.toggle("is-expanded", !expanded);
   });
 });
@@ -1102,6 +1232,8 @@ document.querySelector("[data-testimonial-prev]")?.addEventListener("click", () 
   moveTestimonial(-1);
   startTestimonialTimer();
 });
+document.querySelector("[data-testimonial-prev]")?.setAttribute("aria-label", translate("Previous testimonial"));
+document.querySelector("[data-testimonial-next]")?.setAttribute("aria-label", translate("Next testimonial"));
 document.querySelector("[data-testimonial-next]")?.addEventListener("click", () => {
   moveTestimonial(1);
   startTestimonialTimer();

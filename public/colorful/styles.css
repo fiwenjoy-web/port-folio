@@ -178,6 +178,41 @@ p {
   gap: 8px;
 }
 
+.language-toggle {
+  align-items: center;
+  background: var(--white);
+  border: 1px solid var(--ink);
+  border-radius: 999px;
+  display: inline-flex;
+  font-size: 9px;
+  font-weight: 800;
+  gap: 4px;
+  height: 34px;
+  justify-content: center;
+  padding: 0 10px;
+  transition: box-shadow 180ms ease, transform 180ms ease;
+}
+
+.language-toggle i {
+  font-style: normal;
+  opacity: 0.35;
+}
+
+.language-toggle span {
+  opacity: 0.42;
+}
+
+html[data-language="en"] .language-toggle [data-language-option="en"],
+html[data-language="th"] .language-toggle [data-language-option="th"] {
+  color: var(--purple);
+  opacity: 1;
+}
+
+.language-toggle:hover {
+  box-shadow: 3px 3px 0 var(--cyan);
+  transform: translate(-1px, -1px);
+}
+
 .nav-portfolio-button,
 .nav-hire-button {
   align-items: center;
@@ -213,6 +248,7 @@ p {
 
 .nav-portfolio-button:focus-visible,
 .nav-hire-button:focus-visible,
+.language-toggle:focus-visible,
 .nav-menu-toggle:focus-visible,
 .mobile-nav-panel a:focus-visible {
   outline: 2px solid var(--purple);
@@ -2633,6 +2669,11 @@ footer {
   .nav-portfolio-button {
     min-height: 35px;
     padding: 0 10px;
+  }
+
+  .language-toggle {
+    height: 33px;
+    padding: 0 8px;
   }
 
   .mobile-nav-panel {
