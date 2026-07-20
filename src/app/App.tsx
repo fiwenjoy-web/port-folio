@@ -79,7 +79,9 @@ function PortfolioApp() {
   const { content, lang } = useContent();
   const isAdminRoute = window.location.search.includes("admin=1") || /\/admin\/?$/.test(window.location.pathname);
 
-  const [storedImages, setStoredImages] = useState<Record<number, string[]>>(() => loadStoredImages());
+  const [storedImages, setStoredImages] = useState<Record<number, string[]>>(() => (
+    isAdminRoute ? loadStoredImages() : {}
+  ));
   const [publishedImages, setPublishedImages] = useState<PublishedImages>({});
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [portfolioModalLoaded, setPortfolioModalLoaded] = useState(false);

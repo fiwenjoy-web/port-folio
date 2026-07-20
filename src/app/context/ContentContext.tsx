@@ -20,14 +20,19 @@ interface ContentContextValue {
 
 const ContentContext = createContext<ContentContextValue | null>(null);
 
+function isAdminRoute() {
+  return new URLSearchParams(window.location.search).get("admin") === "1"
+    || /\/admin\/?$/.test(window.location.pathname);
+}
+
 export function ContentProvider({ children }: { children: ReactNode }) {
-  const [content, setContent] = useState<SiteContent>(() => loadStoredContent());
+  const [content, setContent] = useState<SiteContent>(() => (
+    isAdminRoute() ? loadStoredContent() : DEFAULT_CONTENT
+  ));
   const [lang, setLang] = useState<Lang>("en");
 
   useEffect(() => {
-    const isAdminRoute = new URLSearchParams(window.location.search).get("admin") === "1"
-      || /\/admin\/?$/.test(window.location.pathname);
-    if (isAdminRoute) return;
+    if (isAdminRoute()) return;
 
     const controller = new AbortController();
     fetch(`${import.meta.env.BASE_URL}content/site-content.json?ts=${Date.now()}`, {
