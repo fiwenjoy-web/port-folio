@@ -1341,22 +1341,43 @@ html[data-language="th"] .language-toggle [data-language-option="th"] {
 
 .philosophy {
   border-top: 1px solid var(--line);
+  overflow: hidden;
   padding-bottom: 112px;
   padding-top: 112px;
   position: relative;
 }
 
-.philosophy::before {
+.philosophy-marquee {
+  left: 50%;
+  overflow: hidden;
+  pointer-events: none;
+  position: absolute;
+  top: 30px;
+  transform: translateX(-50%);
+  width: 100vw;
+  z-index: 0;
+}
+
+.philosophy-marquee-track {
+  animation: philosophy-marquee 28s linear infinite;
+  display: flex;
+  gap: 72px;
+  width: max-content;
+  will-change: transform;
+}
+
+.philosophy-marquee span {
   color: rgba(118, 84, 255, 0.09);
-  content: "IDEAS / CRAFT / RESULTS";
   font-size: clamp(48px, 8vw, 112px);
   font-weight: 800;
   line-height: 0.8;
-  position: absolute;
-  right: 20px;
-  top: 42px;
+  flex: 0 0 auto;
   white-space: nowrap;
-  z-index: -1;
+}
+
+.philosophy > :not(.philosophy-marquee) {
+  position: relative;
+  z-index: 1;
 }
 
 .philosophy-heading {
@@ -2718,6 +2739,10 @@ footer {
   to { transform: translateX(calc(-100% - 48px)); }
 }
 
+@keyframes philosophy-marquee {
+  to { transform: translateX(calc(-50% - 36px)); }
+}
+
 @keyframes pulse {
   50% { opacity: 0.35; transform: scale(0.75); }
 }
@@ -3172,6 +3197,7 @@ footer {
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .ticker div,
+  .philosophy-marquee-track,
   .availability span,
   .mobile-nav-panel:not([hidden]),
   .testimonial-stage blockquote,
@@ -3184,6 +3210,18 @@ footer {
   .theme-transition-wash.is-active::before,
   .theme-transition-wash.is-active .theme-transition-streaks,
   .theme-transition-wash.is-active .theme-transition-core { animation: none !important; }
+
+  .philosophy-marquee-track {
+    transform: none !important;
+  }
+
+  .philosophy-marquee-track span {
+    font-size: clamp(24px, 5vw, 56px);
+  }
+
+  .philosophy-marquee-track span:nth-child(2) {
+    display: none;
+  }
 
   .reveal,
   .tools-grid > span,
