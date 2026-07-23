@@ -871,7 +871,8 @@ const testimonialData = DEFAULT_TESTIMONIALS.map((fallback, index) => {
   };
 });
 
-const email = cleanText(storedContent?.footer?.email, "Fusemxd@gmail.com");
+const storedEmail = cleanText(storedContent?.footer?.email, "fiwenjoy@gmail.com");
+const email = storedEmail.toLowerCase() === "fusemxd@gmail.com" ? "fiwenjoy@gmail.com" : storedEmail;
 const phone = cleanText(storedContent?.footer?.phone, "0661241409");
 const contactLocation = localized(storedContent?.footer?.location, "Chiangmai, Thailand");
 document.querySelector("#contact-email")?.setAttribute("href", `mailto:${email}`);

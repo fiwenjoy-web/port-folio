@@ -864,7 +864,7 @@ export const DEFAULT_CONTENT: SiteContent = {
       { en: "Work & Design", th: "งานและการออกแบบ" },
       { en: "Contact", th: "ติดต่อ" },
     ],
-    email: "Fusemxd@gmail.com",
+    email: "fiwenjoy@gmail.com",
     phone: "0661241409",
     location: { en: "Chiangmai, Thailand", th: "เชียงใหม่ ประเทศไทย" },
     ctaEyebrow: { en: "OPEN TO FULL-TIME OPPORTUNITIES", th: "เปิดรับโอกาสงานประจำ" },
@@ -921,6 +921,7 @@ function upgradeLegacyServicesContent(content: SiteContent): SiteContent {
   const hasLegacyStrengths =
     content.testimonials.sectionLabel.en === "PROFESSIONAL PROFILE" ||
     content.testimonials.heading1.en === "How I bring";
+  const hasLegacyEmail = content.footer.email.toLowerCase() === "fusemxd@gmail.com";
   const legacy3DProject = content.portfolio.projects[1];
   const hasLegacy3DProject =
     legacy3DProject?.title.en === "3D PRODUCT VISUALIZATION" &&
@@ -947,7 +948,7 @@ function upgradeLegacyServicesContent(content: SiteContent): SiteContent {
     legacyWebSystemProject?.category.en === "Web & UI Design" &&
     legacyWebSystemProject.caseStudy.outputs.length === 4;
 
-  if (!hasLegacyServices && !hasLegacyNavigation && !hasLegacyPositioning && !hasLegacyStrengths && !hasLegacy3DProject && !hasRunningShoeTitle && !hasUncreditedAIOutputs && !hasLegacyProductSystemProject && !hasLegacyEcommerceProject && !hasOutdatedEcommerceProject && !hasLegacyWebSystemProject) return content;
+  if (!hasLegacyServices && !hasLegacyNavigation && !hasLegacyPositioning && !hasLegacyStrengths && !hasLegacyEmail && !hasLegacy3DProject && !hasRunningShoeTitle && !hasUncreditedAIOutputs && !hasLegacyProductSystemProject && !hasLegacyEcommerceProject && !hasOutdatedEcommerceProject && !hasLegacyWebSystemProject) return content;
 
   const next = structuredClone(content);
   if (hasLegacyNavigation) next.navigation.links[1] = structuredClone(DEFAULT_CONTENT.navigation.links[1]);
@@ -964,6 +965,7 @@ function upgradeLegacyServicesContent(content: SiteContent): SiteContent {
     next.footer.ctaHeading2 = structuredClone(DEFAULT_CONTENT.footer.ctaHeading2);
   }
   if (hasLegacyStrengths) next.testimonials = structuredClone(DEFAULT_CONTENT.testimonials);
+  if (hasLegacyEmail) next.footer.email = DEFAULT_CONTENT.footer.email;
   if (hasLegacy3DProject) {
     next.portfolio.projects[1] = structuredClone(DEFAULT_CONTENT.portfolio.projects[1]);
   }
